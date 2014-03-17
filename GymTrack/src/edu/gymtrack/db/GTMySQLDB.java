@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -35,5 +37,21 @@ public class GTMySQLDB implements GTDB {
 					"WHERE users.username = '" + username + "'"
 			);
 		return getResultSetForQuery(query);
+	}
+
+	@Override
+	public Map<String, String> getAuthPairs() throws SQLException {
+		String query = new String(
+				"SELECT users.username, users.password_hash"
+				+ "FROM users"
+				);
+		ResultSet rs = getResultSetForQuery(query);
+		
+		Map<String, String> result = new HashMap<String, String>();
+		while(rs.next()){
+			result.put(rs.getString("username"), rs.getString("password_hash"));
+		}
+		
+		return result;
 	}
 }
