@@ -1,4 +1,4 @@
-package edu.gymtrack.test;
+package edu.gymtrack.model;
 
 public class PlanElement {
 
