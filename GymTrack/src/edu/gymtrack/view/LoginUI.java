@@ -1,4 +1,4 @@
-package edu.gymtrack.controller;
+package edu.gymtrack.view;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
