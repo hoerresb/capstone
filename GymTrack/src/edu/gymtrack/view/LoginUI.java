@@ -26,12 +26,15 @@ public class LoginUI extends JApplet implements ActionListener {
 		
 	}
 
+	@Override
 	public void init() {
-		
 		setSize(600,300);
 		setName("GymTrack");
 		getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+	}
+	
+	@Override
+	public void start() {
 		JPanel topPanel = new JPanel();
 		topPanel.setSize(600, 300);
 		getContentPane().add(topPanel);
@@ -104,7 +107,6 @@ public class LoginUI extends JApplet implements ActionListener {
 		gbc_btnSubmit.gridy = 4;
 		gbc_btnSubmit.gridwidth = 3;
 		middlePanel.add(btnSubmit, gbc_btnSubmit);
-			
 	}
 
 	@Override
