@@ -46,15 +46,15 @@ public class MainUI extends GymTrack {
 		gbc_btnMyPlans.gridy = 0;
 		gym.getContentPane().add(gym.btnMyPlans, gbc_btnMyPlans);
 		
-		gym.btnAnalyze = new JButton("Analyze Me");
-		gym.btnAnalyze.setFont(new Font("Calibri", Font.PLAIN, 13));
-		gym.btnAnalyze.setPreferredSize(new Dimension(150, 100));
+		gym.btnAnalyzeMe = new JButton("Analyze Me");
+		gym.btnAnalyzeMe.setFont(new Font("Calibri", Font.PLAIN, 13));
+		gym.btnAnalyzeMe.setPreferredSize(new Dimension(150, 100));
 		GridBagConstraints gbc_btnAnalyze = new GridBagConstraints();
-		gym.btnAnalyze.addActionListener(gym);
+		gym.btnAnalyzeMe.addActionListener(gym);
 		gbc_btnAnalyze.insets = new Insets(40, 0, 0, 40);
 		gbc_btnAnalyze.gridx = 1;
 		gbc_btnAnalyze.gridy = 0;
-		gym.getContentPane().add(gym.btnAnalyze, gbc_btnAnalyze);
+		gym.getContentPane().add(gym.btnAnalyzeMe, gbc_btnAnalyze);
 	}
 
 	private static void setTrainer(GymTrack gym) {
