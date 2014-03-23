@@ -11,7 +11,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected int privilege; 
 	protected JButton btnSubmit;
 	protected JButton btnMyPlans;
-	protected JButton btnAnalyze;
+	protected JButton btnAnalyzeMe;
 	protected JButton btnEditTrainees;
 	protected JButton btnTrkTrainees;
 	protected JButton btnEquipment;
@@ -33,25 +33,25 @@ public class GymTrack extends JApplet implements ActionListener
 			btnSubmit();
 		}	
 		else if (arg0.getSource() == btnMyPlans) {
-			//TODO
+			MyPlansUI.createMyPlansUI(this);
 		}
-        else if (arg0.getSource() == btnAnalyze) {
-			//TODO
+        else if (arg0.getSource() == btnAnalyzeMe) {
+			AnalyzeMeUI.createAnalyzeMeUI(this);
 		}
         else if (arg0.getSource() == btnEditTrainees) {
-        	//TODO
+        	EditTraineesUI.createEditTraineesUI(this);
 		}
         else if (arg0.getSource() == btnTrkTrainees) {
-        	//TODO
+        	TrkTraineesUI.createTrkTraineesUI(this);
         }
         else if (arg0.getSource() == btnEquipment) {
-        	//TODO
+        	EquipmentUI.createEquipmentUI(this);
         }
         else if (arg0.getSource() == btnUsers) {
-        	//TODO
+        	UsersUI.createUsersUI(this);
         }
         else if (arg0.getSource() == btnAnalyzeGym) {
-        	//TODO
+        	AnalyzeGymUI.createAnalyzeGymUI(this);
         }
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
