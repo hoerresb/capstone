@@ -3,19 +3,19 @@ package edu.gymtrack.model;
 import java.util.ArrayList;
 
 public class PlanElement {
-	private String activity;
+	private Activity activity;
 	private Equipment equipment;
 	private int nRequired;
 	private ArrayList<WorkoutLog> logs = new ArrayList<WorkoutLog>();
 	
-	public PlanElement(String activity, Equipment equipment, int nRequired){
+	public PlanElement(Activity activity, Equipment equipment, int nRequired){
 		this.activity = activity;
 		this.equipment = equipment;
 		this.nRequired = nRequired;
 	}
 	
 	public String getActivityName(){
-		return activity;
+		return activity.getName();
 	}
 	
 	public int getNRequired(){
