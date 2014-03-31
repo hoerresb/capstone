@@ -2,6 +2,9 @@ package edu.gymtrack.view;
 
 import java.awt.event.*;
 import javax.swing.*;
+import edu.gymtrack.model.User;
+import edu.gymtrack.model.UserGroup;
+import edu.gymtrack.model.UserGroups;
 
 public class GymTrack extends JApplet implements ActionListener
 {
@@ -9,6 +12,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JTextField txtUsername;
 	protected JPasswordField txtPassword;
 	protected int privilege; 
+	
 	protected JButton btnSubmit;
 	protected JButton btnMyPlans;
 	protected JButton btnAnalyzeMe;
@@ -18,14 +22,25 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnUsers;
 	protected JButton btnAnalyzeGym;
 	
+	protected UserGroups userGroups = new UserGroups();
+	protected JList<UserGroup> userGroupList;
+	protected JPanel groupToolbar;
+	protected JButton newGroupButton;
+	protected JButton editGroupButton;
+	protected JButton deleteGroupButton;
+	protected JTable personTable;
+	protected JButton newUserButton;
+	protected JButton deleteUserButton;
+	protected JTextField nameTextField;
+	protected JTextField emailTextField;
+	protected JTextField phoneTextField;
+	
 	public void init() {
 		setSize(800,400);
 		setName("GymTrack");
         LoginUI.createLoginUI(this);
-        
 	}
 	public void start(){
-		
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -52,6 +67,19 @@ public class GymTrack extends JApplet implements ActionListener
         }
         else if (arg0.getSource() == btnAnalyzeGym) {
         	AnalyzeGymUI.createAnalyzeGymUI(this);
+        }
+        else if (arg0.getSource() == newUserButton){
+        	UserGroup group = userGroups.getGroups().get(userGroupList.getSelectedIndex());
+    		group.addUser(new User());
+    		userGroupList.repaint();
+    		personTable.repaint();
+        }
+        else if (arg0.getSource() == deleteUserButton){
+        	UserGroup group = userGroups.getGroups().get(userGroupList.getSelectedIndex());
+    		User user = group.getUsers().get(personTable.getSelectedRow());
+    		group.removeUser(user);
+    		userGroupList.repaint();
+    		personTable.repaint();
         }
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
