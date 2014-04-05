@@ -15,7 +15,6 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JTextField txtUsername;
 	protected JPasswordField txtPassword;
 	
-	
 	/*
 	 * components used by MainUI
 	 */
@@ -26,7 +25,6 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnEquipment;
 	protected JButton btnUsers;
 	protected JButton btnAnalyzeGym;
-	
 	
 	/*
 	 * components used by UserUI
@@ -39,6 +37,11 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnDeleteUser;
 	protected JTable ownerTable;
 	
+	/*
+	 * components use by TrkTraineesUI
+	 */
+	JList memberList;
+	JTable trainerTable;
 	
 	public void init() {
 		setSize(800,400);
@@ -82,6 +85,7 @@ public class GymTrack extends JApplet implements ActionListener
 	
 	private void btnSubmit(){
 		//TODO validate login information
+		this.txtUsername.setText("owner");
 		
 		switch (this.txtUsername.getText()) {
 		case "user":
