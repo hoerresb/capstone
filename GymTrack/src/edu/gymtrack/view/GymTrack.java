@@ -85,7 +85,6 @@ public class GymTrack extends JApplet implements ActionListener
 	
 	private void btnSubmit(){
 		//TODO validate login information
-		this.txtUsername.setText("owner");
 		
 		switch (this.txtUsername.getText()) {
 		case "user":
