@@ -6,10 +6,19 @@ import javax.swing.*;
 public class GymTrack extends JApplet implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
+	protected int privilege;
+	
+	/*
+	 * components used by LoginUI
+	 */
+	protected JButton btnSubmit;
 	protected JTextField txtUsername;
 	protected JPasswordField txtPassword;
-	protected int privilege; 
-	protected JButton btnSubmit;
+	
+	
+	/*
+	 * components used by MainUI
+	 */
 	protected JButton btnMyPlans;
 	protected JButton btnAnalyzeMe;
 	protected JButton btnEditTrainees;
@@ -17,6 +26,19 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnEquipment;
 	protected JButton btnUsers;
 	protected JButton btnAnalyzeGym;
+	
+	
+	/*
+	 * components used by UserUI
+	 */
+	protected JRadioButton rdbtnTrainers;
+	protected JRadioButton rdbtnMembers;
+	protected JRadioButton rdbtnAll;
+	protected JButton btnAddUser;
+	protected JButton btnEditUser;
+	protected JButton btnDeleteUser;
+	protected JTable ownerTable;
+	
 	
 	public void init() {
 		setSize(800,400);
