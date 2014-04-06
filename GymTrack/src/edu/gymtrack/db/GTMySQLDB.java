@@ -31,7 +31,8 @@ public class GTMySQLDB implements GTDB {
 	public ResultSet getPlansForUser(String username) throws SQLException {
 		String query = new String(
 			"SELECT users.username, workout_plans.created, workout_plans.is_user, " +
-					"workout_plans.goals, workout_plans.feedback " +
+					"workout_plans.goals, workout_plans.feedback, workout_plans.key,"
+					+ "workout_plans.trainer " +
 					"FROM users LEFT JOIN workout_plans " +
 					"ON users.key = workout_plans.user " +
 					"WHERE users.username = '" + username + "'"
@@ -53,5 +54,13 @@ public class GTMySQLDB implements GTDB {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public ResultSet getUsers() throws SQLException {
+		String query = new String(
+				"SELECT * FROM users"
+				);
+		return getResultSetForQuery(query);
 	}
 }

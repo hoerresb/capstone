@@ -42,4 +42,11 @@ public class WorkoutPlan {
 	public String getFeedback() {
 		return feedback;
 	}
+	
+	@Override
+	public String toString(){
+		return "Client: " + getClient().getUsername() + ", Trainer: " + getTrainer().getUsername() + ", Created: "
+				+ getDateCreated() + ", Personal plan: " + isUserPlan() + ", Goals: " + getGoals() + ", Feedback: "
+				+ getFeedback();
+	}
 }

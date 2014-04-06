@@ -1,5 +1,6 @@
 package edu.gymtrack.db;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -46,10 +47,17 @@ public class Factory {
 		throw new UnsupportedOperationException("Factory.getPlanElements(WorkoutPlan plan): Not yet implemented");
 	}
 	
-	public ArrayList<User> getUsers()
+	public ArrayList<User> getUsers() throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.getUsers(): Not yet implemented");
+		ArrayList<User> results = new ArrayList<User>();
+		
+		GTDB db = new GTMySQLDB();
+		ResultSet rs = db.getUsers();
+		while(rs.next()){
+			User user = new User(rs.getString("username"), User.UserType.values()[rs.getInt("type") - 1], rs.getInt("key"));
+			results.add(user);
+		}
+		return results;
 	}
 	
 	public ArrayList<WorkoutLog> getWorkoutLogs(User user)
@@ -58,10 +66,34 @@ public class Factory {
 		throw new UnsupportedOperationException("Factory.getWorkoutLogs(User user): Not yet implemented");
 	}
 	
-	public ArrayList<WorkoutPlan> getWorkoutPlansForUser(User user)
+	public ArrayList<WorkoutPlan> getWorkoutPlansForUser(User user) throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.getWorkoutPlansForUser(User user): Not yet implemented");
+		ArrayList<WorkoutPlan> results = new ArrayList<WorkoutPlan>();
+		ArrayList<User> users = getUsers();
+		
+		GTDB db = new GTMySQLDB();
+		ResultSet rs = db.getPlansForUser(user.getUsername());
+		while(rs.next()){
+			if(rs.getInt("key") == user.getID()){
+				// get trainer for this plan
+				User trainer = null;
+				int trainerID = rs.getInt("trainer");
+				for(User u : users){
+					if(u.isTrainer() && u.getID() == trainerID){
+						trainer = u;
+						break;
+					}
+				}
+				if(trainer == null)
+					continue;
+			
+				WorkoutPlan plan = new WorkoutPlan(user, trainer, rs.getDate("created"), rs.getBoolean("is_user"), 
+						rs.getString("goals"), rs.getString("feedback"));
+				results.add(plan);
+			}
+		}
+		
+		return results;
 	}
 	
 	public ArrayList<WorkoutPlan> getWorkoutPlans()
