@@ -9,14 +9,16 @@ public class WorkoutPlan extends DBMutable{
 	private boolean isUserPlan;
 	private String goals;
 	private String feedback;
+	private int key;
 	
-	public WorkoutPlan(User client, User trainer, Date created, boolean isUserPlan, String goals, String feedback, boolean isNew){
+	public WorkoutPlan(User client, User trainer, Date created, boolean isUserPlan, String goals, String feedback, int key, boolean isNew){
 		this.client = client;
 		this.trainer = trainer;
 		this.created = created;
 		this.isUserPlan = isUserPlan;
 		this.goals = goals;
 		this.feedback = feedback;
+		this.key = key;
 		setNew(isNew);
 		setDelete(false);
 		setEdited(false);
@@ -44,6 +46,10 @@ public class WorkoutPlan extends DBMutable{
 
 	public String getFeedback() {
 		return feedback;
+	}
+	
+	public int getKey(){
+		return key;
 	}
 	
 	@Override

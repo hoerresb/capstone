@@ -22,6 +22,10 @@ public class Equipment extends DBMutable{
 		return name;
 	}
 	
+	public int getKey(){
+		return key;
+	}
+	
 	public String toString(){
 		return "Name: " + name + ", Type: " + type.getName() + ", Key: " + key;
 	}

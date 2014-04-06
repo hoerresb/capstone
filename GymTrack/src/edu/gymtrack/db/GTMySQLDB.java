@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import edu.gymtrack.model.WorkoutPlan;
+
 public class GTMySQLDB implements GTDB {
 	private final String dbUser = "gtuser";
 	private final String dbPassword = "gt1234user";
@@ -77,6 +79,14 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public ResultSet getEquipmentTypes() throws SQLException {
 		String query = new String("SELECT * FROM equipment_types");
+		return getResultSetForQuery(query);
+	}
+
+	@Override
+	public ResultSet getElementsForPlan(WorkoutPlan plan) throws SQLException {
+		String query = new String(
+				"SELECT * FROM plan_elements "
+				+ "WHERE plan='" + plan.getKey() + '\'');
 		return getResultSetForQuery(query);
 	}
 }

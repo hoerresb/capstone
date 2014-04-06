@@ -2,10 +2,12 @@ package edu.gymtrack.test;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.Activity;
 import edu.gymtrack.model.Equipment;
 import edu.gymtrack.model.EquipmentType;
+import edu.gymtrack.model.PlanElement;
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.WorkoutPlan;
 
@@ -19,10 +21,18 @@ public class DBTest {
 			for(User u : users){
 				System.out.println("User: " + u.toString());
 				if(u.isClient()){
-					ArrayList<WorkoutPlan> uPlans = f.getWorkoutPlansForUser(u); // plans for chubbs not fetched
+					ArrayList<WorkoutPlan> uPlans = f.getWorkoutPlansForUser(u);
 					System.out.println('\t' + "Plans{");
-					for(WorkoutPlan uPlan : uPlans)
+					for(WorkoutPlan uPlan : uPlans){
 						System.out.println("\t\t" + uPlan.toString());
+						
+						System.out.println("\t\t" + "Elements{");
+						ArrayList<PlanElement> elements = f.getPlanElements(uPlan);
+						for(PlanElement e : elements){
+							System.out.println("\t\t\t" + e.toString());
+						}
+						System.out.println("\t\t" + "}");
+					}
 					System.out.println('\t' + "}");
 				}
 			}

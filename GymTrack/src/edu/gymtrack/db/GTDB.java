@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+import edu.gymtrack.model.WorkoutPlan;
+
 public interface GTDB {
 	
 	public Map<String, String> getAuthPairs() throws SQLException;
@@ -17,4 +19,6 @@ public interface GTDB {
 	public ResultSet getEquipment() throws SQLException;
 	
 	public ResultSet getEquipmentTypes() throws SQLException;
+	
+	public ResultSet getElementsForPlan(WorkoutPlan plan) throws SQLException;
 }

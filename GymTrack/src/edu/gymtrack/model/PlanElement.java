@@ -24,4 +24,9 @@ public class PlanElement extends DBMutable{
 	public int getNRequired(){
 		return nRequired;
 	}
+	
+	public String toString(){
+		return "Activity: " + activity.getName() + ", Equipment: " + equipment.getName() + 
+				", Requirement: " + nRequired + ", Logs: " + logs.toString();
+	}
 }
