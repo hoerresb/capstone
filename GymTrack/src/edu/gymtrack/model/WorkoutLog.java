@@ -21,4 +21,8 @@ public class WorkoutLog extends DBMutable{
 	public int getNCompleted(){
 		return completed;
 	}
+	
+	public String toString(){
+		return "Date: " + date + ", Completed: " + completed;
+	}
 }

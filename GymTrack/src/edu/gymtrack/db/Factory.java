@@ -97,7 +97,10 @@ public class Factory {
 				}
 			}
 			
-			results.add(new PlanElement(activity, equipment, rs.getInt("amount_required"), false));
+			int elementKey = rs.getInt("key");
+			ArrayList<WorkoutLog> logs = getWorkoutLogs(elementKey);
+			
+			results.add(new PlanElement(activity, equipment, rs.getInt("amount_required"), elementKey, logs, false));
 		}
 		
 		return results;
@@ -116,10 +119,17 @@ public class Factory {
 		return results;
 	}
 	
-	public ArrayList<WorkoutLog> getWorkoutLogs(User user)
+	public ArrayList<WorkoutLog> getWorkoutLogs(int elementKey) throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.getWorkoutLogs(User user): Not yet implemented");
+		ArrayList<WorkoutLog> results = new ArrayList<WorkoutLog>();
+		
+		GTDB db = new GTMySQLDB();
+		ResultSet rs = db.getWorkoutLogs(elementKey);
+		while(rs.next()){
+			WorkoutLog log = new WorkoutLog(rs.getDate("date"), rs.getInt("completed"), false);
+			results.add(log);
+		}
+		return results;
 	}
 	
 	public ArrayList<WorkoutPlan> getWorkoutPlansForUser(User user) throws SQLException

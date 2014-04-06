@@ -21,4 +21,6 @@ public interface GTDB {
 	public ResultSet getEquipmentTypes() throws SQLException;
 	
 	public ResultSet getElementsForPlan(WorkoutPlan plan) throws SQLException;
+	
+	public ResultSet getWorkoutLogs(int elementKey) throws SQLException;
 }

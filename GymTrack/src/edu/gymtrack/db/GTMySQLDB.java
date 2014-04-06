@@ -8,8 +8,8 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
+import edu.gymtrack.model.PlanElement;
+import edu.gymtrack.model.User;
 import edu.gymtrack.model.WorkoutPlan;
 
 public class GTMySQLDB implements GTDB {
@@ -87,6 +87,14 @@ public class GTMySQLDB implements GTDB {
 		String query = new String(
 				"SELECT * FROM plan_elements "
 				+ "WHERE plan='" + plan.getKey() + '\'');
+		return getResultSetForQuery(query);
+	}
+
+	@Override
+	public ResultSet getWorkoutLogs(int elementKey) throws SQLException {
+		String query = new String(
+				"SELECT * FROM workout_logs "
+				+ "WHERE element='" + elementKey + '\'');
 		return getResultSetForQuery(query);
 	}
 }
