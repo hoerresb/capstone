@@ -1,14 +1,11 @@
 package edu.gymtrack.test;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import edu.gymtrack.db.Factory;
-import edu.gymtrack.db.GTDB;
-import edu.gymtrack.db.GTMySQLDB;
 import edu.gymtrack.model.Activity;
+import edu.gymtrack.model.Equipment;
+import edu.gymtrack.model.EquipmentType;
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.WorkoutPlan;
 
@@ -36,6 +33,18 @@ public class DBTest {
 				System.out.println('\t' + a.toString());
 			}
 			System.out.println("}");
+			
+			ArrayList<EquipmentType> types = f.getEquipmentTypes();
+			System.out.println("Equipment Types{");
+			for(EquipmentType type : types)
+				System.out.println('\t' + type.toString());
+			System.out.println('\t' + "}");
+			
+			ArrayList<Equipment> equipment = f.getEquipment();
+			System.out.println("Equipment{");
+			for(Equipment e : equipment)
+				System.out.println('\t' + e.toString());
+			System.out.println('\t' + "}");
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

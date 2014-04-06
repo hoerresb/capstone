@@ -35,16 +35,40 @@ public class Factory {
 		return results;
 	}
 	
-	public ArrayList<Equipment> getEquipment()
+	public ArrayList<Equipment> getEquipment() throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.getEquipment(): Not yet implemented");
+		ArrayList<Equipment> results = new ArrayList<Equipment>();
+		
+		GTDB db = new GTMySQLDB();
+		ArrayList<EquipmentType> types = getEquipmentTypes();
+		
+		ResultSet rs = db.getEquipment();
+		while(rs.next()){
+			EquipmentType type = null;
+			for(EquipmentType t : types){
+				if(rs.getInt("type") == t.getKey()){
+					type = t;
+					break;
+				}
+			}
+			
+			results.add(new Equipment(rs.getInt("key"), type, rs.getString("name")));
+		}
+		
+		return results;
 	}
 	
-	public ArrayList<EquipmentType> getEquipmentTypes()
+	public ArrayList<EquipmentType> getEquipmentTypes() throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.getEquipmentTypes(): Not yet implemented");
+		ArrayList<EquipmentType> results = new ArrayList<EquipmentType>();
+		
+		GTDB db = new GTMySQLDB();
+		ResultSet rs = db.getEquipmentTypes();
+		while(rs.next()){
+			EquipmentType type = new EquipmentType(rs.getInt("key"), rs.getString("name"));
+			results.add(type);
+		}
+		return results;
 	}
 	
 	public ArrayList<PlanElement> getPlanElements(WorkoutPlan plan)

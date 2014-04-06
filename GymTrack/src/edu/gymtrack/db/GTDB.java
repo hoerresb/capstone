@@ -13,4 +13,8 @@ public interface GTDB {
 	public ResultSet getUsers() throws SQLException;
 	
 	public ResultSet getActivities() throws SQLException;
+	
+	public ResultSet getEquipment() throws SQLException;
+	
+	public ResultSet getEquipmentTypes() throws SQLException;
 }
