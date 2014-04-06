@@ -1,16 +1,19 @@
 package edu.gymtrack.model;
 
-public class User {
+public class User extends DBMutable{
 	public enum UserType {OWNER, TRAINER, CLIENT};
 	
 	private String username;
 	private UserType type;
 	private int id;
 	
-	public User(String username, UserType type, int id){
+	public User(String username, UserType type, int id, boolean isNew){
 		this.username = username;
 		this.type = type;
 		this.id = id;
+		setNew(isNew);
+		setDelete(false);
+		setEdited(false);
 	}
 	
 	public String getUsername(){

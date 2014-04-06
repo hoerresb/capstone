@@ -52,7 +52,7 @@ public class Factory {
 				}
 			}
 			
-			results.add(new Equipment(rs.getInt("key"), type, rs.getString("name")));
+			results.add(new Equipment(rs.getInt("key"), type, rs.getString("name"), false));
 		}
 		
 		return results;
@@ -65,7 +65,7 @@ public class Factory {
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getEquipmentTypes();
 		while(rs.next()){
-			EquipmentType type = new EquipmentType(rs.getInt("key"), rs.getString("name"));
+			EquipmentType type = new EquipmentType(rs.getInt("key"), rs.getString("name"), false);
 			results.add(type);
 		}
 		return results;
@@ -84,7 +84,7 @@ public class Factory {
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getUsers();
 		while(rs.next()){
-			User user = new User(rs.getString("username"), User.UserType.values()[rs.getInt("type") - 1], rs.getInt("key"));
+			User user = new User(rs.getString("username"), User.UserType.values()[rs.getInt("type") - 1], rs.getInt("key"), false);
 			results.add(user);
 		}
 		return results;
@@ -118,7 +118,7 @@ public class Factory {
 			
 			
 			WorkoutPlan plan = new WorkoutPlan(user, trainer, rs.getDate("created"), rs.getBoolean("is_user"), 
-					rs.getString("goals"), rs.getString("feedback"));
+					rs.getString("goals"), rs.getString("feedback"), false);
 			results.add(plan);
 		}
 		

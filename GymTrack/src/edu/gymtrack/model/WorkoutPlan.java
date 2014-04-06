@@ -2,7 +2,7 @@ package edu.gymtrack.model;
 
 import java.util.Date;
 
-public class WorkoutPlan {
+public class WorkoutPlan extends DBMutable{
 	private User client;
 	private User trainer;
 	private Date created;
@@ -10,13 +10,16 @@ public class WorkoutPlan {
 	private String goals;
 	private String feedback;
 	
-	public WorkoutPlan(User client, User trainer, Date created, boolean isUserPlan, String goals, String feedback){
+	public WorkoutPlan(User client, User trainer, Date created, boolean isUserPlan, String goals, String feedback, boolean isNew){
 		this.client = client;
 		this.trainer = trainer;
 		this.created = created;
 		this.isUserPlan = isUserPlan;
 		this.goals = goals;
 		this.feedback = feedback;
+		setNew(isNew);
+		setDelete(false);
+		setEdited(false);
 	}
 	
 	public User getClient() {

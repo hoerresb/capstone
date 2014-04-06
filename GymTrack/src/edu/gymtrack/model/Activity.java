@@ -1,18 +1,16 @@
 package edu.gymtrack.model;
 
-public class Activity {
-
+public class Activity extends DBMutable{
 	private int key;
 	private String name;
-	private boolean newFlag;
-	private boolean editFlag;
-	private boolean deleteFlag;
 	
 	
 	public Activity(int key, String name, boolean newEntry){
 		this.key = key;
 		this.name = name;
-		newFlag = newEntry;
+		setNew(newEntry);
+		setDelete(false);
+		setEdited(false);
 	}
 	
 	// getters
@@ -35,16 +33,16 @@ public class Activity {
 	
 	public void setName(String name){
 		this.name = name;
-		this.editFlag = true;
+		setEdited(true);
 	}
 	
 	public void delete(){
-		this.deleteFlag = true;
+		setDelete(true);
 	}
 	
 	@Override
 	public String toString(){
-		return "Name: " + name + ", Key: " + key + ", New: " + newFlag + ", Edited: " + editFlag
-				+ ", T/B Deleted: " + deleteFlag;
+		return "Name: " + name + ", Key: " + key + ", New: " + isNew() + ", Edited: " + isEdited()
+				+ ", S/B Deleted: " + toBeDeleted();
 	}
 }
