@@ -12,8 +12,7 @@ public class Activity {
 	public Activity(int key, String name, boolean newEntry){
 		this.key = key;
 		this.name = name;
-		if (newEntry)
-			newFlag = true;
+		newFlag = newEntry;
 	}
 	
 	// getters
@@ -28,10 +27,11 @@ public class Activity {
 	
 	// setters
 	
-	public void setKey(int key){
-		this.key = key;
-	    this.editFlag = true;
-	}
+	// the database manages the keys
+//	public void setKey(int key){
+//		this.key = key;
+//	    this.editFlag = true;
+//	}
 	
 	public void setName(String name){
 		this.name = name;
@@ -42,4 +42,9 @@ public class Activity {
 		this.deleteFlag = true;
 	}
 	
+	@Override
+	public String toString(){
+		return "Name: " + name + ", Key: " + key + ", New: " + newFlag + ", Edited: " + editFlag
+				+ ", T/B Deleted: " + deleteFlag;
+	}
 }

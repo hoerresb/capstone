@@ -23,10 +23,16 @@ public class Factory {
 	
 	// methods to pull data from the database
 	
-	public ArrayList<Activity> getActivities()
+	public ArrayList<Activity> getActivities() throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.getActivities(): Not yet implemented");
+		ArrayList<Activity> results = new ArrayList<Activity>();
+		
+		GTDB db = new GTMySQLDB();
+		ResultSet rs = db.getActivities();
+		while(rs.next())
+			results.add(new Activity(rs.getInt("key"), rs.getString("name"), false));
+		
+		return results;
 	}
 	
 	public ArrayList<Equipment> getEquipment()
@@ -74,23 +80,22 @@ public class Factory {
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getPlansForUser(user.getUsername());
 		while(rs.next()){
-			if(rs.getInt("key") == user.getID()){
-				// get trainer for this plan
-				User trainer = null;
-				int trainerID = rs.getInt("trainer");
-				for(User u : users){
-					if(u.isTrainer() && u.getID() == trainerID){
-						trainer = u;
-						break;
-					}
+			// get trainer for this plan
+			User trainer = null;
+			int trainerID = rs.getInt("trainer");
+			for(User u : users){
+				if(u.isTrainer() && u.getID() == trainerID){
+					trainer = u;
+					break;
 				}
-				if(trainer == null)
-					continue;
-			
-				WorkoutPlan plan = new WorkoutPlan(user, trainer, rs.getDate("created"), rs.getBoolean("is_user"), 
-						rs.getString("goals"), rs.getString("feedback"));
-				results.add(plan);
 			}
+			if(trainer == null)
+				continue;
+			
+			
+			WorkoutPlan plan = new WorkoutPlan(user, trainer, rs.getDate("created"), rs.getBoolean("is_user"), 
+					rs.getString("goals"), rs.getString("feedback"));
+			results.add(plan);
 		}
 		
 		return results;

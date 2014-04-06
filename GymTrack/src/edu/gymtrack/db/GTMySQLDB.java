@@ -59,8 +59,14 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public ResultSet getUsers() throws SQLException {
 		String query = new String(
-				"SELECT * FROM users"
-				);
+				"SELECT * FROM users");
+		return getResultSetForQuery(query);
+	}
+
+	@Override
+	public ResultSet getActivities() throws SQLException {
+		String query = new String(
+				"SELECT * FROM activities");
 		return getResultSetForQuery(query);
 	}
 }

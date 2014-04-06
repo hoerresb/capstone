@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.db.GTDB;
 import edu.gymtrack.db.GTMySQLDB;
+import edu.gymtrack.model.Activity;
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.WorkoutPlan;
 
@@ -16,6 +17,7 @@ public class DBTest {
 	public static void main(String[] args) {
 		try {
 			Factory f = new Factory();
+			
 			ArrayList<User> users = f.getUsers();
 			for(User u : users){
 				System.out.println("User: " + u.toString());
@@ -27,6 +29,14 @@ public class DBTest {
 					System.out.println('\t' + "}");
 				}
 			}
+			
+			ArrayList<Activity> activities = f.getActivities();
+			System.out.println("Activities{");
+			for(Activity a : activities){
+				System.out.println('\t' + a.toString());
+			}
+			System.out.println("}");
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
