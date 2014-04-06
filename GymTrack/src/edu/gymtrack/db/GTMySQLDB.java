@@ -8,6 +8,10 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.gymtrack.controller.Authentication;
+import edu.gymtrack.model.Activity;
+import edu.gymtrack.model.Equipment;
+import edu.gymtrack.model.EquipmentType;
 import edu.gymtrack.model.PlanElement;
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.WorkoutPlan;
@@ -96,5 +100,50 @@ public class GTMySQLDB implements GTDB {
 				"SELECT * FROM workout_logs "
 				+ "WHERE element='" + elementKey + '\'');
 		return getResultSetForQuery(query);
+	}
+
+	@Override
+	public void updateActivity(Activity a) throws SQLException {
+		String query = new String(
+				"INSERT INTO `activities` (`key`,`name`) "
+				+ "VALUES (" + a.getKey() + ",'" + a.getName() + "') "
+				+ "ON DUPLICATE KEY UPDATE name='" + a.getName() + "'");
+		getResultSetForQuery(query);
+	}
+
+	@Override
+	public void updateEquipment(Equipment e) throws SQLException {
+		String query = new String(
+				"INSERT INTO `equipment` (`key`,`type`,`name`) "
+				+ "VALUES (" + e.getKey() + "," + e.getType() + ",'" + e.getName() + "') "
+				+ "ON DUPLICATE KEY UPDATE type=" + e.getType() + ", name='" + e.getName() + "'");
+		getResultSetForQuery(query);
+	}
+
+	@Override
+	public void updateEquipmentType(EquipmentType e) throws SQLException {
+		String query = new String(
+				"INSERT INTO `equipment_types` (`key`,`name`) "
+				+ "VALUES (" + e.getKey() + ",'" + e.getName() + "') "
+				+ "ON DUPLICATE KEY UPDATE name='" + e.getName() + "'");
+		getResultSetForQuery(query);
+	}
+
+	@Override
+	public void updatePlanElement(PlanElement e) throws SQLException {
+		String query = new String(
+				"INSERT INTO `plan_elements` (`key`,`plan`,`activity`,`equipment`,`amount_required`) "
+				+ "VALUES (" + e.getKey() + "," + e.getPlan().getKey() + "," + e.getActivity().getKey() + "," + e.getEquipment().getKey() + "," + e.getNRequired() + ") "
+				+ "ON DUPLICATE KEY UPDATE plan=" + e.getPlan().getKey() + ", activity=" + e.getActivity().getKey() + ", equipment=" + e.getEquipment().getKey() + ", amount_required=" + e.getNRequired());
+		getResultSetForQuery(query);
+	}
+
+	@Override
+	public void updateUser(User u, Authentication auth) throws SQLException {
+		String query = new String(
+				"INSERT INTO `users` (`key`,`username`,`password`,`type`) "
+				+ "VALUES (" + u.getID() + ",'" + u.getUsername() + "','" + auth.getHashForUser(u.getUsername()) + "'," + (u.getUserType().ordinal() + 1) + ") "
+				+ "ON DUPLICATE KEY UPDATE username='" + u.getUsername() + "', password='" + auth.getHashForUser(u.getUsername()) + "', type=" + (u.getUserType().ordinal() + 1));
+		getResultSetForQuery(query);
 	}
 }

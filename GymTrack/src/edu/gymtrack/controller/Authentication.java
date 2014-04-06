@@ -41,6 +41,29 @@ public class Authentication {
 		return false;
 	}
 	
+	public String getHashForUser(String username){
+		return userHashPairs.get(username);
+	}
+	
+	public boolean updatePassword(String username, String oldPass, String newPass){
+		if(!userHashPairs.containsKey(username))
+			return false;
+		
+		if(!getHashForPassword(oldPass).equals(userHashPairs.get(username)))
+			return false;
+		
+		userHashPairs.put(username, getHashForPassword(newPass));
+		return true;
+	}
+	
+	public boolean addUser(String username, String password){
+		if(!userHashPairs.containsKey(username))
+			return false;
+		
+		userHashPairs.put(username, getHashForPassword(password));
+		return true;
+	}
+	
 	public void updateUserActive(String username){
 		if(!authenticatedUsers.containsKey(username))
 			return;

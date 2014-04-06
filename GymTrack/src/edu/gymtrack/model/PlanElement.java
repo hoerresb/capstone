@@ -7,15 +7,17 @@ public class PlanElement extends DBMutable{
 	private Equipment equipment;
 	private int nRequired;
 	private int key;
+	private WorkoutPlan plan;
 	private ArrayList<WorkoutLog> logs = new ArrayList<WorkoutLog>();
 	
-	public PlanElement(Activity activity, Equipment equipment, int nRequired, int key, 
+	public PlanElement(Activity activity, Equipment equipment, WorkoutPlan plan, int nRequired, int key, 
 			ArrayList<WorkoutLog> logs, boolean isNew){
 		this.activity = activity;
 		this.equipment = equipment;
 		this.nRequired = nRequired;
 		this.logs = logs;
 		this.key = key;
+		this.plan = plan;
 		setNew(isNew);
 		setDelete(false);
 		setEdited(false);
@@ -25,12 +27,24 @@ public class PlanElement extends DBMutable{
 		return activity.getName();
 	}
 	
+	public Activity getActivity(){
+		return activity;
+	}
+	
+	public Equipment getEquipment(){
+		return equipment;
+	}
+	
 	public int getNRequired(){
 		return nRequired;
 	}
 	
 	public int getKey(){
 		return key;
+	}
+	
+	public WorkoutPlan getPlan(){
+		return plan;
 	}
 	
 	public String toString(){

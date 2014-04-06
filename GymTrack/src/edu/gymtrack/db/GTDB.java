@@ -4,6 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+import edu.gymtrack.controller.Authentication;
+import edu.gymtrack.model.Activity;
+import edu.gymtrack.model.Equipment;
+import edu.gymtrack.model.EquipmentType;
+import edu.gymtrack.model.PlanElement;
+import edu.gymtrack.model.User;
 import edu.gymtrack.model.WorkoutPlan;
 
 public interface GTDB {
@@ -23,4 +29,14 @@ public interface GTDB {
 	public ResultSet getElementsForPlan(WorkoutPlan plan) throws SQLException;
 	
 	public ResultSet getWorkoutLogs(int elementKey) throws SQLException;
+	
+	public void updateActivity(Activity a) throws SQLException;
+	
+	public void updateEquipment(Equipment e) throws SQLException;
+	
+	public void updateEquipmentType(EquipmentType e) throws SQLException;
+	
+	public void updatePlanElement(PlanElement e) throws SQLException;
+	
+	public void updateUser(User u, Authentication auth) throws SQLException;
 }

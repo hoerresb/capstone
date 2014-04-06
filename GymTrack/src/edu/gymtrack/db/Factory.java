@@ -100,7 +100,7 @@ public class Factory {
 			int elementKey = rs.getInt("key");
 			ArrayList<WorkoutLog> logs = getWorkoutLogs(elementKey);
 			
-			results.add(new PlanElement(activity, equipment, rs.getInt("amount_required"), elementKey, logs, false));
+			results.add(new PlanElement(activity, equipment, plan, rs.getInt("amount_required"), elementKey, logs, false));
 		}
 		
 		return results;
@@ -161,42 +161,56 @@ public class Factory {
 		return results;
 	}
 	
-	public ArrayList<WorkoutPlan> getWorkoutPlans()
-	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.getWorkoutPlans(): Not yet implemented");
-	}
-	
 	// methods to update data in the database
 	
-	public void updateActivities(ArrayList<Activity> newdata)
+	public void updateActivities(ArrayList<Activity> newdata) throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.updateActivities(ArrayList<Activity> newdata): Not yet implemented");
+		GTDB db = new GTMySQLDB();
+		for(Activity a : newdata){
+			if(a.isEdited() || a.isNew()){
+				db.updateActivity(a);
+			}
+		}
 	}
 	
-	public void updateEquipment(ArrayList<Equipment> newdata)
+	public void updateEquipment(ArrayList<Equipment> newdata) throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.updateEquipment(ArrayList<Equipment> newdata): Not yet implemented");
+		GTDB db = new GTMySQLDB();
+		for(Equipment e : newdata){
+			if(e.isEdited() || e.isNew()){
+				db.updateEquipment(e);
+			}
+		}
 	}
 	
-	public void updateEquipmentType(ArrayList<EquipmentType> newdata)
+	public void updateEquipmentType(ArrayList<EquipmentType> newdata) throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.updateEquipmentType(ArrayList<EquipmentType> newdata): Not yet implemented");
+		GTDB db = new GTMySQLDB();
+		for(EquipmentType e : newdata){
+			if(e.isEdited() || e.isNew()){
+				db.updateEquipmentType(e);
+			}
+		}
 	}
 	
-	public void updatePlanElements(ArrayList<PlanElement> newdata)
+	public void updatePlanElements(ArrayList<PlanElement> newdata) throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.updatePlanElements(ArrayList<PlanElement> newdata): Not yet implemented");
+		GTDB db = new GTMySQLDB();
+		for(PlanElement e : newdata){
+			if(e.isEdited() || e.isNew()){
+				db.updatePlanElement(e);
+			}
+		}
 	}
 	
-	public void updateUsers(ArrayList<User> newdata)
+	public void updateUsers(ArrayList<User> newdata, Authentication auth) throws SQLException
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.updateUsers(ArrayList<User> newdata): Not yet implemented");
+		GTDB db = new GTMySQLDB();
+		for(User u : newdata){
+			if(u.isEdited() || u.isNew()){
+				db.updateUser(u, auth);
+			}
+		}
 	}
 	
 	public void updateWorkoutLogs(ArrayList<WorkoutLog> newdata)
