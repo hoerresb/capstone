@@ -146,4 +146,34 @@ public class GTMySQLDB implements GTDB {
 				+ "ON DUPLICATE KEY UPDATE username='" + u.getUsername() + "', password='" + auth.getHashForUser(u.getUsername()) + "', type=" + (u.getUserType().ordinal() + 1));
 		getResultSetForQuery(query);
 	}
+
+	@Override
+	public void deleteActivity(Activity a) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteEquipment(Equipment e) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteEquipmentType(EquipmentType e) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deletePlanElement(PlanElement e) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUser(User u) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 }

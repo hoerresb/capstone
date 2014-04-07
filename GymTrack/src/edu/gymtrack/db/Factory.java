@@ -167,7 +167,10 @@ public class Factory {
 	{
 		GTDB db = new GTMySQLDB();
 		for(Activity a : newdata){
-			if(a.isEdited() || a.isNew()){
+			if (a.toBeDeleted() && !a.isNew()){
+				db.deleteActivity(a);
+			}
+			else if(a.isEdited() || a.isNew()){
 				db.updateActivity(a);
 			}
 		}
@@ -177,7 +180,10 @@ public class Factory {
 	{
 		GTDB db = new GTMySQLDB();
 		for(Equipment e : newdata){
-			if(e.isEdited() || e.isNew()){
+			if (e.toBeDeleted() && !e.isNew()){
+				db.deleteEquipment(e);
+			}
+			else if(e.isEdited() || e.isNew()){
 				db.updateEquipment(e);
 			}
 		}
@@ -187,7 +193,10 @@ public class Factory {
 	{
 		GTDB db = new GTMySQLDB();
 		for(EquipmentType e : newdata){
-			if(e.isEdited() || e.isNew()){
+			if (e.toBeDeleted() && !e.isNew()){
+				db.deleteEquipmentType(e);
+			}
+			else if(e.isEdited() || e.isNew()){
 				db.updateEquipmentType(e);
 			}
 		}
@@ -197,7 +206,10 @@ public class Factory {
 	{
 		GTDB db = new GTMySQLDB();
 		for(PlanElement e : newdata){
-			if(e.isEdited() || e.isNew()){
+			if (e.toBeDeleted() && !e.isNew()){
+				db.deletePlanElement(e);
+			}
+			else if(e.isEdited() || e.isNew()){
 				db.updatePlanElement(e);
 			}
 		}
@@ -207,7 +219,10 @@ public class Factory {
 	{
 		GTDB db = new GTMySQLDB();
 		for(User u : newdata){
-			if(u.isEdited() || u.isNew()){
+			if (u.toBeDeleted() && !u.isNew()){
+				db.deleteUser(u);
+			}
+			else if(u.isEdited() || u.isNew()){
 				db.updateUser(u, auth);
 			}
 		}

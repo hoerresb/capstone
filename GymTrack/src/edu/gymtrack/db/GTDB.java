@@ -39,4 +39,14 @@ public interface GTDB {
 	public void updatePlanElement(PlanElement e) throws SQLException;
 	
 	public void updateUser(User u, Authentication auth) throws SQLException;
+
+	public void deleteActivity(Activity a) throws SQLException;
+
+	public void deleteEquipment(Equipment e) throws SQLException;
+
+	public void deleteEquipmentType(EquipmentType e) throws SQLException;
+
+	public void deletePlanElement(PlanElement e) throws SQLException;
+
+	public void deleteUser(User u) throws SQLException;
 }
