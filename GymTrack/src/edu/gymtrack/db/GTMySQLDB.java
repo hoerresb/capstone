@@ -32,6 +32,12 @@ public class GTMySQLDB implements GTDB {
 		Statement stmt = con.createStatement();
 	    return stmt.executeQuery(query);
 	}
+	
+	private void deleteFromDB(String query) throws SQLException{
+		Connection con = getConnection();
+		Statement stmt = con.createStatement();
+		stmt.executeQuery(query);
+	}
 
 	@Override
 	public ResultSet getPlansForUser(String username) throws SQLException {
@@ -149,31 +155,32 @@ public class GTMySQLDB implements GTDB {
 
 	@Override
 	public void deleteActivity(Activity a) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		String query = new String("DELETE FROM activities WHERE key = " + a.getKey());
+		deleteFromDB(query);
 	}
 
 	@Override
 	public void deleteEquipment(Equipment e) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		String query = new String("DELETE FROM equipment WHERE key = " + e.getKey());
+		deleteFromDB(query);
 	}
 
 	@Override
 	public void deleteEquipmentType(EquipmentType e) throws SQLException {
-		// TODO Auto-generated method stub
+		String query = new String("DELETE FROM equipment_types WHERE key = " + e.getKey());
+		deleteFromDB(query);
 		
 	}
 
 	@Override
 	public void deletePlanElement(PlanElement e) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		String query = new String("DELETE FROM plan_elements WHERE key = " + e.getKey());
+		deleteFromDB(query);
 	}
 
 	@Override
 	public void deleteUser(User u) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		String query = new String("DELETE FROM users WHERE key = " + u.getID());
+		deleteFromDB(query);
 	}
 }
