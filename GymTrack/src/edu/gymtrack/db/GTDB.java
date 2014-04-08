@@ -10,6 +10,7 @@ import edu.gymtrack.model.Equipment;
 import edu.gymtrack.model.EquipmentType;
 import edu.gymtrack.model.PlanElement;
 import edu.gymtrack.model.User;
+import edu.gymtrack.model.WorkoutLog;
 import edu.gymtrack.model.WorkoutPlan;
 
 public interface GTDB {
@@ -49,4 +50,12 @@ public interface GTDB {
 	public void deletePlanElement(PlanElement e) throws SQLException;
 
 	public void deleteUser(User u) throws SQLException;
+
+	public void deleteWorkoutLog(WorkoutLog w);
+
+	public void updateWorkoutLog(WorkoutLog w);
+
+	public void deleteWorkoutPlan(WorkoutPlan w);
+
+	public void updateWorkoutPlan(WorkoutPlan w);
 }

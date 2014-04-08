@@ -14,6 +14,7 @@ import edu.gymtrack.model.Equipment;
 import edu.gymtrack.model.EquipmentType;
 import edu.gymtrack.model.PlanElement;
 import edu.gymtrack.model.User;
+import edu.gymtrack.model.WorkoutLog;
 import edu.gymtrack.model.WorkoutPlan;
 
 public class GTMySQLDB implements GTDB {
@@ -182,5 +183,29 @@ public class GTMySQLDB implements GTDB {
 	public void deleteUser(User u) throws SQLException {
 		String query = new String("DELETE FROM users WHERE key = " + u.getID());
 		deleteFromDB(query);
+	}
+
+	@Override
+	public void deleteWorkoutLog(WorkoutLog w) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateWorkoutLog(WorkoutLog w) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteWorkoutPlan(WorkoutPlan w) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateWorkoutPlan(WorkoutPlan w) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -230,14 +230,28 @@ public class Factory {
 	
 	public void updateWorkoutLogs(ArrayList<WorkoutLog> newdata)
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.updateWorkoutLogs(ArrayList<WorkoutLog> newdata): Not yet implemented");
+		GTDB db = new GTMySQLDB();
+		for(WorkoutLog w : newdata){
+			if (w.toBeDeleted() && !w.isNew()){
+				db.deleteWorkoutLog(w);
+			}
+			else if(w.isEdited() || w.isNew()){
+				db.updateWorkoutLog(w);
+			}
+		}
 	}
 	
 	public void updateWorkoutPlans(ArrayList<WorkoutPlan> newdata)
 	{
-		//TODO implement this function
-		throw new UnsupportedOperationException("Factory.updateWorkoutPlans(ArrayList<WorkoutPlan> newdata): Not yet implemented");
+		GTDB db = new GTMySQLDB();
+		for(WorkoutPlan w : newdata){
+			if (w.toBeDeleted() && !w.isNew()){
+				db.deleteWorkoutPlan(w);
+			}
+			else if(w.isEdited() || w.isNew()){
+				db.updateWorkoutPlan(w);
+			}
+		}
 	}
 	
 }
