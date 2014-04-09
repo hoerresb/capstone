@@ -51,11 +51,11 @@ public interface GTDB {
 
 	public void deleteUser(User u) throws SQLException;
 
-	public void deleteWorkoutLog(WorkoutLog w);
+	public void deleteWorkoutLog(WorkoutLog w) throws SQLException;
 
-	public void updateWorkoutLog(WorkoutLog w);
+	public void updateWorkoutLog(WorkoutLog w) throws SQLException;
 
-	public void deleteWorkoutPlan(WorkoutPlan w);
+	public void deleteWorkoutPlan(WorkoutPlan w) throws SQLException;
 
-	public void updateWorkoutPlan(WorkoutPlan w);
+	public void updateWorkoutPlan(WorkoutPlan w) throws SQLException;
 }

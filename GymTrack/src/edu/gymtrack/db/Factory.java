@@ -228,7 +228,7 @@ public class Factory {
 		}
 	}
 	
-	public void updateWorkoutLogs(ArrayList<WorkoutLog> newdata)
+	public void updateWorkoutLogs(ArrayList<WorkoutLog> newdata) throws SQLException
 	{
 		GTDB db = new GTMySQLDB();
 		for(WorkoutLog w : newdata){
@@ -241,7 +241,7 @@ public class Factory {
 		}
 	}
 	
-	public void updateWorkoutPlans(ArrayList<WorkoutPlan> newdata)
+	public void updateWorkoutPlans(ArrayList<WorkoutPlan> newdata) throws SQLException
 	{
 		GTDB db = new GTMySQLDB();
 		for(WorkoutPlan w : newdata){
