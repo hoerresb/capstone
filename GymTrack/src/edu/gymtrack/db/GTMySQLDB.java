@@ -204,8 +204,11 @@ public class GTMySQLDB implements GTDB {
 	}
 
 	@Override
-	public void updateWorkoutPlan(WorkoutPlan w) {
-		// TODO Auto-generated method stub
-		
+	public void updateWorkoutPlan(WorkoutPlan w) throws SQLException {
+		String query = new String(
+				"INSERT INTO `workout_plans` (`key`,`trainer`,`user`,`created`,`is_user`,`goals`,`feedback`) "
+				+ "VALUES (" + w.getKey() + "," + w.getTrainer() + "," + w.getClient() + "," + w.getDateCreated() + "," + w.isUserPlan() + ",'" + w.getGoals() + "','" + w.getFeedback() + "') "
+				+ "ON DUPLICATE KEY UPDATE trainer=" + w.getTrainer() + ", client=" + w.getClient() + ", created=" + w.getDateCreated() + ", is_user=" + w.isUserPlan() + ", goals='" + w.getGoals() + "', feedback='" + w.getFeedback() + "'" );
+		getResultSetForQuery(query);
 	}
 }
