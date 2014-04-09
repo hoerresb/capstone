@@ -1,13 +1,20 @@
 package edu.gymtrack.view;
 
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import edu.gymtrack.db.Factory;
+import edu.gymtrack.model.User;
 
 public class UsersUI extends GymTrack {
 	private static final long serialVersionUID = 1L;
 
+
 	public static void createUsersUI(GymTrack gym){
+		Factory factory = new Factory();
+		
 		ButtonGroup usersUI_buttonGroup = new ButtonGroup();
 
 		gym.getContentPane().removeAll();
@@ -47,22 +54,25 @@ public class UsersUI extends GymTrack {
 		gym.btnDeleteUser = new JButton("Delete");
 		panel.add(gym.btnDeleteUser);
 
-		String[] columnNames = {"Name", "Email", "Type"};
+		String[] columnNames = {"Username", "Type", "Id"};
+		
+		ArrayList<User> currentUserSet = new ArrayList<>();
+		
+		try 
+		{
+			currentUserSet = factory.getUsers();
+		} catch (SQLException e) {
+			// TODO handle this
+			e.printStackTrace();
+		}  
 
-		//Filled with temporary data
-		//TODO get actual data
-		Object[][] tableData = {
-				{"UserOne", "UserOne@gmail.com",
-				"Member"},
-				{"UserTwo", "UserTwo@gmail.com",
-				"Member"},
-				{"UserThree", "UserThree@gmail.com",
-				"Member"},
-				{"UserFour", "UserFour@gmail.com",
-				"Trainer"},
-				{"UserFive", "UserFive@gmail.com",
-				"Trainer"}
-		};
+		Object[][] tableData = new Object[currentUserSet.size()][3];
+		
+		for (int i = 0; i < currentUserSet.size(); i++) {
+			tableData[i][0] = currentUserSet.get(i).getUsername();
+			tableData[i][1] = currentUserSet.get(i).getUserType().toString();
+			tableData[i][2] = currentUserSet.get(i).getID();
+		}
 
 		gym.ownerTable = new JTable(tableData, columnNames);
 		gym.ownerTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
