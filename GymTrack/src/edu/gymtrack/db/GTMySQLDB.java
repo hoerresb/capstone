@@ -186,15 +186,18 @@ public class GTMySQLDB implements GTDB {
 	}
 
 	@Override
-	public void deleteWorkoutLog(WorkoutLog w) {
-		// TODO Auto-generated method stub
-		
+	public void deleteWorkoutLog(WorkoutLog w) throws SQLException {
+		String query = new String("DELETE FROM workout_logs WHERE key = " + w.getKey());
+		deleteFromDB(query);
 	}
 
 	@Override
-	public void updateWorkoutLog(WorkoutLog w) {
-		// TODO Auto-generated method stub
-		
+	public void updateWorkoutLog(WorkoutLog w) throws SQLException {
+		String query = new String(
+				"INSERT INTO `workout_logs` (`key`, `element`, `date`, `completed`) "
+				+ "VALUES (" + w.getKey() + "," + w.getElementKey() + "," + w.getDate() + "," + w.getNCompleted() + ")"
+				+ "ON DUPLICATE KEY UPDATE element=" + w.getElementKey() + ", date=" + w.getDate() + ", completed=" + w.getNCompleted() + ")");
+		getResultSetForQuery(query);
 	}
 
 	@Override
