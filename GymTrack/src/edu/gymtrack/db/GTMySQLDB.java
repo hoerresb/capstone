@@ -56,14 +56,13 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public Map<String, String> getAuthPairs() throws SQLException {
 		String query = new String(
-				"SELECT users.username, users.password_hash"
-				+ "FROM users"
+				"SELECT users.username, users.password FROM users"
 				);
 		ResultSet rs = getResultSetForQuery(query);
 		
 		Map<String, String> result = new HashMap<String, String>();
 		while(rs.next()){
-			result.put(rs.getString("username"), rs.getString("password_hash"));
+			result.put(rs.getString("username"), rs.getString("password"));
 		}
 		
 		return result;
