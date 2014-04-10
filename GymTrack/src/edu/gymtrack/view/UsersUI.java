@@ -55,9 +55,16 @@ public class UsersUI extends GymTrack {
 		panel.add(gym.btnDeleteUser);
 
 		String[] columnNames = {"Username", "Type", "Id"};
-		
-		ArrayList<User> currentUserSet = new ArrayList<>();
-		
+
+		gym.ownerTable = new JTable(getTableData(factory), columnNames);
+		gym.ownerTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+		gym.ownerTable.setFillsViewportHeight(true);
+		JScrollPane scrollPane = new JScrollPane(gym.ownerTable);
+		gym.add(scrollPane);
+	}
+	
+	protected static Object[][] getTableData(Factory factory){
+        ArrayList<User> currentUserSet = new ArrayList<>();
 		try 
 		{
 			currentUserSet = factory.getUsers();
@@ -65,7 +72,6 @@ public class UsersUI extends GymTrack {
 			// TODO handle this
 			e.printStackTrace();
 		}  
-
 		Object[][] tableData = new Object[currentUserSet.size()][3];
 		
 		for (int i = 0; i < currentUserSet.size(); i++) {
@@ -73,11 +79,7 @@ public class UsersUI extends GymTrack {
 			tableData[i][1] = currentUserSet.get(i).getUserType().toString();
 			tableData[i][2] = currentUserSet.get(i).getID();
 		}
-
-		gym.ownerTable = new JTable(tableData, columnNames);
-		gym.ownerTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
-		gym.ownerTable.setFillsViewportHeight(true);
-		JScrollPane scrollPane = new JScrollPane(gym.ownerTable);
-		gym.add(scrollPane);
-	}
+		
+		return tableData;
+	}// end getTableData
 }

@@ -1,25 +1,27 @@
 package edu.gymtrack.view;
 
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import edu.gymtrack.db.Factory;
+import edu.gymtrack.model.User;
 
 public class TrkTraineesUI extends GymTrack {
 	private static final long serialVersionUID = 1L;
 
 	public static void createTrkTraineesUI(GymTrack gym){
+		Factory factory = new Factory();
+		
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
 
-		//Filled with temporary data
-		//TODO get actual data
-		String[] memberNames = {
-				"UserOne", "UserTwo", "", "UserThree",
-				"UserFour", "UserFive", "UserSix",
-				"UserSeven", "UserEight"
-		};
+		String[] memberNames = getMemberNames(factory);
 
 		String[] columnNames = {"Plan number", 
 				"Created On", "Goal", 
@@ -68,5 +70,26 @@ public class TrkTraineesUI extends GymTrack {
 		splitPane.setPreferredSize(new Dimension(400, 200));
 
 		contentPane.add(splitPane);
-	}
+		
+	}//end createTrkTraineesUI()
+	
+	protected static String[] getMemberNames(Factory factory){
+        ArrayList<User> currentUserSet = new ArrayList<>();
+        
+		try 
+		{
+			currentUserSet = factory.getUsers();
+		} catch (SQLException e) {
+			// TODO handle this
+			e.printStackTrace();
+		}  
+		
+		String[] result = new String[currentUserSet.size()];
+		
+		for (int i = 0; i < currentUserSet.size(); i++) {
+			result[i] = currentUserSet.get(i).getUsername();
+		}
+		
+		return result;
+	}// end getUsers
 }
