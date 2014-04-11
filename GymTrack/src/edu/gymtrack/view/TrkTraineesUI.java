@@ -10,10 +10,10 @@ import javax.swing.border.EmptyBorder;
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.User;
 
-public class TrkTraineesUI extends GymTrack {
+public class TrkTraineesUI extends GTUI {
 	private static final long serialVersionUID = 1L;
 
-	public static void createTrkTraineesUI(GymTrack gym){
+	public void createTrkTraineesUI(GymTrack gym){
 		Factory factory = new Factory();
 		
 		gym.getContentPane().removeAll();
@@ -92,4 +92,10 @@ public class TrkTraineesUI extends GymTrack {
 		
 		return result;
 	}// end getUsers
+
+	@Override
+	public GTUI showUI(GymTrack gym) {
+		createTrkTraineesUI(gym);
+		return this;
+	}
 }

@@ -7,6 +7,7 @@ public class GymTrack extends JApplet implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	protected int privilege;
+	GTUI previous;
 	
 	/*
 	 * components used by LoginUI
@@ -43,11 +44,21 @@ public class GymTrack extends JApplet implements ActionListener
 	JList memberList;
 	JTable trainerTable;
 	
+	// View objects -- I didn't know how to get the back button to work without making them unstatic
+	GTUI loginUI = new LoginUI();
+	GTUI myPlansUI = new MyPlansUI();
+	GTUI analyzeMeUI = new AnalyzeMeUI();
+	GTUI analyzeGymUI = new AnalyzeGymUI();
+	GTUI editTraineesUI = new EditTraineesUI();
+	GTUI trkTraineesUI = new TrkTraineesUI();
+	GTUI equipmentUI = new EquipmentUI();
+	GTUI mainUI = new MainUI();
+	GTUI usersUI = new UsersUI();
+	
 	public void init() {
 		setSize(800,400);
 		setName("GymTrack");
-        LoginUI.createLoginUI(this);
-        
+        loginUI.switchUI(this);
 	}
 	public void start(){
 		
@@ -58,25 +69,25 @@ public class GymTrack extends JApplet implements ActionListener
 			btnSubmit();
 		}	
 		else if (arg0.getSource() == btnMyPlans) {
-			MyPlansUI.createMyPlansUI(this);
+			myPlansUI.switchUI(this);
 		}
         else if (arg0.getSource() == btnAnalyzeMe) {
-			AnalyzeMeUI.createAnalyzeMeUI(this);
+			analyzeMeUI.switchUI(this);
 		}
         else if (arg0.getSource() == btnEditTrainees) {
-        	EditTraineesUI.createEditTraineesUI(this);
+        	editTraineesUI.switchUI(this);
 		}
         else if (arg0.getSource() == btnTrkTrainees) {
-        	TrkTraineesUI.createTrkTraineesUI(this);
+        	trkTraineesUI.switchUI(this);
         }
         else if (arg0.getSource() == btnEquipment) {
-        	EquipmentUI.createEquipmentUI(this);
+        	equipmentUI.switchUI(this);
         }
         else if (arg0.getSource() == btnUsers) {
-        	UsersUI.createUsersUI(this);
+        	usersUI.switchUI(this);
         }
         else if (arg0.getSource() == btnAnalyzeGym) {
-        	AnalyzeGymUI.createAnalyzeGymUI(this);
+        	analyzeGymUI.switchUI(this);
         }
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
@@ -99,7 +110,7 @@ public class GymTrack extends JApplet implements ActionListener
 		default:
 			break;
 		}
-		MainUI.createMainUI(this);
+		mainUI.switchUI(this);
 	}
 }
 

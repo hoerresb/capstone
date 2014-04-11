@@ -1,11 +1,12 @@
 package edu.gymtrack.view;
 import java.awt.*;
+
 import javax.swing.*;
 
-public class LoginUI extends GymTrack {
+public class LoginUI extends GTUI {
 	private static final long serialVersionUID = 1L;
 	
-	public static void createLoginUI(GymTrack gym){
+	public void createLoginUI(GymTrack gym){
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
@@ -85,5 +86,11 @@ public class LoginUI extends GymTrack {
 		gbc_btnSubmit.gridy = 4;
 		gbc_btnSubmit.gridwidth = 3;
 		lowerPanel.add(gym.btnSubmit, gbc_btnSubmit);
+	}
+
+	@Override
+	public GTUI showUI(GymTrack gym) {
+		createLoginUI(gym);
+		return this;
 	}
 }

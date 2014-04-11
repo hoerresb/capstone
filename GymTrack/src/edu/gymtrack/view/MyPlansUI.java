@@ -1,11 +1,12 @@
 package edu.gymtrack.view;
 import java.awt.*;
+
 import javax.swing.*;
 
-public class MyPlansUI extends GymTrack {
+public class MyPlansUI extends GTUI {
 	private static final long serialVersionUID = 1L;
 	
-	public static void createMyPlansUI(GymTrack gym){
+	public void createMyPlansUI(GymTrack gym){
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
@@ -20,5 +21,11 @@ public class MyPlansUI extends GymTrack {
 		JLabel lblGymtrack = new JLabel("TODO - create MyPlansUI");
 		lblGymtrack.setFont(new Font("Calibri", Font.PLAIN, 30));
 		topPanel.add(lblGymtrack);
+	}
+
+	@Override
+	public GTUI showUI(GymTrack gym) {
+		createMyPlansUI(gym);
+		return this;
 	}
 }

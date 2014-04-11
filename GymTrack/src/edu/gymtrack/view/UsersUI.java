@@ -3,13 +3,15 @@ package edu.gymtrack.view;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.User;
 
-public class UsersUI extends GymTrack {
-	private static final long serialVersionUID = 1L;
+public class UsersUI extends GTUI {
+	private final long serialVersionUID = 1L;
 
 
 	public static void createUsersUI(GymTrack gym){
@@ -82,4 +84,10 @@ public class UsersUI extends GymTrack {
 		
 		return tableData;
 	}// end getTableData
+
+	@Override
+	public GTUI showUI(GymTrack gym) {
+		createUsersUI(gym);
+		return this;
+	}
 }

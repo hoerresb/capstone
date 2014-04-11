@@ -1,11 +1,12 @@
 package edu.gymtrack.view;
 import java.awt.*;
+
 import javax.swing.*;
 
-public class MainUI extends GymTrack {
+public class MainUI extends GTUI {
 	private static final long serialVersionUID = 1L;
 	
-	public static void createMainUI(GymTrack gym){
+	public void createMainUI(GymTrack gym){
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
@@ -109,5 +110,11 @@ public class MainUI extends GymTrack {
 		gbc_btnAnalyzeGym.gridx = 2;
 		gbc_btnAnalyzeGym.gridy = 1;
 		gym.getContentPane().add(gym.btnAnalyzeGym, gbc_btnAnalyzeGym);
+	}
+	
+	@Override
+	public GTUI showUI(GymTrack gym) {
+		createMainUI(gym);
+		return this;
 	}
 }
