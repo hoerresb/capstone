@@ -9,15 +9,16 @@ public abstract class GTUI{
 	protected abstract GTUI showUI(GymTrack gym);
 	
 	public final void switchUI(GymTrack gym){
-		previous.push(current);
+		if(current != null)
+			previous.push(current);
+		
 		current = showUI(gym);
 	}
 	
 	public static void goBack(GymTrack gym){
-		previous.pop().showUI(gym);
-	}
-	
-	private static void drawNav(){
+		if(previous.isEmpty())
+			return;
 		
+		previous.pop().showUI(gym);
 	}
 }
