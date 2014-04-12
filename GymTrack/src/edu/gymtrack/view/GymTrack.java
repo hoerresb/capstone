@@ -1,6 +1,7 @@
 package edu.gymtrack.view;
 
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class GymTrack extends JApplet implements ActionListener
@@ -8,6 +9,15 @@ public class GymTrack extends JApplet implements ActionListener
 	private static final long serialVersionUID = 1L;
 	protected int privilege;
 	GTUI previous;
+	
+	/*
+	 * Components used by MyPlansUI
+	 */
+	protected JButton btnBack_MyPlans;
+	protected JButton btnLogWork_MyPlans;
+	protected JButton btnSeeFeedback_MyPlans;
+	protected JTable planDetailsTable_MyPlans;
+	protected JTable loggedWorkTable_MyPlans;
 	
 	/*
 	 * components used by LoginUI
