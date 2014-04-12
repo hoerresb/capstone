@@ -60,8 +60,13 @@ public class GymTrack extends JApplet implements ActionListener
 	/*
 	 * components use by TrkTraineesUI
 	 */
-	JList memberList;
-	JTable trainerTable;
+	protected JList traineesList_TrkTrainees;
+	protected JTable planTable_TrkTrainees;
+	protected JTable loggedProgressTable_TrkTrainees;
+	protected JButton btnBack_TrkTrainees;
+	protected JButton btnProvideFeedback_TrkTrainees;
+	protected JButton btnCreatNewPlan_TrkTrainees;
+	protected JButton btnDeleteSelectedPlan_TrkTrainees;
 	
 	// View objects -- I didn't know how to get the back button to work without making them unstatic
 	GTUI loginUI = new LoginUI();
