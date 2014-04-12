@@ -11,6 +11,15 @@ public class GymTrack extends JApplet implements ActionListener
 	GTUI previous;
 	
 	/*
+	 * Components used by EditTrainees
+	 */
+	protected JTable traineesTable_EditTrainees;
+	protected JButton btnAdd_EditTrainees;
+	protected JButton btnEdit_EditTrainees;
+	protected JButton btnDelete_EditTrainees;
+	protected JButton btnBack_EditTrainees;
+	
+	/*
 	 * Components used by MyPlansUI
 	 */
 	protected JButton btnBack_MyPlans;
