@@ -47,6 +47,15 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnAnalyzeGym;
 	
 	/*
+	 * Component used by EquipmentUI
+	 */
+	protected JTable equipmentTable_equipment;
+	protected JButton btnAdd_equipment;
+	protected JButton btnEdit_equipment;
+	protected JButton btnDelete_equipment;
+	protected JButton btnBack_equipment;
+	
+	/*
 	 * components used by UserUI
 	 */
 	protected JRadioButton rdbtnTrainers;
