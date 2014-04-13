@@ -15,6 +15,10 @@ public abstract class GTUI{
 		current = showUI(gym);
 	}
 	
+	public void reloadPage(GymTrack gym){
+		current.showUI(gym);
+	}
+	
 	public void goBack(GymTrack gym){
 		if(previous.isEmpty())
 			return;

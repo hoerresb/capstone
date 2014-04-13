@@ -21,7 +21,7 @@ public class UsersUI extends GTUI {
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
 		
-		String[] columnNames = {"Name", "Type", "ID"};
+		String[] columnNames = {"Username", "Type", "ID"};
 		Object[][] tableData = this.getTableData(factory, gym);
 		
 		JPanel contentPane = new JPanel();

@@ -1,13 +1,21 @@
 package edu.gymtrack.view;
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.EmptyBorder;
+
+import edu.gymtrack.db.Factory;
+import edu.gymtrack.model.User;
+import edu.gymtrack.model.User.UserType;
 
 public class EditTraineesUI extends GTUI {
 	private static final long serialVersionUID = 1L;
 
 	public void createEditTraineesUI(GymTrack gym){
+		Factory factory = new Factory();
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
@@ -20,8 +28,8 @@ public class EditTraineesUI extends GTUI {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		String[] columnNames = {"Name", "Email", "Member Since"};
-		Object[][] tableData = getTableData();
+		String[] columnNames = {"Username", "Type", "ID"};
+		Object[][] tableData = getTableData(factory, gym);
 
 		JPanel topContainer = new JPanel();
 		contentPane.add(topContainer, BorderLayout.NORTH);
@@ -68,16 +76,33 @@ public class EditTraineesUI extends GTUI {
 		scrollablePane.setViewportView(gym.traineesTable_EditTrainees);
 	}
 
-	//TODO implement
-	private Object[][] getTableData(){
-		Object[][] tableData = {
-				{"UserOne", "UserOne@gmail.com", "01-01-2009"},
-				{"UserTwo", "UserTwo@gmail.com", "03-25-2011"},
-				{"UserThree", "UserThree@gmail.com", "09-20-2013"},
-				{"UserFour", "UserFour@gmail.com", "08-14-2013"},
-				{"UserFive", "UserFive@gmail.com", "01-01-2009"}};
+	protected  Object[][] getTableData(Factory factory, GymTrack gym){
+		gym.largetId = 0;
+        ArrayList<User> currentUserSet = new ArrayList<>();
+		try 
+		{
+			currentUserSet = factory.getUsers();
+		} catch (SQLException e) {
+			// TODO handle this
+			e.printStackTrace();
+		}  
+		Object[][] tableData = new Object[currentUserSet.size()][3];
+		
+		int j =0;
+		for (int i = 0; i < currentUserSet.size(); i++) {
+			if(currentUserSet.get(i).getUserType() == UserType.CLIENT){
+				tableData[j][0] = currentUserSet.get(i).getUsername();
+				tableData[j][1] = currentUserSet.get(i).getUserType().toString();
+				tableData[j][2] = currentUserSet.get(i).getID();
+				++j;
+			}
+			
+			if(currentUserSet.get(i).getID() > gym.largetId){
+				gym.largetId = currentUserSet.get(i).getID();
+			}
+		}
 		return tableData;
-	}
+	}// end getTableData
 
 	@Override
 	public GTUI showUI(GymTrack gym) {

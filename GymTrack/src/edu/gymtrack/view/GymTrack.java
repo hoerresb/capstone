@@ -200,23 +200,23 @@ public class GymTrack extends JApplet implements ActionListener
         	dialog.setVisible(true);
         }
         else if (arg0.getSource() == btnAdd_EditTrainees){
-        	AddTraineeDialog dialog = new AddTraineeDialog(this);
-        	dialog.setVisible(true);
+        	this.addUserDialog = new AddUserDialog(this, this.editTraineesUI);
+        	this.addUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnAdd_users){
-        	this.addUserDialog = new AddUserDialog(this);
+        	this.addUserDialog = new AddUserDialog(this, this.usersUI);
         	this.addUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == okButton_AddUser){
         	Factory factory = new Factory();
         	String username = this.username_AddUser.getText();
         	int id = this.largetId + 1;
-        	UserType type;
-        	if(this.rdbtnMember_addUser.isSelected()){
-        		type = UserType.CLIENT;
+        	UserType type = UserType.CLIENT;
+        	if(this.rdbtnTrainer_addUser.isSelected()){
+        		type = UserType.TRAINER;
         	}
         	else{
-        		type = UserType.TRAINER;
+        		type = UserType.CLIENT;
         	}
         	
         	User user = new User(username, type, id, true);
@@ -232,8 +232,14 @@ public class GymTrack extends JApplet implements ActionListener
 				// TODO catch
 				e1.printStackTrace();
 			}
-        	this.addUserDialog.dispose();
-        	usersUI.switchUI(this);
+        	if(this.addUserDialog.callingUI == usersUI){
+        		usersUI.reloadPage(this);
+        		this.addUserDialog.dispose();
+        	}
+        	else if(this.addUserDialog.callingUI == editTraineesUI){
+        		editTraineesUI.reloadPage(this);
+        		this.addUserDialog.dispose();
+        	}
         }
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());

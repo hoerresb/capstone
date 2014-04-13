@@ -17,9 +17,12 @@ import javax.swing.border.EmptyBorder;
 public class AddUserDialog extends JDialog{
 	private final JPanel contentPanel = new JPanel();
 	private static final long serialVersionUID = 1L;
+	public GTUI callingUI;
 	ButtonGroup addUser_buttonGroup = new ButtonGroup();
 
-	public AddUserDialog(GymTrack gym){
+	public AddUserDialog(GymTrack gym, GTUI callingUI){
+		this.callingUI = callingUI;
+		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModal(true);
 		setTitle("Add a User");
@@ -117,6 +120,11 @@ public class AddUserDialog extends JDialog{
 				gym.cancelButton_AddUser.setActionCommand("Cancel");
 				buttonPane.add(gym.cancelButton_AddUser);
 			}
+		}
+		
+		if(callingUI == gym.editTraineesUI){
+			gym.rdbtnMember_addUser.hide();
+			gym.rdbtnTrainer_addUser.hide();
 		}
 
 	}
