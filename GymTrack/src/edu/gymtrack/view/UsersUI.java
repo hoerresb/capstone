@@ -12,8 +12,7 @@ import edu.gymtrack.model.User;
 public class UsersUI extends GTUI {
 	private final long serialVersionUID = 1L;
 
-
-	public static void createUsersUI(GymTrack gym){
+	public void createUsersUI(GymTrack gym){
 		Factory factory = new Factory();
 		ButtonGroup usersUI_buttonGroup = new ButtonGroup();
 
@@ -21,10 +20,9 @@ public class UsersUI extends GTUI {
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
-		//setTitle("Users");
 		
 		String[] columnNames = {"Name", "Type", "ID"};
-		Object[][] tableData = getTableData(factory);
+		Object[][] tableData = this.getTableData(factory, gym);
 		
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -91,7 +89,8 @@ public class UsersUI extends GTUI {
 		scrollablePane.setViewportView(gym.usersTable_users);
 	}
 	
-	protected static Object[][] getTableData(Factory factory){
+	protected  Object[][] getTableData(Factory factory, GymTrack gym){
+		gym.largetId = 0;
         ArrayList<User> currentUserSet = new ArrayList<>();
 		try 
 		{
@@ -106,6 +105,9 @@ public class UsersUI extends GTUI {
 			tableData[i][0] = currentUserSet.get(i).getUsername();
 			tableData[i][1] = currentUserSet.get(i).getUserType().toString();
 			tableData[i][2] = currentUserSet.get(i).getID();
+			if(currentUserSet.get(i).getID() > gym.largetId){
+				gym.largetId = currentUserSet.get(i).getID();
+			}
 		}
 		
 		return tableData;

@@ -57,7 +57,7 @@ public class Authentication {
 	}
 	
 	public boolean addUser(String username, String password){
-		if(!userHashPairs.containsKey(username))
+		if(userHashPairs.containsKey(username))
 			return false;
 		
 		userHashPairs.put(username, getHashForPassword(password));

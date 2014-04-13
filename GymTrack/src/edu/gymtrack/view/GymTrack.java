@@ -1,13 +1,19 @@
 package edu.gymtrack.view;
 
 import java.awt.event.*;
-
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.*;
+import edu.gymtrack.model.User;
+import edu.gymtrack.model.User.UserType;
+import edu.gymtrack.controller.Authentication;
+import edu.gymtrack.db.*;
 
 public class GymTrack extends JApplet implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	protected int privilege;
+	protected int largetId;
 	GTUI previous;
 	/*
 	 * Components used by AddTraineeDialog
@@ -28,6 +34,9 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JTextField username_AddUser;
 	protected JButton okButton_AddUser;
 	protected JButton cancelButton_AddUser;
+	protected JRadioButton rdbtnTrainer_addUser;
+	protected JRadioButton rdbtnMember_addUser;
+	protected AddUserDialog addUserDialog;
 	
 	/*
 	 * Components used by LogWorkDialog
@@ -116,7 +125,6 @@ public class GymTrack extends JApplet implements ActionListener
 	 */
 	protected JButton btnBack_AnalyzeGym;
 	
-	
 	// View objects -- I didn't know how to get the back button to work without making them unstatic
 	GTUI loginUI = new LoginUI();
 	GTUI myPlansUI = new MyPlansUI();
@@ -196,8 +204,36 @@ public class GymTrack extends JApplet implements ActionListener
         	dialog.setVisible(true);
         }
         else if (arg0.getSource() == btnAdd_users){
-        	AddUserDialog dialog = new AddUserDialog(this);
-        	dialog.setVisible(true);
+        	this.addUserDialog = new AddUserDialog(this);
+        	this.addUserDialog.setVisible(true);
+        }
+        else if (arg0.getSource() == okButton_AddUser){
+        	Factory factory = new Factory();
+        	String username = this.username_AddUser.getText();
+        	int id = this.largetId + 1;
+        	UserType type;
+        	if(this.rdbtnMember_addUser.isSelected()){
+        		type = UserType.CLIENT;
+        	}
+        	else{
+        		type = UserType.TRAINER;
+        	}
+        	
+        	User user = new User(username, type, id, true);
+        	ArrayList<User> newData = new ArrayList<>();
+        	newData.add(user);
+        	
+        	Authentication auth;
+        	try {
+				auth = factory.createAuthentication();
+				auth.addUser(username, "test");
+				factory.updateUsers(newData, auth);
+			} catch (SQLException e1) {
+				// TODO catch
+				e1.printStackTrace();
+			}
+        	this.addUserDialog.dispose();
+        	usersUI.switchUI(this);
         }
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());

@@ -33,6 +33,16 @@ public class GTMySQLDB implements GTDB {
 		Statement stmt = con.createStatement();
 	    return stmt.executeQuery(query);
 	}
+	/*
+	 * I had to add this method because when running a
+	 * update query, we need to use executeUpdate
+	 * rather than executeQuery.
+	 */
+	private int runUpdateQuery(String query) throws SQLException{
+		Connection con = getConnection();
+		Statement stmt = con.createStatement();
+	    return stmt.executeUpdate(query);
+	}
 	
 	private void deleteFromDB(String query) throws SQLException{
 		Connection con = getConnection();
@@ -150,7 +160,7 @@ public class GTMySQLDB implements GTDB {
 				"INSERT INTO `users` (`key`,`username`,`password`,`type`) "
 				+ "VALUES (" + u.getID() + ",'" + u.getUsername() + "','" + auth.getHashForUser(u.getUsername()) + "'," + (u.getUserType().ordinal() + 1) + ") "
 				+ "ON DUPLICATE KEY UPDATE username='" + u.getUsername() + "', password='" + auth.getHashForUser(u.getUsername()) + "', type=" + (u.getUserType().ordinal() + 1));
-		getResultSetForQuery(query);
+		runUpdateQuery(query);
 	}
 
 	@Override
