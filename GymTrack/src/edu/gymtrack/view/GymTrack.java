@@ -167,6 +167,10 @@ public class GymTrack extends JApplet implements ActionListener
 				LogWorkDialog dialog = new LogWorkDialog(this);
 				dialog.setVisible(true);
         }
+        else if (arg0.getSource() == btnSeeFeedback_MyPlans){
+        	SeeFeedbackDialog dialog = new SeeFeedbackDialog();
+        	dialog.setVisible(true);
+        }
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
 		}

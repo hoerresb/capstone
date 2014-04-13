@@ -89,7 +89,6 @@ public class LogWorkDialog extends JDialog{
 		
 		JTable recentlyLoggedWorkTable = new JTable(tableDataObjects, columnNames);
 		scrollableTableContainer.setViewportView(recentlyLoggedWorkTable);
-		
         recentlyLoggedWorkTable.setFillsViewportHeight(true);
 		
 		
