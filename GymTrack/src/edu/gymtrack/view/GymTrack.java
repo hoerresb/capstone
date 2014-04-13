@@ -1,6 +1,7 @@
 package edu.gymtrack.view;
 
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class GymTrack extends JApplet implements ActionListener
@@ -8,6 +9,13 @@ public class GymTrack extends JApplet implements ActionListener
 	private static final long serialVersionUID = 1L;
 	protected int privilege;
 	GTUI previous;
+	/*
+	 * Components used by LogWorkDialog
+	 */
+	protected JTextField amountTextField_LogWork;
+	protected JComboBox exerciseComboBox_LogWork;
+	protected JButton okButton_LogWork;
+	protected JButton cancelButton_LogWork;
 	
 	/*
 	 * Components used by EditTrainees
@@ -154,6 +162,10 @@ public class GymTrack extends JApplet implements ActionListener
         }
         else if (arg0.getSource() == btnBack_AnalyzeGym){
         	analyzeGymUI.goBack(this);
+        }
+        else if (arg0.getSource() == btnLogWork_MyPlans){
+				LogWorkDialog dialog = new LogWorkDialog(this);
+				dialog.setVisible(true);
         }
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());

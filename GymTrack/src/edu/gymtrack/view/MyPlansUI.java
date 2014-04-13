@@ -44,6 +44,7 @@ public class MyPlansUI extends GTUI {
         gym.btnBack_MyPlans = new JButton("Back");
         gym.btnBack_MyPlans.addActionListener(gym);
         gym.btnLogWork_MyPlans = new JButton("Log Work");
+        gym.btnLogWork_MyPlans.addActionListener(gym);
         gym.btnSeeFeedback_MyPlans = new JButton("See Feedback");
         
         GroupLayout gl_bottomContainer = new GroupLayout(bottomContainer);
