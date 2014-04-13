@@ -3,10 +3,9 @@ package edu.gymtrack.view;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.EmptyBorder;
-
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.User;
 
@@ -16,53 +15,79 @@ public class UsersUI extends GTUI {
 
 	public static void createUsersUI(GymTrack gym){
 		Factory factory = new Factory();
-		
 		ButtonGroup usersUI_buttonGroup = new ButtonGroup();
 
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
-
+		//setTitle("Users");
+		
+		String[] columnNames = {"Name", "Type", "ID"};
+		Object[][] tableData = getTableData(factory);
+		
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		gym.setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
 
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.NORTH);
+		JPanel topContainer = new JPanel();
+		contentPane.add(topContainer, BorderLayout.NORTH);
 
-		gym.rdbtnTrainers = new JRadioButton("Trainers");
-		usersUI_buttonGroup.add(gym.rdbtnTrainers);
-		panel.add(gym.rdbtnTrainers);
+		gym.rdbtnTrainers_users = new JRadioButton("Trainers");
+		usersUI_buttonGroup.add(gym.rdbtnTrainers_users);
+		topContainer.add(gym.rdbtnTrainers_users);
 
-		gym.rdbtnMembers = new JRadioButton("Members");
-		usersUI_buttonGroup.add(gym.rdbtnMembers);
-		panel.add(gym.rdbtnMembers);
+		gym.rdbtnMembers_users = new JRadioButton("Members");
+		usersUI_buttonGroup.add(gym.rdbtnMembers_users);
+		topContainer.add(gym.rdbtnMembers_users);
 
-		gym.rdbtnAll = new JRadioButton("All");
-		usersUI_buttonGroup.add(gym.rdbtnAll);
-		panel.add(gym.rdbtnAll);
+		gym.rdbtnAll_users = new JRadioButton("All");
+		usersUI_buttonGroup.add(gym.rdbtnAll_users);
+		topContainer.add(gym.rdbtnAll_users);
 
 		Component horizontalStrut = Box.createHorizontalStrut(60);
-		panel.add(horizontalStrut);
+		topContainer.add(horizontalStrut);
 
-		gym.btnAddUser = new JButton("Add");
-		panel.add(gym.btnAddUser);
+		gym.btnAdd_users = new JButton("Add");
+		topContainer.add(gym.btnAdd_users);
 
-		gym.btnEditUser = new JButton("Edit");
-		panel.add(gym.btnEditUser);
+		gym.btnEdit_users = new JButton("Edit");
+		topContainer.add(gym.btnEdit_users);
 
-		gym.btnDeleteUser = new JButton("Delete");
-		panel.add(gym.btnDeleteUser);
-
-		String[] columnNames = {"Username", "Type", "Id"};
-
-		gym.ownerTable = new JTable(getTableData(factory), columnNames);
-		gym.ownerTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
-		gym.ownerTable.setFillsViewportHeight(true);
-		JScrollPane scrollPane = new JScrollPane(gym.ownerTable);
-		gym.add(scrollPane);
+		gym.btnDelete_users = new JButton("Delete");
+		topContainer.add(gym.btnDelete_users);
+		
+		JPanel bottomContainer = new JPanel();
+		contentPane.add(bottomContainer, BorderLayout.CENTER);
+		bottomContainer.setLayout(new BorderLayout(0, 0));
+		
+		JPanel bottomPanel = new JPanel();
+		bottomContainer.add(bottomPanel, BorderLayout.SOUTH);
+		
+		gym.btnBack_users = new JButton("Back");
+		gym.btnBack_users.addActionListener(gym);
+		GroupLayout gl_bottomPanel = new GroupLayout(bottomPanel);
+		gl_bottomPanel.setHorizontalGroup(
+			gl_bottomPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_bottomPanel.createSequentialGroup()
+					.addComponent(gym.btnBack_users, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(538, Short.MAX_VALUE))
+		);
+		gl_bottomPanel.setVerticalGroup(
+			gl_bottomPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_bottomPanel.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(gym.btnBack_users, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+		);
+		bottomPanel.setLayout(gl_bottomPanel);
+		
+		JScrollPane scrollablePane = new JScrollPane();
+		bottomContainer.add(scrollablePane, BorderLayout.CENTER);
+		
+		gym.usersTable_users = new JTable(tableData, columnNames);
+		gym.usersTable_users.setFillsViewportHeight(true);
+		scrollablePane.setViewportView(gym.usersTable_users);
 	}
 	
 	protected static Object[][] getTableData(Factory factory){

@@ -40,6 +40,7 @@ public class EquipmentUI extends GTUI {
 		bottomContainer.add(bottomPanel, BorderLayout.SOUTH);
 		
 		gym.btnBack_equipment = new JButton("Back");
+		gym.btnBack_equipment.addActionListener(gym);
 		GroupLayout gl_bottomPanel = new GroupLayout(bottomPanel);
 		gl_bottomPanel.setHorizontalGroup(
 			gl_bottomPanel.createParallelGroup(Alignment.LEADING)

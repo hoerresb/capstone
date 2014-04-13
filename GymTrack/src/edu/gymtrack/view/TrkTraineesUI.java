@@ -45,6 +45,7 @@ public class TrkTraineesUI extends GTUI {
         rightPanel.add(bottomContainer, BorderLayout.SOUTH);
         
         gym.btnBack_TrkTrainees = new JButton("Back");
+        gym.btnBack_TrkTrainees.addActionListener(gym);
         gym.btnProvideFeedback_TrkTrainees = new JButton("Provide Feedback");
         gym.btnCreatNewPlan_TrkTrainees = new JButton("Creat New Plan");
         gym.btnDeleteSelectedPlan_TrkTrainees = new JButton("Delete Selected Plan");

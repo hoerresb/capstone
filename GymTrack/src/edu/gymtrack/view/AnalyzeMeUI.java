@@ -17,10 +17,14 @@ public class AnalyzeMeUI extends GTUI {
 		JPanel topPanel = new JPanel();
 		topPanel.setSize(800, 400);
 		gym.getContentPane().add(topPanel);
-		
+		 
 		JLabel lblGymtrack = new JLabel("TODO - create AnalyzeMeUI");
 		lblGymtrack.setFont(new Font("Calibri", Font.PLAIN, 30));
 		topPanel.add(lblGymtrack);
+		
+		gym.btnBack_AnalyzeMe = new JButton("Back");
+		gym.btnBack_AnalyzeMe.addActionListener(gym);
+		topPanel.add(gym.btnBack_AnalyzeMe);
 	}
 
 	public GTUI showUI(GymTrack gym) {

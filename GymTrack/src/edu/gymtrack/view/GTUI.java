@@ -15,10 +15,11 @@ public abstract class GTUI{
 		current = showUI(gym);
 	}
 	
-	public static void goBack(GymTrack gym){
+	public void goBack(GymTrack gym){
 		if(previous.isEmpty())
 			return;
 		
-		previous.pop().showUI(gym);
+		current = previous.pop();
+		current.showUI(gym);
 	}
 }

@@ -21,6 +21,10 @@ public class AnalyzeGymUI extends GTUI {
 		JLabel lblGymtrack = new JLabel("TODO - create AnalyzeGymUI");
 		lblGymtrack.setFont(new Font("Calibri", Font.PLAIN, 30));
 		topPanel.add(lblGymtrack);
+		
+		gym.btnBack_AnalyzeGym = new JButton("Back");
+		gym.btnBack_AnalyzeGym.addActionListener(gym);
+		topPanel.add(gym.btnBack_AnalyzeGym);
 	}
 
 	@Override

@@ -11,9 +11,11 @@ public class MainUI extends GTUI {
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
+		JPanel contentPane = new JPanel();
+		gym.setContentPane(contentPane);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 126, 0, 0, 0};
-		gym.getContentPane().setLayout(gridBagLayout);		
+		contentPane.setLayout(gridBagLayout);		
 		
 		setLayout(gym);
 	}

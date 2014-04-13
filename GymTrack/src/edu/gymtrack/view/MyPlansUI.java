@@ -42,6 +42,7 @@ public class MyPlansUI extends GTUI {
                                    leftScrollablePane, rightPanel);
 
         gym.btnBack_MyPlans = new JButton("Back");
+        gym.btnBack_MyPlans.addActionListener(gym);
         gym.btnLogWork_MyPlans = new JButton("Log Work");
         gym.btnSeeFeedback_MyPlans = new JButton("See Feedback");
         

@@ -1,7 +1,6 @@
 package edu.gymtrack.view;
 
 import java.awt.event.*;
-
 import javax.swing.*;
 
 public class GymTrack extends JApplet implements ActionListener
@@ -58,13 +57,14 @@ public class GymTrack extends JApplet implements ActionListener
 	/*
 	 * components used by UserUI
 	 */
-	protected JRadioButton rdbtnTrainers;
-	protected JRadioButton rdbtnMembers;
-	protected JRadioButton rdbtnAll;
-	protected JButton btnAddUser;
-	protected JButton btnEditUser;
-	protected JButton btnDeleteUser;
-	protected JTable ownerTable;
+	protected JRadioButton rdbtnTrainers_users;
+	protected JRadioButton rdbtnMembers_users;
+	protected JRadioButton rdbtnAll_users;
+	protected JButton btnAdd_users;
+	protected JButton btnEdit_users;
+	protected JButton btnDelete_users;
+	protected JButton btnBack_users;
+	protected JTable usersTable_users;
 	
 	/*
 	 * components use by TrkTraineesUI
@@ -76,6 +76,18 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnProvideFeedback_TrkTrainees;
 	protected JButton btnCreatNewPlan_TrkTrainees;
 	protected JButton btnDeleteSelectedPlan_TrkTrainees;
+	
+	/*
+	 * Components used by AnalyzeMeUI
+	 */
+	protected JButton btnBack_AnalyzeMe;
+	
+	
+	/*
+	 * Components used by AnalyzeGymUI
+	 */
+	protected JButton btnBack_AnalyzeGym;
+	
 	
 	// View objects -- I didn't know how to get the back button to work without making them unstatic
 	GTUI loginUI = new LoginUI();
@@ -121,6 +133,27 @@ public class GymTrack extends JApplet implements ActionListener
         }
         else if (arg0.getSource() == btnAnalyzeGym) {
         	analyzeGymUI.switchUI(this);
+        }
+        else if (arg0.getSource() == btnBack_MyPlans){
+        	myPlansUI.goBack(this);
+        }
+        else if (arg0.getSource() == btnBack_EditTrainees){
+        	editTraineesUI.goBack(this);
+        }
+        else if (arg0.getSource() == btnBack_equipment){
+        	equipmentUI.goBack(this);
+        }
+        else if (arg0.getSource() == btnBack_TrkTrainees){
+        	trkTraineesUI.goBack(this);
+        }
+        else if (arg0.getSource() == btnBack_users){
+        	usersUI.goBack(this);
+        }
+        else if (arg0.getSource() == btnBack_AnalyzeMe){
+        	analyzeMeUI.goBack(this);
+        }
+        else if (arg0.getSource() == btnBack_AnalyzeGym){
+        	analyzeGymUI.goBack(this);
         }
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());

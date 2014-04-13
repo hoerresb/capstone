@@ -45,6 +45,7 @@ public class EditTraineesUI extends GTUI {
 		bottomContainer.add(bottomPanel, BorderLayout.SOUTH);
 		
 		gym.btnBack_EditTrainees = new JButton("Back");
+		gym.btnBack_EditTrainees.addActionListener(gym);
 		GroupLayout gl_bottomPanel = new GroupLayout(bottomPanel);
 		gl_bottomPanel.setHorizontalGroup(
 			gl_bottomPanel.createParallelGroup(Alignment.LEADING)
