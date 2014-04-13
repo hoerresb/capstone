@@ -50,6 +50,7 @@ public class UsersUI extends GTUI {
 		topContainer.add(horizontalStrut);
 
 		gym.btnAdd_users = new JButton("Add");
+		gym.btnAdd_users.addActionListener(gym);
 		topContainer.add(gym.btnAdd_users);
 
 		gym.btnEdit_users = new JButton("Edit");

@@ -20,6 +20,16 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton cancelButton_AddTrainee;
 	
 	/*
+	 * Components used by AddUserDialog
+	 */
+	protected JTextField firstName_AddUser;
+	protected JTextField lastName_AddUser;
+	protected JTextField email_AddUser;
+	protected JTextField username_AddUser;
+	protected JButton okButton_AddUser;
+	protected JButton cancelButton_AddUser;
+	
+	/*
 	 * Components used by LogWorkDialog
 	 */
 	protected JTextField amountTextField_LogWork;
@@ -183,6 +193,10 @@ public class GymTrack extends JApplet implements ActionListener
         }
         else if (arg0.getSource() == btnAdd_EditTrainees){
         	AddTraineeDialog dialog = new AddTraineeDialog(this);
+        	dialog.setVisible(true);
+        }
+        else if (arg0.getSource() == btnAdd_users){
+        	AddUserDialog dialog = new AddUserDialog(this);
         	dialog.setVisible(true);
         }
         else {
