@@ -40,4 +40,8 @@ public class User extends DBMutable{
 	public String toString(){
 		return "Username: " + username + ", Type: " + type.toString() + ", ID: " + id;
 	}
+
+	public boolean isOwner() {
+		return type == UserType.OWNER;
+	}
 }

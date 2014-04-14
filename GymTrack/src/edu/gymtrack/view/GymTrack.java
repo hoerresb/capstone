@@ -246,10 +246,42 @@ public class GymTrack extends JApplet implements ActionListener
 		}
 	}
 	
-	private void btnSubmit(){
-		//TODO validate login information
+	private void btnSubmit(){	
 		
-		switch (this.txtUsername.getText()) {
+		Factory f = new Factory();
+		try {
+			String username = this.txtUsername.getText();
+			System.out.println(username);
+			Authentication a = Factory.createAuthentication();
+			ArrayList<User> u = f.getUsers();
+			if(a.authenticateUser(username, this.txtPassword.getText())){
+				for(int i = 0; i < u.size(); i++){
+					if(username.equals(u.get(i).getUsername())){
+						if(u.get(i).isClient()){
+							privilege = 0;
+							break;
+						}
+						if(u.get(i).isTrainer()){
+							privilege = 1;
+							break;
+						}
+						if(u.get(i).isOwner()){
+							privilege = 2;
+							break;
+						}
+						}
+						
+					}
+				}
+			}
+			
+		 catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+/*		switch (this.txtUsername.getText()) {
 		case "user":
 			privilege = 0;
 			break;
@@ -261,7 +293,7 @@ public class GymTrack extends JApplet implements ActionListener
 			break;
 		default:
 			break;
-		}
+		}*/
 		mainUI.switchUI(this);
 	}
 }
