@@ -14,6 +14,7 @@ public class GymTrack extends JApplet implements ActionListener
 	private static final long serialVersionUID = 1L;
 	protected int privilege;
 	protected int largetId;
+	protected User loggedIn = null;
 	GTUI previous;
 	/*
 	 * Components used by AddTraineeDialog
@@ -257,6 +258,7 @@ public class GymTrack extends JApplet implements ActionListener
 			if(a.authenticateUser(username, this.txtPassword.getText())){
 				for(int i = 0; i < u.size(); i++){
 					if(username.equals(u.get(i).getUsername())){
+						loggedIn = u.get(i);
 						if(u.get(i).isClient()){
 							privilege = 0;
 							break;
