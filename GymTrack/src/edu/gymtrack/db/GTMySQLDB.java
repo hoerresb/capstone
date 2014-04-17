@@ -117,6 +117,14 @@ public class GTMySQLDB implements GTDB {
 				+ "WHERE element='" + elementKey + '\'');
 		return getResultSetForQuery(query);
 	}
+	
+	@Override
+	public ResultSet getWorkoutLogs(User user) throws SQLException {
+		String query = new String(
+				// TODO query workoutlogs for all logs whose element matches an element assigned to this user
+				"SELECT * FROM workout_logs WHERE element ");
+		return getResultSetForQuery(query);
+	}
 
 	@Override
 	public void updateActivity(Activity a) throws SQLException {

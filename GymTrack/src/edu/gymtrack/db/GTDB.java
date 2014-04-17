@@ -31,6 +31,8 @@ public interface GTDB {
 	
 	public ResultSet getWorkoutLogs(int elementKey) throws SQLException;
 	
+	public ResultSet getWorkoutLogs(User user) throws SQLException;
+	
 	public void updateActivity(Activity a) throws SQLException;
 	
 	public void updateEquipment(Equipment e) throws SQLException;

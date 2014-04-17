@@ -132,6 +132,19 @@ public class Factory {
 		return results;
 	}
 	
+	public ArrayList<WorkoutLog> getWorkoutLogs(User user) throws SQLException
+	{
+		ArrayList<WorkoutLog> results = new ArrayList<WorkoutLog>();
+		
+		GTDB db = new GTMySQLDB();
+		ResultSet rs = db.getWorkoutLogs(user);
+		while(rs.next()){
+			WorkoutLog log = new WorkoutLog(rs.getInt("key"), rs.getInt("element_key"), rs.getDate("date"), rs.getInt("completed"), false);
+			results.add(log);
+		}
+		return results;
+	}
+	
 	public ArrayList<WorkoutPlan> getWorkoutPlansForUser(User user) throws SQLException
 	{
 		ArrayList<WorkoutPlan> results = new ArrayList<WorkoutPlan>();

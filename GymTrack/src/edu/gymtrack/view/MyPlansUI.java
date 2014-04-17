@@ -169,6 +169,8 @@ public class MyPlansUI extends GTUI {
 	}
 	
 	private Object[][] getPlanTableData(Factory factory, WorkoutPlan plan){
+		// populates array with the PlanElements for the chosen WorkoutPlan.
+		// TODO Figure out how the columns are meant to correspond to the model
 		ArrayList<PlanElement> elements = new ArrayList<PlanElement>();
 		try
 		{
@@ -194,17 +196,27 @@ public class MyPlansUI extends GTUI {
 		ArrayList<WorkoutLog> logs = new ArrayList<WorkoutLog>();
 		try
 		{
-			logs = factory.getWorkoutLogs()
+			logs = factory.getWorkoutLogs(gym.loggedIn);
+		} catch (SQLException e) {
+			// TODO handle this
+			e.printStackTrace();
+		}   
+		
+		Object[][] data = new Object[logs.size()][4];
+		
+		for (int i = 0; i < logs.size(); i++)
+		{
+			// TODO populate array from log data
 		}
 		
-		Object[][] data = {
+		/*Object[][] data = {
 			{"1-15-2013","running", "1 mile", "5%"},
 			{"1-25-2013","bench press", "20 reps", "15%"},
 			{"1-30-2013","running", "2 mile", "25%"},
 			{"2-05-2013","sit ups", "100", "30%"},
 			{"2-20-2013","running", "1 mile", "50%"},
 			{"2-25-2013","pull ups", "25", "65%"}
-		};
+		};*/
 		return data;
 	}
 	
