@@ -1,15 +1,27 @@
 package edu.gymtrack.view;
 
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
+import edu.gymtrack.db.Factory;
+import edu.gymtrack.model.PlanElement;
+import edu.gymtrack.model.WorkoutLog;
+import edu.gymtrack.model.WorkoutPlan;
+
 public class MyPlansUI extends GTUI {
 	private static final long serialVersionUID = 1L;
+	ArrayList<WorkoutPlan> plans;
 	
 	public void createMyPlansUI(GymTrack gym){
+		Factory factory = new Factory();
+		
+		
 		JPanel contentPane = new JPanel();
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
@@ -21,15 +33,16 @@ public class MyPlansUI extends GTUI {
 		gym.setContentPane(contentPane);
 		//setTitle("My Plans");
 		
-		String[] planTable_ColumnNames = {"Exercise", "Rep/Duration", "How Often"};
-		Object[][] planTable_TableData = getPlanTableData();
-		String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration/distance", "% of plan complete"};
-		Object[][] worklogTable_TableData = getWorklogTableData();
-		
-		JList planList_MyPlans = new JList(getMyPans());
+		JList<String> planList_MyPlans = new JList<String>(getMyPlans(factory, gym));
         planList_MyPlans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         planList_MyPlans.setSelectedIndex(0);
-        //TODO action listener
+        //TODO action listener - needs to populate window with info from workout plan that corresponds
+        // to selected index
+        
+        String[] planTable_ColumnNames = {"Exercise", "Rep/Duration", "How Often"};
+		Object[][] planTable_TableData = getPlanTableData(factory, plans.get(planList_MyPlans.getSelectedIndices()[0]));
+		String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration/distance", "% of plan complete"};
+		Object[][] worklogTable_TableData = getWorklogTableData(factory, gym);
         
         JScrollPane leftScrollablePane = new JScrollPane(planList_MyPlans);
         
@@ -155,18 +168,35 @@ public class MyPlansUI extends GTUI {
         contentPane.add(splitPane);
 	}
 	
-	//TODO implement 
-	private Object[][] getPlanTableData(){
-		Object[][] data = {
-			{"Running", "1 mile","weekly"}, {"Leg-press", "30","weekly"},
-			{"Leg-curls", "30","every other day"}, {"Running", "1 mile","weekly"},
-			{"Pec-deck", "15","daily"}, {"Pull-ups", "15","daily"}
-		};
+	private Object[][] getPlanTableData(Factory factory, WorkoutPlan plan){
+		ArrayList<PlanElement> elements = new ArrayList<PlanElement>();
+		try
+		{
+			elements = factory.getPlanElements(plan);
+		} catch (SQLException e) {
+			// TODO handle this
+			e.printStackTrace();
+		}  
+		
+		Object[][] data = new Object[elements.size()][3];
+		
+		for (int i = 0; i < elements.size(); i++)
+		{
+			data[i][0] = elements.get(i).getActivityName();
+			data[i][1] = elements.get(i).getNRequired();
+			data[i][2] = null; // what's the third element? compare to schema
+		}
 		return data;
 	}
 	
 	//TODO implement
-	private Object[][] getWorklogTableData(){
+	private Object[][] getWorklogTableData(Factory factory, GymTrack gym){
+		ArrayList<WorkoutLog> logs = new ArrayList<WorkoutLog>();
+		try
+		{
+			logs = factory.getWorkoutLogs()
+		}
+		
 		Object[][] data = {
 			{"1-15-2013","running", "1 mile", "5%"},
 			{"1-25-2013","bench press", "20 reps", "15%"},
@@ -178,10 +208,29 @@ public class MyPlansUI extends GTUI {
 		return data;
 	}
 	
-	//TODO implement
-	private String[] getMyPans(){
-		String[] myPlans = {"plan 1", "plan 2", "plan 3", "plan 4", "plan 5"};
-		 return myPlans;
+
+	private String[] getMyPlans(Factory factory, GymTrack gym){
+		
+		// populates list of plans; returns list of plan names used to create a JList
+		// a given index of JList should correspond with the correct workoutPlan in the plans list
+		
+		plans = new ArrayList<WorkoutPlan>();
+		try
+		{
+			plans = factory.getWorkoutPlansForUser(gym.loggedIn);
+		} catch (SQLException e) {
+			// TODO handle this
+			e.printStackTrace();
+		}  
+		
+		String[] myPlans = new String[plans.size()];
+		
+		for (int i = 0; i < plans.size(); i++)
+		{
+			myPlans[i] = plans.get(i).getDateCreated().toString();
+		}
+		
+		return myPlans;
 	}
 
 	@Override
