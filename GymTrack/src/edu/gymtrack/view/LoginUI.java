@@ -78,7 +78,7 @@ public class LoginUI extends GTUI {
 		
 		gym.btnSubmit = new JButton();
 		gym.btnSubmit.setFont(new Font("Calibri", Font.BOLD, 14));
-		gym.btnSubmit.setPreferredSize(new Dimension(80, 20));
+		gym.btnSubmit.setPreferredSize(new Dimension(90, 30));
 		gym.btnSubmit.setText("Sign In");
 		gym.btnSubmit.addActionListener(gym);
 		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();

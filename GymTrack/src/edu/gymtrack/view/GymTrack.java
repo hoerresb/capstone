@@ -82,6 +82,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnEquipment;
 	protected JButton btnUsers;
 	protected JButton btnAnalyzeGym;
+	protected JButton btnLogout;
 	
 	/*
 	 * Component used by EquipmentUI
@@ -170,6 +171,9 @@ public class GymTrack extends JApplet implements ActionListener
         }
         else if (arg0.getSource() == btnAnalyzeGym) {
         	analyzeGymUI.switchUI(this);
+        }
+        else if (arg0.getSource() == btnLogout) {
+        	mainUI.goBack(this);
         }
         else if (arg0.getSource() == btnBack_MyPlans){
         	myPlansUI.goBack(this);

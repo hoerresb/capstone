@@ -26,4 +26,15 @@ public abstract class GTUI{
 		current = previous.pop();
 		current.showUI(gym);
 	}
+	
+	public void logOut(GymTrack gym) {
+		while(!previous.isEmpty()) {
+			current = previous.pop();
+		}
+		
+		gym.destroy();
+		gym = new GymTrack();
+		gym.start();
+		current.showUI(gym);
+	}
 }
