@@ -17,6 +17,7 @@ import edu.gymtrack.model.WorkoutPlan;
 public class MyPlansUI extends GTUI {
 	private static final long serialVersionUID = 1L;
 	ArrayList<WorkoutPlan> plans;
+	ArrayList<WorkoutLog> logs;
 	
 	public void createMyPlansUI(GymTrack gym){
 		Factory factory = new Factory();
@@ -203,7 +204,7 @@ public class MyPlansUI extends GTUI {
 	
 	//TODO implement
 	private Object[][] getWorklogTableData(Factory factory, GymTrack gym){
-		ArrayList<WorkoutLog> logs = new ArrayList<WorkoutLog>();
+		logs = new ArrayList<WorkoutLog>();
 		try
 		{
 			logs = factory.getWorkoutLogs(gym.loggedIn);
