@@ -173,7 +173,7 @@ public class GymTrack extends JApplet implements ActionListener
         	analyzeGymUI.switchUI(this);
         }
         else if (arg0.getSource() == btnLogout) {
-        	mainUI.goBack(this);
+        	mainUI.logOut(this);
         }
         else if (arg0.getSource() == btnBack_MyPlans){
         	myPlansUI.goBack(this);

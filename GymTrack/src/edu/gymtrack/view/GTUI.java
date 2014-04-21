@@ -32,9 +32,6 @@ public abstract class GTUI{
 			current = previous.pop();
 		}
 		
-		gym.destroy();
-		gym = new GymTrack();
-		gym.start();
 		current.showUI(gym);
 	}
 }

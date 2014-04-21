@@ -4,6 +4,7 @@ public class User extends DBMutable{
 	public enum UserType {OWNER, TRAINER, CLIENT};
 	
 	private String username;
+	private String name;
 	private UserType type;
 	private int id;
 	
@@ -18,6 +19,10 @@ public class User extends DBMutable{
 	
 	public String getUsername(){
 		return this.username;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public UserType getUserType(){

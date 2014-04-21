@@ -61,9 +61,10 @@ public class MainUI extends GTUI {
 		gbc_btnAnalyze.gridy = 1;
 		gym.getContentPane().add(gym.btnAnalyzeMe, gbc_btnAnalyze);
 		
-		gym.btnLogout = new JButton("Logout");
-		gym.btnLogout.setFont(new Font("Calibri", Font.PLAIN, 13));
-		gym.btnLogout.setPreferredSize(new Dimension(90, 30));
+		ImageIcon logoutIcon = new ImageIcon("images/logout.png", "");
+		gym.btnLogout = new JButton("", logoutIcon);
+		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", ""));
+		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
 		GridBagConstraints gbc_btnLogout = new GridBagConstraints();
 		gym.btnLogout.addActionListener(gym);
 		gbc_btnLogout.insets = new Insets(10, 10, 10, 10);

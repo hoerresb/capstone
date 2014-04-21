@@ -20,8 +20,7 @@ public class MyPlansUI extends GTUI {
 	
 	public void createMyPlansUI(GymTrack gym){
 		Factory factory = new Factory();
-		
-		
+	
 		JPanel contentPane = new JPanel();
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
@@ -55,11 +54,21 @@ public class MyPlansUI extends GTUI {
                                    leftScrollablePane, rightPanel);
 
         gym.btnBack_MyPlans = new JButton("Back");
+        gym.btnBack_MyPlans.setFont(new Font("Calibri", Font.PLAIN, 13));
+        gym.btnBack_MyPlans.setPreferredSize(new Dimension(90, 30));
         gym.btnBack_MyPlans.addActionListener(gym);
+        gym.btnLogout = new JButton("Logout");
+		gym.btnLogout.setFont(new Font("Calibri", Font.PLAIN, 13));
+		gym.btnLogout.setPreferredSize(new Dimension(90, 30));
+		gym.btnLogout.addActionListener(gym);
         gym.btnLogWork_MyPlans = new JButton("Log Work");
         gym.btnLogWork_MyPlans.addActionListener(gym);
+        gym.btnLogWork_MyPlans.setPreferredSize(new Dimension(90, 30));
+        gym.btnLogWork_MyPlans.setFont(new Font("Calibri", Font.PLAIN, 13));
         gym.btnSeeFeedback_MyPlans = new JButton("See Feedback");
         gym.btnSeeFeedback_MyPlans.addActionListener(gym);
+        gym.btnSeeFeedback_MyPlans.setPreferredSize(new Dimension(90, 30));
+        gym.btnSeeFeedback_MyPlans.setFont(new Font("Calibri", Font.PLAIN, 13));
         
         GroupLayout gl_bottomContainer = new GroupLayout(bottomContainer);
         gl_bottomContainer.setHorizontalGroup(
@@ -77,9 +86,10 @@ public class MyPlansUI extends GTUI {
         		.addGroup(gl_bottomContainer.createSequentialGroup()
         			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         			.addGroup(gl_bottomContainer.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(gym.btnBack_MyPlans)
         				.addComponent(gym.btnLogWork_MyPlans)
-        				.addComponent(gym.btnSeeFeedback_MyPlans)))
+        				.addComponent(gym.btnSeeFeedback_MyPlans)
+        				.addComponent(gym.btnBack_MyPlans)
+        				.addComponent(gym.btnLogout)))
         );
         bottomContainer.setLayout(gl_bottomContainer);
         

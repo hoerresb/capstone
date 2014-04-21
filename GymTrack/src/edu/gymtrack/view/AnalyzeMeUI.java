@@ -23,8 +23,14 @@ public class AnalyzeMeUI extends GTUI {
 		topPanel.add(lblGymtrack);
 		
 		gym.btnBack_AnalyzeMe = new JButton("Back");
+		gym.btnBack_AnalyzeMe.setPreferredSize(new Dimension(90, 30));
+		gym.btnBack_AnalyzeMe.setFont(new Font("Calibri", Font.PLAIN, 13));
 		gym.btnBack_AnalyzeMe.addActionListener(gym);
 		topPanel.add(gym.btnBack_AnalyzeMe);
+		gym.btnLogout.setFont(new Font("Calibri", Font.PLAIN, 13));
+		gym.btnLogout.setPreferredSize(new Dimension(90, 30));
+		gym.btnLogout.addActionListener(gym);
+		topPanel.add(gym.btnLogout);
 	}
 
 	public GTUI showUI(GymTrack gym) {
