@@ -121,8 +121,12 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public ResultSet getWorkoutLogs(User user) throws SQLException {
 		String query = new String(
-				// TODO query workoutlogs for all logs whose element matches an element assigned to this user
-				"SELECT * FROM workout_logs");
+				"SELECT workout_logs.key, workout_logs.element, workout_logs.date, workout_logs.completed " +
+						"FROM users INNER JOIN workout_plans ON users.key = workout_plans.user " +
+						"INNER JOIN plan_elements ON plan_elements.plan = workout_plans.key " +
+						"INNER JOIN workout_logs ON workout_logs.element = plan_elements.key " +
+						"WHERE users.username = '" + user.getUsername() + "'");
+		
 		return getResultSetForQuery(query);
 	}
 

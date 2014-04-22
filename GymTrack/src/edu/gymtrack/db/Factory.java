@@ -174,6 +174,18 @@ public class Factory {
 		return results;
 	}
 	
+	ArrayList<WorkoutLog> getLogsForUser(User user) throws SQLException{
+		ArrayList<WorkoutLog> results = new ArrayList<WorkoutLog>();
+		
+		GTDB db = new GTMySQLDB();
+		ResultSet rs = db.getWorkoutLogs(user);
+		while(rs.next()){
+			results.add(new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), false));
+		}
+		
+		return results;
+	}
+	
 	// methods to update data in the database
 	
 	public void updateActivities(ArrayList<Activity> newdata) throws SQLException
