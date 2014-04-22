@@ -122,7 +122,7 @@ public class GTMySQLDB implements GTDB {
 	public ResultSet getWorkoutLogs(User user) throws SQLException {
 		String query = new String(
 				// TODO query workoutlogs for all logs whose element matches an element assigned to this user
-				"SELECT * FROM workout_logs WHERE element ");
+				"SELECT * FROM workout_logs");
 		return getResultSetForQuery(query);
 	}
 

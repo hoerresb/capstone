@@ -40,7 +40,11 @@ public class MyPlansUI extends GTUI {
         // to selected index
         
         String[] planTable_ColumnNames = {"Exercise", "Rep/Duration", "How Often"};
-		Object[][] planTable_TableData = getPlanTableData(factory, plans.get(planList_MyPlans.getSelectedIndices()[0]));
+        Object[][] planTable_TableData = null;
+        if (planList_MyPlans.getSelectedIndices() == null) // if user has no plans, info is not retrieved
+        {
+        	planTable_TableData = getPlanTableData(factory, plans.get(planList_MyPlans.getSelectedIndices()[0]));
+        }
 		String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration/distance", "% of plan complete"};
 		Object[][] worklogTable_TableData = getWorklogTableData(factory, gym);
         

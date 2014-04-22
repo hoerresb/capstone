@@ -139,7 +139,7 @@ public class Factory {
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getWorkoutLogs(user);
 		while(rs.next()){
-			WorkoutLog log = new WorkoutLog(rs.getInt("key"), rs.getInt("element_key"), rs.getDate("date"), rs.getInt("completed"), false);
+			WorkoutLog log = new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), false);
 			results.add(log);
 		}
 		return results;
