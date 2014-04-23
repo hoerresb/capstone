@@ -3,14 +3,20 @@ package edu.gymtrack.view;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.EmptyBorder;
+
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.User;
+import edu.gymtrack.model.User.UserType;
 
 public class UsersUI extends GTUI {
 	private final long serialVersionUID = 1L;
+	
+	private String[] columnNames = {"Username", "Type", "ID"};
+	private JScrollPane scrollablePane;
 
 	public void createUsersUI(GymTrack gym){
 		Factory factory = new Factory();
@@ -21,8 +27,7 @@ public class UsersUI extends GTUI {
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
 		
-		String[] columnNames = {"Username", "Type", "ID"};
-		Object[][] tableData = this.getTableData(factory, gym);
+		Object[][] tableData = this.getTableData(factory, gym, null);
 		
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -35,14 +40,18 @@ public class UsersUI extends GTUI {
 		gym.rdbtnTrainers_users = new JRadioButton("Trainers");
 		usersUI_buttonGroup.add(gym.rdbtnTrainers_users);
 		topContainer.add(gym.rdbtnTrainers_users);
+		gym.rdbtnTrainers_users.addActionListener(gym);
 
 		gym.rdbtnMembers_users = new JRadioButton("Members");
 		usersUI_buttonGroup.add(gym.rdbtnMembers_users);
 		topContainer.add(gym.rdbtnMembers_users);
+		gym.rdbtnMembers_users.addActionListener(gym);
 
 		gym.rdbtnAll_users = new JRadioButton("All");
 		usersUI_buttonGroup.add(gym.rdbtnAll_users);
 		topContainer.add(gym.rdbtnAll_users);
+		gym.rdbtnAll_users.addActionListener(gym);
+		gym.rdbtnAll_users.setSelected(true);
 
 		Component horizontalStrut = Box.createHorizontalStrut(60);
 		topContainer.add(horizontalStrut);
@@ -81,7 +90,7 @@ public class UsersUI extends GTUI {
 		);
 		bottomPanel.setLayout(gl_bottomPanel);
 		
-		JScrollPane scrollablePane = new JScrollPane();
+		scrollablePane = new JScrollPane();
 		bottomContainer.add(scrollablePane, BorderLayout.CENTER);
 		
 		gym.usersTable_users = new JTable(tableData, columnNames);
@@ -89,7 +98,7 @@ public class UsersUI extends GTUI {
 		scrollablePane.setViewportView(gym.usersTable_users);
 	}
 	
-	protected  Object[][] getTableData(Factory factory, GymTrack gym){
+	protected  Object[][] getTableData(Factory factory, GymTrack gym, User.UserType filterType){
 		gym.largetId = 0;
         ArrayList<User> currentUserSet = new ArrayList<>();
 		try 
@@ -98,9 +107,16 @@ public class UsersUI extends GTUI {
 		} catch (SQLException e) {
 			// TODO handle this
 			e.printStackTrace();
-		}  
-		Object[][] tableData = new Object[currentUserSet.size()][3];
+		} 
 		
+		for (int i = 0; filterType != null && i < currentUserSet.size(); i++) {
+			if(currentUserSet.get(i).getUserType() != filterType){
+				currentUserSet.remove(i);
+				--i;
+			}
+		}
+		
+		Object[][] tableData = new Object[currentUserSet.size()][3];
 		for (int i = 0; i < currentUserSet.size(); i++) {
 			tableData[i][0] = currentUserSet.get(i).getUsername();
 			tableData[i][1] = currentUserSet.get(i).getUserType().toString();
@@ -112,6 +128,14 @@ public class UsersUI extends GTUI {
 		
 		return tableData;
 	}// end getTableData
+	
+	public void filterTableData(User.UserType filterType, GymTrack gym){
+		Factory factory = new Factory();
+		Object[][] tableData = this.getTableData(factory, gym, filterType);
+		gym.usersTable_users = new JTable(tableData, columnNames);
+		scrollablePane.setViewportView(gym.usersTable_users);
+		gym.usersTable_users.repaint();
+	}
 
 	@Override
 	public GTUI showUI(GymTrack gym) {

@@ -246,6 +246,15 @@ public class GymTrack extends JApplet implements ActionListener
         		this.addUserDialog.dispose();
         	}
         }
+        else if(arg0.getSource() == rdbtnAll_users){
+        	((UsersUI)usersUI).filterTableData(null, this);
+        }
+		else if(arg0.getSource() == rdbtnMembers_users){
+			((UsersUI)usersUI).filterTableData(UserType.CLIENT, this);
+        }
+		else if(arg0.getSource() == rdbtnTrainers_users){
+			((UsersUI)usersUI).filterTableData(UserType.TRAINER, this);
+		}
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
 		}
