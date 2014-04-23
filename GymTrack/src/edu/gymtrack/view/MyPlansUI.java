@@ -45,6 +45,13 @@ public class MyPlansUI extends GTUI {
         {
         	planTable_TableData = getPlanTableData(factory, plans.get(planList_MyPlans.getSelectedIndices()[0]));
         }
+        else // if no plans, create one empty row
+        {
+        	planTable_TableData = new Object[1][3];
+        	planTable_TableData[0][0] = "";
+        	planTable_TableData[0][1] = "";
+        	planTable_TableData[0][2] = "";
+        }
 		String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration/distance", "% of plan complete"};
 		Object[][] worklogTable_TableData = getWorklogTableData(factory, gym);
         
@@ -80,6 +87,8 @@ public class MyPlansUI extends GTUI {
         	gl_bottomContainer.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_bottomContainer.createSequentialGroup()
         			.addComponent(gym.btnBack_MyPlans)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(gym.btnLogout)
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(gym.btnLogWork_MyPlans)
         			.addPreferredGap(ComponentPlacement.RELATED)
