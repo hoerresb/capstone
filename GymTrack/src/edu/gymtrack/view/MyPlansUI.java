@@ -3,6 +3,7 @@ package edu.gymtrack.view;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -14,7 +15,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import edu.gymtrack.db.Factory;
+import edu.gymtrack.model.Activity;
+import edu.gymtrack.model.DBMutable;
+import edu.gymtrack.model.Equipment;
 import edu.gymtrack.model.PlanElement;
+import edu.gymtrack.model.User;
 import edu.gymtrack.model.WorkoutLog;
 import edu.gymtrack.model.WorkoutPlan;
 
@@ -29,8 +34,10 @@ public class MyPlansUI extends GTUI {
 	ArrayList<PlanElement> elements;
 	ArrayList<WorkoutLog> logs;
 	
-	String[] planTable_ColumnNames = {"Exercise", "Rep/Duration", "How Often"};
+	String[] planTable_ColumnNames = {"Exercise", "Rep/Duration(mins)", "How Often"};
     Object[][] planTable_TableData = null;
+    String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration(mins)/distance(miles)", "% of plan complete"};
+	Object[][] worklogTable_TableData = null;
 	
 	public void createMyPlansUI(GymTrack gym){
 		this.gym = gym;
@@ -46,7 +53,7 @@ public class MyPlansUI extends GTUI {
 		gym.setContentPane(contentPane);
 		//setTitle("My Plans");
 		
-		
+		// List of plans at left
 		
 		planList_MyPlans = new JList<String>(getMyPlans(factory, gym));
         planList_MyPlans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -65,8 +72,10 @@ public class MyPlansUI extends GTUI {
         {
         	getPlanTableData(factory, plans.get(planList_MyPlans.getMinSelectionIndex()));
         }
-		String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration/distance", "% of plan complete"};
-		Object[][] worklogTable_TableData = getWorklogTableData(factory, gym);
+        
+        // List of workout logs at bottom
+		
+		getWorklogTableData(factory, gym);
         
         JScrollPane leftScrollablePane = new JScrollPane(planList_MyPlans);
         
@@ -229,8 +238,7 @@ public class MyPlansUI extends GTUI {
 	}
 	
 	//TODO implement
-	private Object[][] getWorklogTableData(Factory factory, GymTrack gym){
-		logs = new ArrayList<WorkoutLog>();
+	private void getWorklogTableData(Factory factory, GymTrack gym){
 		try
 		{
 			logs = factory.getWorkoutLogs(gym.loggedIn);
@@ -239,11 +247,14 @@ public class MyPlansUI extends GTUI {
 			e.printStackTrace();
 		}   
 		
-		Object[][] data = new Object[logs.size()][4];
+		worklogTable_TableData = new Object[logs.size()][4];
 		
 		for (int i = 0; i < logs.size(); i++)
 		{
-			// TODO populate array from log data
+			worklogTable_TableData[i][0] = logs.get(i).getDate();
+			worklogTable_TableData[i][1] = logs.get(i).getElementKey();
+			worklogTable_TableData[i][2] = logs.get(i).getNCompleted();
+			worklogTable_TableData[i][3] = logs.get(i).getNCompleted();
 		}
 		
 		/*Object[][] data = {
@@ -254,7 +265,6 @@ public class MyPlansUI extends GTUI {
 			{"2-20-2013","running", "1 mile", "50%"},
 			{"2-25-2013","pull ups", "25", "65%"}
 		};*/
-		return data;
 	}
 	
 
@@ -288,10 +298,80 @@ public class MyPlansUI extends GTUI {
 		return this;
 	}
 	
-	public final void updatePlanDetailsTable() {
-		//gym.planDetailsTable_MyPlans = new JTable(planTable_TableData,planTable_ColumnNames);
+	public final void updatePlanDetailsTable() { // refresh UI with selected plan
 		TableModel myData = new DefaultTableModel(planTable_TableData, planTable_ColumnNames);
 		gym.planDetailsTable_MyPlans.setModel(myData);
 		gym.planDetailsTable_MyPlans.updateUI();
+	}
+	
+	// methods to create objects
+	
+	public final void newPlan(User client, User trainer, Date created, boolean isUserPlan, String goals, String feedback, int key)
+	{
+		plans.add(new WorkoutPlan(client, trainer, created, isUserPlan, goals, feedback, key, true));
+		
+		// update UI plans list
+		String[] myPlans = new String[plans.size()];
+		for (int i = 0; i < plans.size(); i++)
+		{
+			myPlans[i] = plans.get(i).getDateCreated().toString();
+		}
+		planList_MyPlans.setListData(myPlans);
+		planList_MyPlans.updateUI();
+	}
+	
+	public final void newElement(Activity activity, Equipment equipment, WorkoutPlan plan, int nRequired, int key)
+	{
+		elements.add(new PlanElement(activity, equipment, plan, nRequired, key, null, true));
+		
+		// update UI elements list
+		for (int i = 0; i < elements.size(); i++)
+		{
+			planTable_TableData[i][0] = elements.get(i).getActivityName();
+			planTable_TableData[i][1] = elements.get(i).getNRequired();
+			planTable_TableData[i][2] = null; // what's the third element? compare to schema
+		}
+		TableModel myData = new DefaultTableModel(planTable_TableData, planTable_ColumnNames);
+		gym.planDetailsTable_MyPlans.setModel(myData);
+		gym.planDetailsTable_MyPlans.updateUI();
+	}
+	
+	public final void newLog(int key, int elementKey, Date date, int completed)
+	{
+		logs.add(new WorkoutLog(key, elementKey, date, completed, true));
+		
+		// update UI logs list
+		worklogTable_TableData = new Object[logs.size()][4];
+		
+		for (int i = 0; i < logs.size(); i++)
+		{
+			worklogTable_TableData[i][0] = logs.get(i).getDate();
+			worklogTable_TableData[i][1] = logs.get(i).getElementKey();
+			worklogTable_TableData[i][2] = logs.get(i).getNCompleted();
+			worklogTable_TableData[i][3] = logs.get(i).getNCompleted();
+		}
+		TableModel myData = new DefaultTableModel(worklogTable_TableData, worklogTable_ColumnNames);
+		gym.loggedWorkTable_MyPlans.setModel(myData);
+		gym.loggedWorkTable_MyPlans.updateUI();
+	}
+	
+	// methods to delete objects
+	
+	public final void delete(DBMutable object) {
+		object.setDelete(true);
+	}
+	
+	// methods to finalize changes
+	
+	public final void commitPlanChanges() throws SQLException {
+		factory.updateWorkoutPlans(plans);
+	}
+	
+	public final void commitElementChanges() throws SQLException {
+		factory.updatePlanElements(elements);
+	}
+	
+	public final void commitLogChanges() throws SQLException {
+		factory.updateWorkoutLogs(logs);
 	}
 }

@@ -5,11 +5,11 @@ public class DBMutable {
 	private boolean editFlag;
 	private boolean deleteFlag;
 	
-	protected void setEdited(boolean isEdited){
+	public void setEdited(boolean isEdited){
 		editFlag = isEdited;
 	}
 	
-	protected void setDelete(boolean willDelete){
+	public void setDelete(boolean willDelete){
 		deleteFlag = willDelete;
 	}
 	
