@@ -8,6 +8,10 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.PlanElement;
@@ -16,12 +20,21 @@ import edu.gymtrack.model.WorkoutPlan;
 
 public class MyPlansUI extends GTUI {
 	private static final long serialVersionUID = 1L;
+	
+	final Factory factory = new Factory();
+	GymTrack gym;
+	JList<String> planList_MyPlans;
+	
 	ArrayList<WorkoutPlan> plans;
+	ArrayList<PlanElement> elements;
 	ArrayList<WorkoutLog> logs;
 	
-	public void createMyPlansUI(GymTrack gym){
-		Factory factory = new Factory();
+	String[] planTable_ColumnNames = {"Exercise", "Rep/Duration", "How Often"};
+    Object[][] planTable_TableData = null;
 	
+	public void createMyPlansUI(GymTrack gym){
+		this.gym = gym;
+		
 		JPanel contentPane = new JPanel();
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
@@ -33,24 +46,24 @@ public class MyPlansUI extends GTUI {
 		gym.setContentPane(contentPane);
 		//setTitle("My Plans");
 		
-		JList<String> planList_MyPlans = new JList<String>(getMyPlans(factory, gym));
+		
+		
+		planList_MyPlans = new JList<String>(getMyPlans(factory, gym));
         planList_MyPlans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         planList_MyPlans.setSelectedIndex(0);
-        //TODO action listener - needs to populate window with info from workout plan that corresponds
-        // to selected index
+        planList_MyPlans.addListSelectionListener(new ListSelectionListener(){
+        	public void valueChanged(ListSelectionEvent arg0) { // when new index is selected, pulls corresponding plan data and displays
+        		if (!arg0.getValueIsAdjusting()) {
+        			getPlanTableData(factory, plans.get(planList_MyPlans.getMinSelectionIndex()));
+        			updatePlanDetailsTable();
+        			System.out.println("Switch!");
+        		}
+        	}
+        });
         
-        String[] planTable_ColumnNames = {"Exercise", "Rep/Duration", "How Often"};
-        Object[][] planTable_TableData = null;
-        if (planList_MyPlans.getSelectedIndices() == null) // if user has no plans, info is not retrieved
+        if (planList_MyPlans.getModel().getSize() != 0) // if user has no plans, info is not retrieved
         {
-        	planTable_TableData = getPlanTableData(factory, plans.get(planList_MyPlans.getSelectedIndices()[0]));
-        }
-        else // if no plans, create one empty row
-        {
-        	planTable_TableData = new Object[1][3];
-        	planTable_TableData[0][0] = "";
-        	planTable_TableData[0][1] = "";
-        	planTable_TableData[0][2] = "";
+        	getPlanTableData(factory, plans.get(planList_MyPlans.getMinSelectionIndex()));
         }
 		String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration/distance", "% of plan complete"};
 		Object[][] worklogTable_TableData = getWorklogTableData(factory, gym);
@@ -192,7 +205,7 @@ public class MyPlansUI extends GTUI {
         contentPane.add(splitPane);
 	}
 	
-	private Object[][] getPlanTableData(Factory factory, WorkoutPlan plan){
+	private void getPlanTableData(Factory factory, WorkoutPlan plan){
 		// populates array with the PlanElements for the chosen WorkoutPlan.
 		// TODO Figure out how the columns are meant to correspond to the model
 		ArrayList<PlanElement> elements = new ArrayList<PlanElement>();
@@ -204,15 +217,15 @@ public class MyPlansUI extends GTUI {
 			e.printStackTrace();
 		}  
 		
-		Object[][] data = new Object[elements.size()][3];
+		planTable_TableData = new Object[elements.size()][3];
 		
 		for (int i = 0; i < elements.size(); i++)
 		{
-			data[i][0] = elements.get(i).getActivityName();
-			data[i][1] = elements.get(i).getNRequired();
-			data[i][2] = null; // what's the third element? compare to schema
+			planTable_TableData[i][0] = elements.get(i).getActivityName();
+			planTable_TableData[i][1] = elements.get(i).getNRequired();
+			planTable_TableData[i][2] = null; // what's the third element? compare to schema
 		}
-		return data;
+		
 	}
 	
 	//TODO implement
@@ -273,5 +286,12 @@ public class MyPlansUI extends GTUI {
 	public GTUI showUI(GymTrack gym) {
 		createMyPlansUI(gym);
 		return this;
+	}
+	
+	public final void updatePlanDetailsTable() {
+		//gym.planDetailsTable_MyPlans = new JTable(planTable_TableData,planTable_ColumnNames);
+		TableModel myData = new DefaultTableModel(planTable_TableData, planTable_ColumnNames);
+		gym.planDetailsTable_MyPlans.setModel(myData);
+		gym.planDetailsTable_MyPlans.updateUI();
 	}
 }
