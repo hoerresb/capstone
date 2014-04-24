@@ -126,7 +126,7 @@ public class Factory {
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getWorkoutLogs(elementKey);
 		while(rs.next()){
-			WorkoutLog log = new WorkoutLog(rs.getInt("key"), elementKey, rs.getDate("date"), rs.getInt("completed"), false);
+			WorkoutLog log = new WorkoutLog(rs.getInt("key"), elementKey, rs.getDate("date"), rs.getInt("completed"), rs.getString("name"), false);
 			results.add(log);
 		}
 		return results;
@@ -139,7 +139,7 @@ public class Factory {
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getWorkoutLogs(user);
 		while(rs.next()){
-			WorkoutLog log = new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), false);
+			WorkoutLog log = new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), rs.getString("name"), false);
 			results.add(log);
 		}
 		return results;
@@ -180,7 +180,7 @@ public class Factory {
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getWorkoutLogs(user);
 		while(rs.next()){
-			results.add(new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), false));
+			results.add(new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), rs.getString("name"), false));
 		}
 		
 		return results;
