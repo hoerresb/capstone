@@ -4,6 +4,8 @@ import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -31,10 +33,12 @@ public class MyPlansUI extends GTUI {
 	JList<String> planList_MyPlans;
 	
 	ArrayList<WorkoutPlan> plans;
-	ArrayList<PlanElement> elements;
+	ArrayList<PlanElement> elements = new ArrayList<PlanElement>();  
 	ArrayList<WorkoutLog> logs;
+	Map<Integer, Integer> elementRequirements = new HashMap<Integer, Integer>();
+	Map<Integer, Integer> completion = new HashMap<Integer, Integer>();
 	
-	String[] planTable_ColumnNames = {"Exercise", "Rep/Duration(mins)", "How Often"};
+	String[] planTable_ColumnNames = {"Exercise", "Equipment", "Amount", "Total % Complete"};
     Object[][] planTable_TableData = null;
     String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration(mins)/distance(miles)", "% of plan complete"};
 	Object[][] worklogTable_TableData = null;
@@ -53,15 +57,16 @@ public class MyPlansUI extends GTUI {
 		gym.setContentPane(contentPane);
 		//setTitle("My Plans");
 		
-		// List of plans at left
+		getDatabaseData();  // call this before working on data
 		
+		// List of plans at left
 		planList_MyPlans = new JList<String>(getMyPlans(factory, gym));
         planList_MyPlans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         planList_MyPlans.setSelectedIndex(0);
         planList_MyPlans.addListSelectionListener(new ListSelectionListener(){
         	public void valueChanged(ListSelectionEvent arg0) { // when new index is selected, pulls corresponding plan data and displays
         		if (!arg0.getValueIsAdjusting()) {
-        			getPlanTableData(factory, plans.get(planList_MyPlans.getMinSelectionIndex()));
+        			getPlanTableData(plans.get(planList_MyPlans.getMinSelectionIndex()));
         			updatePlanDetailsTable();
         			System.out.println("Switch!");
         		}
@@ -70,7 +75,7 @@ public class MyPlansUI extends GTUI {
         
         if (planList_MyPlans.getModel().getSize() != 0) // if user has no plans, info is not retrieved
         {
-        	getPlanTableData(factory, plans.get(planList_MyPlans.getMinSelectionIndex()));
+        	getPlanTableData(plans.get(planList_MyPlans.getMinSelectionIndex()));
         }
         
         // List of workout logs at bottom
@@ -214,57 +219,76 @@ public class MyPlansUI extends GTUI {
         contentPane.add(splitPane);
 	}
 	
-	private void getPlanTableData(Factory factory, WorkoutPlan plan){
-		// populates array with the PlanElements for the chosen WorkoutPlan.
-		// TODO Figure out how the columns are meant to correspond to the model
-		ArrayList<PlanElement> elements = new ArrayList<PlanElement>();
+	private void getDatabaseData(){
 		try
 		{
-			elements = factory.getPlanElements(plan);
+			plans = factory.getWorkoutPlansForUser(gym.loggedIn);
+			for(WorkoutPlan plan : plans){
+				ArrayList<PlanElement> planElements = factory.getPlanElements(plan);
+				if(planElements == null)
+					continue;
+				
+				elements.addAll(planElements);
+				
+				for(PlanElement element : elements){
+					elementRequirements.put(element.getKey(), element.getNRequired());
+				}
+			}
+			
+			logs = factory.getWorkoutLogs(gym.loggedIn);
+			for(WorkoutLog log : logs){
+				int elementKey = log.getElementKey();
+				Integer nLogged = completion.get(elementKey);
+				completion.put(elementKey, 
+						nLogged == null ? log.getNCompleted() : nLogged + log.getNCompleted());
+			}
 		} catch (SQLException e) {
 			// TODO handle this
 			e.printStackTrace();
-		}  
-		
-		planTable_TableData = new Object[elements.size()][3];
-		
-		for (int i = 0; i < elements.size(); i++)
+		}
+	}
+	
+	private void getPlanTableData(WorkoutPlan plan){
+		// populates array with the PlanElements for the chosen WorkoutPlan.
+		ArrayList<PlanElement> planElements = getPlanElements(plan);
+		planTable_TableData = new Object[planElements.size()][4];
+		for (int i = 0; i < planElements.size(); i++)
 		{
-			planTable_TableData[i][0] = elements.get(i).getActivityName();
-			planTable_TableData[i][1] = elements.get(i).getNRequired();
-			planTable_TableData[i][2] = null; // what's the third element? compare to schema
+			PlanElement planElement = planElements.get(i);
+			if(plan.getKey() != planElement.getPlan().getKey())
+				continue;
+				
+			planTable_TableData[i][0] = planElement.getActivityName();
+			planTable_TableData[i][1] = planElement.getEquipment().getName();
+			planTable_TableData[i][2] = planElement.getNRequired();
+			planTable_TableData[i][3] = (double)completion.get(planElement.getKey()) / planElement.getNRequired() * 100;
 		}
 		
 	}
 	
+	private ArrayList<PlanElement> getPlanElements(WorkoutPlan plan){
+		ArrayList<PlanElement> result = new ArrayList<PlanElement>();
+		for(PlanElement e : elements){
+			if(e.getPlan().getKey() == plan.getKey())
+				result.add(e);
+		}
+		return result;
+	}
+	
 	//TODO implement
 	private void getWorklogTableData(Factory factory, GymTrack gym){
-		try
-		{
-			logs = factory.getWorkoutLogs(gym.loggedIn);
-		} catch (SQLException e) {
-			// TODO handle this
-			e.printStackTrace();
-		}   
-		
 		worklogTable_TableData = new Object[logs.size()][4];
-		
 		for (int i = 0; i < logs.size(); i++)
 		{
+			int elementKey = logs.get(i).getElementKey();
+			
 			worklogTable_TableData[i][0] = logs.get(i).getDate();
-			worklogTable_TableData[i][1] = logs.get(i).getElementKey();
+			worklogTable_TableData[i][1] = logs.get(i).getExerciseName();
 			worklogTable_TableData[i][2] = logs.get(i).getNCompleted();
-			worklogTable_TableData[i][3] = logs.get(i).getNCompleted();
+			
+			int reqd = elementRequirements.get(elementKey);
+			worklogTable_TableData[i][3] = (double)logs.get(i).getNCompleted() / reqd * 100;
 		}
-		
-		/*Object[][] data = {
-			{"1-15-2013","running", "1 mile", "5%"},
-			{"1-25-2013","bench press", "20 reps", "15%"},
-			{"1-30-2013","running", "2 mile", "25%"},
-			{"2-05-2013","sit ups", "100", "30%"},
-			{"2-20-2013","running", "1 mile", "50%"},
-			{"2-25-2013","pull ups", "25", "65%"}
-		};*/
 	}
 	
 
@@ -272,15 +296,6 @@ public class MyPlansUI extends GTUI {
 		
 		// populates list of plans; returns list of plan names used to create a JList
 		// a given index of JList should correspond with the correct workoutPlan in the plans list
-		
-		plans = new ArrayList<WorkoutPlan>();
-		try
-		{
-			plans = factory.getWorkoutPlansForUser(gym.loggedIn);
-		} catch (SQLException e) {
-			// TODO handle this
-			e.printStackTrace();
-		}  
 		
 		String[] myPlans = new String[plans.size()];
 		

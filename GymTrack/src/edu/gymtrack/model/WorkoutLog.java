@@ -20,6 +20,10 @@ public class WorkoutLog extends DBMutable{
 		setEdited(false);
 	}
 	
+	public WorkoutLog(int key, int elementKey, Date date, int completed, boolean isNew){
+		this(key, elementKey, date, completed, "", isNew);
+	}
+
 	public int getKey(){
 		return key;
 	}
@@ -34,6 +38,10 @@ public class WorkoutLog extends DBMutable{
 	
 	public int getNCompleted(){
 		return completed;
+	}
+	
+	public String getExerciseName(){
+		return exerciseName;
 	}
 	
 	public String toString(){
