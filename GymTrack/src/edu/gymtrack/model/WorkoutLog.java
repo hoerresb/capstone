@@ -7,12 +7,14 @@ public class WorkoutLog extends DBMutable{
 	private int elementKey;
 	private Date date;
 	private int completed;
+	private String exerciseName;
 	
-	public WorkoutLog(int key, int elementKey, Date date, int completed, boolean isNew){
+	public WorkoutLog(int key, int elementKey, Date date, int completed, String exerciseName, boolean isNew){
 		this.key = key;
 		this.elementKey = elementKey;
 		this.date = date;
 		this.completed = completed;
+		this.exerciseName = exerciseName;
 		setNew(isNew);
 		setDelete(false);
 		setEdited(false);
@@ -35,6 +37,6 @@ public class WorkoutLog extends DBMutable{
 	}
 	
 	public String toString(){
-		return "Date: " + date + ", Completed: " + completed;
+		return "Date: " + date + ", Completed: " + completed + ", Exercise: " + exerciseName;
 	}
 }

@@ -12,6 +12,7 @@ import edu.gymtrack.db.*;
 public class GymTrack extends JApplet implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
+	private boolean log = false;
 	protected int privilege;
 	protected int largetId;
 	protected User loggedIn = null;
@@ -38,6 +39,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JRadioButton rdbtnTrainer_addUser;
 	protected JRadioButton rdbtnMember_addUser;
 	protected AddUserDialog addUserDialog;
+	protected DeleteUserDialog deleteUserDialog;
 	
 	/*
 	 * Components used by LogWorkDialog
@@ -173,6 +175,8 @@ public class GymTrack extends JApplet implements ActionListener
         	analyzeGymUI.switchUI(this);
         }
         else if (arg0.getSource() == btnLogout) {
+        	loggedIn = null;
+        	log = false;
         	mainUI.logOut(this);
         }
         else if (arg0.getSource() == btnBack_MyPlans){
@@ -212,6 +216,10 @@ public class GymTrack extends JApplet implements ActionListener
         	this.addUserDialog = new AddUserDialog(this, this.usersUI);
         	this.addUserDialog.setVisible(true);
         }
+        else if (arg0.getSource() == btnDelete_users){
+        	this.deleteUserDialog = new DeleteUserDialog(this, this.usersUI);
+        	this.deleteUserDialog.setVisible(true);
+        }
         else if (arg0.getSource() == okButton_AddUser){
         	Factory factory = new Factory();
         	String username = this.username_AddUser.getText();
@@ -240,6 +248,10 @@ public class GymTrack extends JApplet implements ActionListener
         	if(this.addUserDialog.callingUI == usersUI){
         		usersUI.reloadPage(this);
         		this.addUserDialog.dispose();
+        	}
+        	else if(this.deleteUserDialog.callingUI == usersUI){
+        		usersUI.reloadPage(this);
+        		this.deleteUserDialog.dispose();
         	}
         	else if(this.addUserDialog.callingUI == editTraineesUI){
         		editTraineesUI.reloadPage(this);
@@ -274,20 +286,32 @@ public class GymTrack extends JApplet implements ActionListener
 						loggedIn = u.get(i);
 						if(u.get(i).isClient()){
 							privilege = 0;
+							log = true;
 							break;
 						}
 						if(u.get(i).isTrainer()){
 							privilege = 1;
+							log=true;
 							break;
 						}
 						if(u.get(i).isOwner()){
 							privilege = 2;
+							log=true;
 							break;
 						}
 						}
+					if(log == false){
+						mainUI.logOut(this);
+					}
 						
 					}
 				}
+			if(log == false){
+				mainUI.logOut(this);
+			}
+			else{
+				mainUI.switchUI(this);
+			}
 			}
 			
 		 catch (SQLException e) {
@@ -309,7 +333,6 @@ public class GymTrack extends JApplet implements ActionListener
 		default:
 			break;
 		}*/
-		mainUI.switchUI(this);
 	}
 }
 

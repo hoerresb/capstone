@@ -64,6 +64,7 @@ public class UsersUI extends GTUI {
 		topContainer.add(gym.btnEdit_users);
 
 		gym.btnDelete_users = new JButton("Delete");
+		gym.btnDelete_users.addActionListener(gym);
 		topContainer.add(gym.btnDelete_users);
 		
 		JPanel bottomContainer = new JPanel();
