@@ -30,7 +30,7 @@ public class Factory {
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getActivities();
 		while(rs.next())
-			results.add(new Activity(rs.getInt("key"), rs.getString("name"), false));
+			results.add(new Activity(rs.getInt("key"), rs.getString("name"), rs.getString("unit"), false));
 		
 		return results;
 	}

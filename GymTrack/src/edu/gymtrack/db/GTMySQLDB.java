@@ -136,9 +136,9 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public void updateActivity(Activity a) throws SQLException {
 		String query = new String(
-				"INSERT INTO `activities` (`key`,`name`) "
-				+ "VALUES (" + a.getKey() + ",'" + a.getName() + "') "
-				+ "ON DUPLICATE KEY UPDATE name='" + a.getName() + "'");
+				"INSERT INTO `activities` (`key`,`name`,`unit`) "
+				+ "VALUES (" + a.getKey() + ",'" + a.getName() + "','" + a.getUnit() + "') "
+				+ "ON DUPLICATE KEY UPDATE name='" + a.getName() + "', unit='" + a.getUnit() + "'");
 		getResultSetForQuery(query);
 	}
 

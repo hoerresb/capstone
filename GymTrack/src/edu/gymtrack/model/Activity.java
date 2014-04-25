@@ -3,11 +3,13 @@ package edu.gymtrack.model;
 public class Activity extends DBMutable{
 	private int key;
 	private String name;
+	private String unit;
 	
 	
-	public Activity(int key, String name, boolean newEntry){
+	public Activity(int key, String name, String unit, boolean newEntry){
 		this.key = key;
 		this.name = name;
+		this.unit = unit;
 		setNew(newEntry);
 		setDelete(false);
 		setEdited(false);
@@ -21,6 +23,10 @@ public class Activity extends DBMutable{
 	
 	public String getName(){
 		return this.name;
+	}
+	
+	public String getUnit(){
+		return unit;
 	}
 	
 	// setters

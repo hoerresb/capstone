@@ -33,8 +33,9 @@ public class MyPlansUI extends GTUI {
 	JList<String> planList_MyPlans;
 	
 	ArrayList<WorkoutPlan> plans;
-	ArrayList<PlanElement> elements = new ArrayList<PlanElement>();  
+	Map<Integer, PlanElement> elements = new HashMap<Integer, PlanElement>();  
 	ArrayList<WorkoutLog> logs;
+	Map<Integer, Activity> activities = new HashMap<Integer, Activity>();
 	Map<Integer, Integer> elementRequirements = new HashMap<Integer, Integer>();
 	Map<Integer, Integer> completion = new HashMap<Integer, Integer>();
 	
@@ -80,7 +81,7 @@ public class MyPlansUI extends GTUI {
         
         // List of workout logs at bottom
 		
-		getWorklogTableData(factory, gym);
+		getWorklogTableData();
         
         JScrollPane leftScrollablePane = new JScrollPane(planList_MyPlans);
         
@@ -222,15 +223,21 @@ public class MyPlansUI extends GTUI {
 	private void getDatabaseData(){
 		try
 		{
+			ArrayList<Activity> actList = factory.getActivities();
+			for(Activity activity : actList){
+				activities.put(activity.getKey(), activity);
+			}
+			
 			plans = factory.getWorkoutPlansForUser(gym.loggedIn);
 			for(WorkoutPlan plan : plans){
 				ArrayList<PlanElement> planElements = factory.getPlanElements(plan);
 				if(planElements == null)
 					continue;
 				
-				elements.addAll(planElements);
+				for(PlanElement element : planElements)
+					elements.put(element.getKey(), element);
 				
-				for(PlanElement element : elements){
+				for(PlanElement element : elements.values()){
 					elementRequirements.put(element.getKey(), element.getNRequired());
 				}
 			}
@@ -260,7 +267,7 @@ public class MyPlansUI extends GTUI {
 				
 			planTable_TableData[i][0] = planElement.getActivityName();
 			planTable_TableData[i][1] = planElement.getEquipment().getName();
-			planTable_TableData[i][2] = planElement.getNRequired();
+			planTable_TableData[i][2] = planElement.getNRequired() + " " + activities.get(planElement.getActivity().getKey()).getUnit();
 			planTable_TableData[i][3] = (double)completion.get(planElement.getKey()) / planElement.getNRequired() * 100;
 		}
 		
@@ -268,23 +275,23 @@ public class MyPlansUI extends GTUI {
 	
 	private ArrayList<PlanElement> getPlanElements(WorkoutPlan plan){
 		ArrayList<PlanElement> result = new ArrayList<PlanElement>();
-		for(PlanElement e : elements){
+		for(PlanElement e : elements.values()){
 			if(e.getPlan().getKey() == plan.getKey())
 				result.add(e);
 		}
 		return result;
 	}
 	
-	//TODO implement
-	private void getWorklogTableData(Factory factory, GymTrack gym){
+	private void getWorklogTableData(){
 		worklogTable_TableData = new Object[logs.size()][4];
 		for (int i = 0; i < logs.size(); i++)
 		{
 			int elementKey = logs.get(i).getElementKey();
+			String unit = activities.get(elements.get(elementKey).getActivity().getKey()).getUnit();
 			
 			worklogTable_TableData[i][0] = logs.get(i).getDate();
 			worklogTable_TableData[i][1] = logs.get(i).getExerciseName();
-			worklogTable_TableData[i][2] = logs.get(i).getNCompleted();
+			worklogTable_TableData[i][2] = logs.get(i).getNCompleted() + " " + unit;
 			
 			int reqd = elementRequirements.get(elementKey);
 			worklogTable_TableData[i][3] = (double)logs.get(i).getNCompleted() / reqd * 100;
@@ -337,18 +344,30 @@ public class MyPlansUI extends GTUI {
 	
 	public final void newElement(Activity activity, Equipment equipment, WorkoutPlan plan, int nRequired, int key)
 	{
-		elements.add(new PlanElement(activity, equipment, plan, nRequired, key, null, true));
+		for(key = 0; key <= Integer.MAX_VALUE && elements.containsKey(key); ++key);
+		elements.put(key, new PlanElement(activity, equipment, plan, nRequired, key, null, true));
 		
-		// update UI elements list
-		for (int i = 0; i < elements.size(); i++)
-		{
-			planTable_TableData[i][0] = elements.get(i).getActivityName();
-			planTable_TableData[i][1] = elements.get(i).getNRequired();
-			planTable_TableData[i][2] = null; // what's the third element? compare to schema
+		try {
+			commitElementChanges();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		TableModel myData = new DefaultTableModel(planTable_TableData, planTable_ColumnNames);
-		gym.planDetailsTable_MyPlans.setModel(myData);
-		gym.planDetailsTable_MyPlans.updateUI();
+		
+		getDatabaseData();
+		getPlanTableData(plans.get(planList_MyPlans.getMinSelectionIndex()));
+		updatePlanDetailsTable();
+		
+//		// update UI elements list
+//		for (int i = 0; i < elements.size(); i++)
+//		{
+//			planTable_TableData[i][0] = elements.get(i).getActivityName();
+//			planTable_TableData[i][1] = elements.get(i).getNRequired();
+//			planTable_TableData[i][2] = null; // what's the third element? compare to schema
+//		}
+//		TableModel myData = new DefaultTableModel(planTable_TableData, planTable_ColumnNames);
+//		gym.planDetailsTable_MyPlans.setModel(myData);
+//		gym.planDetailsTable_MyPlans.updateUI();
 	}
 	
 	public final void newLog(int key, int elementKey, Date date, int completed)
@@ -383,7 +402,7 @@ public class MyPlansUI extends GTUI {
 	}
 	
 	public final void commitElementChanges() throws SQLException {
-		factory.updatePlanElements(elements);
+		factory.updatePlanElements(new ArrayList<PlanElement>(elements.values()));
 	}
 	
 	public final void commitLogChanges() throws SQLException {
