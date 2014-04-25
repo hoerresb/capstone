@@ -3,9 +3,12 @@ package edu.gymtrack.view;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import javax.swing.*;
+
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.User.UserType;
+import edu.gymtrack.model.WorkoutPlan;
 import edu.gymtrack.controller.Authentication;
 import edu.gymtrack.db.*;
 
@@ -129,6 +132,13 @@ public class GymTrack extends JApplet implements ActionListener
 	 */
 	protected JButton btnBack_AnalyzeGym;
 	
+	/*
+	 * Components used by SeeFeedbackDialog
+	 */
+	SeeFeedbackDialog feedbackDialog;
+	protected JButton btnCancel_Feedback;
+	protected JButton btnUpdate_Feedback;
+	
 	// View objects -- I didn't know how to get the back button to work without making them unstatic
 	GTUI loginUI = new LoginUI();
 	GTUI myPlansUI = new MyPlansUI();
@@ -205,8 +215,8 @@ public class GymTrack extends JApplet implements ActionListener
 				dialog.setVisible(true);
         }
         else if (arg0.getSource() == btnSeeFeedback_MyPlans){
-        	SeeFeedbackDialog dialog = new SeeFeedbackDialog();
-        	dialog.setVisible(true);
+        	feedbackDialog = new SeeFeedbackDialog(this, loggedIn.getUserType());
+        	feedbackDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnAdd_EditTrainees){
         	this.addUserDialog = new AddUserDialog(this, this.editTraineesUI);
@@ -266,6 +276,19 @@ public class GymTrack extends JApplet implements ActionListener
         }
 		else if(arg0.getSource() == rdbtnTrainers_users){
 			((UsersUI)usersUI).filterTableData(UserType.TRAINER, this);
+		}
+		else if (arg0.getSource() == btnCancel_Feedback){
+			feedbackDialog.dispose();
+		}
+		else if (arg0.getSource() == btnUpdate_Feedback){
+			ArrayList<WorkoutPlan> updatedPlans = feedbackDialog.getUpdatedPlans();
+			try {
+				(new Factory()).updateWorkoutPlans(updatedPlans);
+				feedbackDialog.dispose();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());

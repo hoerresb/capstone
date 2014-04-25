@@ -105,7 +105,7 @@ public class MyPlansUI extends GTUI {
         gym.btnLogWork_MyPlans.addActionListener(gym);
         gym.btnLogWork_MyPlans.setPreferredSize(new Dimension(90, 30));
         gym.btnLogWork_MyPlans.setFont(new Font("Calibri", Font.PLAIN, 13));
-        gym.btnSeeFeedback_MyPlans = new JButton("See Feedback");
+        gym.btnSeeFeedback_MyPlans = new JButton("Goals and Feedback");
         gym.btnSeeFeedback_MyPlans.addActionListener(gym);
         gym.btnSeeFeedback_MyPlans.setPreferredSize(new Dimension(90, 30));
         gym.btnSeeFeedback_MyPlans.setFont(new Font("Calibri", Font.PLAIN, 13));

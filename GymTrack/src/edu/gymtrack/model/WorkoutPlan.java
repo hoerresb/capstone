@@ -43,9 +43,17 @@ public class WorkoutPlan extends DBMutable{
 	public String getGoals() {
 		return goals;
 	}
-
+	
+	public void setGoals(String goals){
+		this.goals = goals;
+	}
+	
 	public String getFeedback() {
 		return feedback;
+	}
+	
+	public void setFeedback(String feedback){
+		this.feedback = feedback;
 	}
 	
 	public int getKey(){
