@@ -81,7 +81,7 @@ public class MyPlansUI extends GTUI {
         
         // List of workout logs at bottom
 		
-		getWorklogTableData();
+		worklogTable_TableData = getWorklogTableData();
         
         JScrollPane leftScrollablePane = new JScrollPane(planList_MyPlans);
         
@@ -282,20 +282,22 @@ public class MyPlansUI extends GTUI {
 		return result;
 	}
 	
-	private void getWorklogTableData(){
-		worklogTable_TableData = new Object[logs.size()][4];
+	public Object[][] getWorklogTableData(){
+		Object[][] result = new Object[logs.size()][4];
 		for (int i = 0; i < logs.size(); i++)
 		{
 			int elementKey = logs.get(i).getElementKey();
 			String unit = activities.get(elements.get(elementKey).getActivity().getKey()).getUnit();
 			
-			worklogTable_TableData[i][0] = logs.get(i).getDate();
-			worklogTable_TableData[i][1] = logs.get(i).getExerciseName();
-			worklogTable_TableData[i][2] = logs.get(i).getNCompleted() + " " + unit;
+			result[i][0] = logs.get(i).getDate();
+			result[i][1] = logs.get(i).getExerciseName();
+			result[i][2] = logs.get(i).getNCompleted() + " " + unit;
 			
 			int reqd = elementRequirements.get(elementKey);
-			worklogTable_TableData[i][3] = (double)logs.get(i).getNCompleted() / reqd * 100;
+			result[i][3] = (double)logs.get(i).getNCompleted() / reqd * 100;
 		}
+		
+		return result;
 	}
 	
 

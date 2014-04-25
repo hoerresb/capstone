@@ -20,15 +20,15 @@ public class LogWorkDialog extends JDialog{
 	private final JPanel contentPanel = new JPanel();
 	private static final long serialVersionUID = 1L;
 	
-	public LogWorkDialog(GymTrack gym) {
+	public LogWorkDialog(GymTrack gym, MyPlansUI plans) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModal(true);
 		setTitle("Log Work");
 		setBounds(100, 100, 450, 300);
 		setContentPane(contentPanel);
 		
-		String[] columnNames = {"Date", "Exercise", "Duration", "% of plan complete"};
-		Object[][] tableDataObjects = getWorklogTableData();
+		String[] columnNames = {"Date", "Exercise", "Amount", "% of plan complete"};
+		Object[][] tableDataObjects = getWorklogTableData(plans);
 		
 		
 		JPanel topContainer = new JPanel();
@@ -144,16 +144,8 @@ public class LogWorkDialog extends JDialog{
 		}
 	}
 	
-	//TODO implement
-	private Object[][] getWorklogTableData(){
-		Object[][] data = {
-			{"1-15-2013","running", "1 mile", "5%"},
-			{"1-25-2013","bench press", "20 reps", "15%"},
-			{"1-30-2013","running", "2 mile", "25%"},
-			{"2-05-2013","sit ups", "100", "30%"},
-			{"2-20-2013","running", "1 mile", "50%"},
-			{"2-25-2013","pull ups", "25", "65%"}
-		};
+	private Object[][] getWorklogTableData(MyPlansUI plans){
+		Object[][] data = plans.getWorklogTableData();
 		return data;
 	}
 	

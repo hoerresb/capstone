@@ -211,7 +211,7 @@ public class GymTrack extends JApplet implements ActionListener
         	analyzeGymUI.goBack(this);
         }
         else if (arg0.getSource() == btnLogWork_MyPlans){
-				LogWorkDialog dialog = new LogWorkDialog(this);
+				LogWorkDialog dialog = new LogWorkDialog(this, (MyPlansUI)myPlansUI);
 				dialog.setVisible(true);
         }
         else if (arg0.getSource() == btnSeeFeedback_MyPlans){
