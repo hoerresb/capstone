@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -136,9 +137,9 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public void updateActivity(Activity a) throws SQLException {
 		String query = new String(
-				"INSERT INTO `activities` (`key`,`name`) "
-				+ "VALUES (" + a.getKey() + ",'" + a.getName() + "') "
-				+ "ON DUPLICATE KEY UPDATE name='" + a.getName() + "'");
+				"INSERT INTO `activities` (`key`,`name`,`unit`) "
+				+ "VALUES (" + a.getKey() + ",'" + a.getName() + "','" + a.getUnit() + "') "
+				+ "ON DUPLICATE KEY UPDATE name='" + a.getName() + "', unit='" + a.getUnit() + "'");
 		getResultSetForQuery(query);
 	}
 
@@ -234,8 +235,8 @@ public class GTMySQLDB implements GTDB {
 	public void updateWorkoutPlan(WorkoutPlan w) throws SQLException {
 		String query = new String(
 				"INSERT INTO `workout_plans` (`key`,`trainer`,`user`,`created`,`is_user`,`goals`,`feedback`) "
-				+ "VALUES (" + w.getKey() + "," + w.getTrainer() + "," + w.getClient() + "," + w.getDateCreated() + "," + w.isUserPlan() + ",'" + w.getGoals() + "','" + w.getFeedback() + "') "
-				+ "ON DUPLICATE KEY UPDATE trainer=" + w.getTrainer() + ", client=" + w.getClient() + ", created=" + w.getDateCreated() + ", is_user=" + w.isUserPlan() + ", goals='" + w.getGoals() + "', feedback='" + w.getFeedback() + "'" );
-		getResultSetForQuery(query);
+				+ "VALUES (" + w.getKey() + "," + w.getTrainer().getID() + "," + w.getClient().getID() + ",'" + new java.sql.Timestamp(w.getDateCreated().getTime()) + "'," + w.isUserPlan() + ",'" + w.getGoals() + "','" + w.getFeedback() + "') "
+				+ "ON DUPLICATE KEY UPDATE trainer=" + w.getTrainer().getID() + ", user=" + w.getClient().getID() + ", created='" + new java.sql.Timestamp(w.getDateCreated().getTime()) + "', is_user=" + w.isUserPlan() + ", goals='" + w.getGoals() + "', feedback='" + w.getFeedback() + "'" );
+		runUpdateQuery(query);
 	}
 }
