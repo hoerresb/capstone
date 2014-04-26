@@ -338,7 +338,7 @@ public class MyPlansUI extends GTUI {
 	
 	public final void newLog(int key, int elementKey, Date date, int completed)
 	{
-		logs.add(new WorkoutLog(key, elementKey, date, completed, true));
+		logs.add(new WorkoutLog(key, elementKey, date, completed, null, true));
 		
 		// update UI logs list
 		worklogTable_TableData = new Object[logs.size()][4];

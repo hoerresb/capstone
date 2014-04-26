@@ -8,13 +8,30 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import edu.gymtrack.db.Factory;
+import edu.gymtrack.model.PlanElement;
 import edu.gymtrack.model.User;
+import edu.gymtrack.model.WorkoutLog;
+import edu.gymtrack.model.WorkoutPlan;
 
 public class TrkTraineesUI extends GTUI {
 	private static final long serialVersionUID = 1L;
+	
+	final Factory factory = new Factory();
+	GymTrack gym;
+	
+	ArrayList<WorkoutPlan> plans;
+	ArrayList<PlanElement> elements;
+	ArrayList<WorkoutLog> logs;
+	
+	String[] planTable_ColumnNames = {"Plan number", "Created On", "Goal", "Latest Feedback", "Percentage complete"};
+	Object[][] planTable_TableData = null;
+	String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration/distance", "% of plan complete"};
+	Object[][] worklogTable_TableData = null;
 
 	public void createTrkTraineesUI(GymTrack gym){
-		Factory factory = new Factory();
+		
+		this.gym = gym;
+		
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
@@ -26,15 +43,12 @@ public class TrkTraineesUI extends GTUI {
 		//setTitle("Track Trainees");
 
 		String[] memberNames = getMemberNames(factory);
-		gym.traineesList_TrkTrainees = new JList(memberNames);
+		gym.traineesList_TrkTrainees = new JList<String>(memberNames);
 		gym.traineesList_TrkTrainees.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		gym.traineesList_TrkTrainees.setSelectedIndex(0);
 
-        String[] planTable_ColumnNames = {"Plan number", "Created On", "Goal", "Latest Feedback", "Percentage complete"};
-		Object[][] planTable_TableData = getPlanTableData();
-		String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration/distance", "% of plan complete"};
-		Object[][] worklogTable_TableData = getWorklogTableData();
         
+		
         JScrollPane leftScrollablePane = new JScrollPane(gym.traineesList_TrkTrainees);
         JPanel rightPanel = new JPanel();
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
