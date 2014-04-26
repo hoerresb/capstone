@@ -69,7 +69,6 @@ public class MyPlansUI extends GTUI {
         		if (!arg0.getValueIsAdjusting()) {
         			getPlanTableData(plans.get(planList_MyPlans.getMinSelectionIndex()));
         			updatePlanDetailsTable();
-        			System.out.println("Switch!");
         		}
         	}
         });
@@ -77,6 +76,10 @@ public class MyPlansUI extends GTUI {
         if (planList_MyPlans.getModel().getSize() != 0) // if user has no plans, info is not retrieved
         {
         	getPlanTableData(plans.get(planList_MyPlans.getMinSelectionIndex()));
+        }
+        else
+        {
+        	planTable_TableData = new Object[1][4];
         }
         
         // List of workout logs at bottom
