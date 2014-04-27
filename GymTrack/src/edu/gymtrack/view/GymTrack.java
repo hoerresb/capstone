@@ -113,6 +113,15 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnBack_equipment;
 	
 	/*
+	 * Components used by Add/Edit Equipment Dialog
+	 */
+	protected JTextField nameTextField_EditEquip;
+	protected JComboBox typesComboBox_EditEquip;
+	protected JButton okButton_EditEquip;
+	protected JButton cancelButton_EditEquip;
+	protected AddEditEquipmentDialog addEditEquipmentDialog;
+	
+	/*
 	 * components used by UserUI
 	 */
 	protected JRadioButton rdbtnTrainers_users;
@@ -436,6 +445,52 @@ public class GymTrack extends JApplet implements ActionListener
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		else if (arg0.getSource() == btnDelete_equipment){
+			Equipment toDelete = ((EquipmentUI)equipmentUI).getSelectedEquipment(this);
+			if(toDelete != null){
+				ArrayList<Equipment> alToDelete = new ArrayList<Equipment>();
+				toDelete.setDelete(true);
+				alToDelete.add(toDelete);
+				try {
+					(new Factory()).updateEquipment(alToDelete);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				((EquipmentUI)equipmentUI).refreshDisplay(this);
+			}
+		}
+		else if (arg0.getSource() == btnAdd_equipment){
+			addEditEquipmentDialog = new AddEditEquipmentDialog(this, null);
+			addEditEquipmentDialog.setVisible(true);
+		}
+		else if(arg0.getSource() == btnEdit_equipment){
+			if(((EquipmentUI)equipmentUI).getSelectedEquipment(this) == null)
+				return;
+			
+			Equipment toEdit = ((EquipmentUI)equipmentUI).getSelectedEquipment(this);
+			addEditEquipmentDialog = new AddEditEquipmentDialog(this, toEdit);
+			addEditEquipmentDialog.setVisible(true);
+		}
+		else if(arg0.getSource() == okButton_EditEquip){
+			Equipment updated = addEditEquipmentDialog.getUpdatedEntry();
+			if(updated != null){
+				ArrayList<Equipment> alToEdit = new ArrayList<Equipment>();
+				alToEdit.add(updated);
+				try {
+					(new Factory()).updateEquipment(alToEdit);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				addEditEquipmentDialog.dispose();
+				((EquipmentUI)equipmentUI).refreshDisplay(this);
+			}
+		}
+		else if(arg0.getSource() == cancelButton_EditEquip){
+			addEditEquipmentDialog.dispose();
 		}
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());

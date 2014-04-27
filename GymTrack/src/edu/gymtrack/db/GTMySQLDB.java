@@ -150,16 +150,16 @@ public class GTMySQLDB implements GTDB {
 				"INSERT INTO `activities` (`key`,`name`,`unit`) "
 				+ "VALUES (" + a.getKey() + ",'" + a.getName() + "','" + a.getUnit() + "') "
 				+ "ON DUPLICATE KEY UPDATE name='" + a.getName() + "', unit='" + a.getUnit() + "'");
-		getResultSetForQuery(query);
+		runUpdateQuery(query);
 	}
 
 	@Override
 	public void updateEquipment(Equipment e) throws SQLException {
 		String query = new String(
 				"INSERT INTO `equipment` (`key`,`type`,`name`) "
-				+ "VALUES (" + e.getKey() + "," + e.getType() + ",'" + e.getName() + "') "
-				+ "ON DUPLICATE KEY UPDATE type=" + e.getType() + ", name='" + e.getName() + "'");
-		getResultSetForQuery(query);
+				+ "VALUES (" + e.getKey() + "," + e.getType().getKey() + ",'" + e.getName() + "') "
+				+ "ON DUPLICATE KEY UPDATE type=" + e.getType().getKey() + ", name='" + e.getName() + "'");
+		runUpdateQuery(query);
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class GTMySQLDB implements GTDB {
 				"INSERT INTO `equipment_types` (`key`,`name`) "
 				+ "VALUES (" + e.getKey() + ",'" + e.getName() + "') "
 				+ "ON DUPLICATE KEY UPDATE name='" + e.getName() + "'");
-		getResultSetForQuery(query);
+		runUpdateQuery(query);
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class GTMySQLDB implements GTDB {
 				"INSERT INTO `plan_elements` (`key`,`plan`,`activity`,`equipment`,`amount_required`) "
 				+ "VALUES (" + e.getKey() + "," + e.getPlan().getKey() + "," + e.getActivity().getKey() + "," + e.getEquipment().getKey() + "," + e.getNRequired() + ") "
 				+ "ON DUPLICATE KEY UPDATE plan=" + e.getPlan().getKey() + ", activity=" + e.getActivity().getKey() + ", equipment=" + e.getEquipment().getKey() + ", amount_required=" + e.getNRequired());
-		getResultSetForQuery(query);
+		runUpdateQuery(query);
 	}
 
 	@Override
@@ -197,20 +197,20 @@ public class GTMySQLDB implements GTDB {
 
 	@Override
 	public void deleteEquipment(Equipment e) throws SQLException {
-		String query = new String("DELETE FROM equipment WHERE key = " + e.getKey());
+		String query = new String("DELETE FROM equipment WHERE `key` = " + e.getKey());
 		deleteFromDB(query);
 	}
 
 	@Override
 	public void deleteEquipmentType(EquipmentType e) throws SQLException {
-		String query = new String("DELETE FROM equipment_types WHERE key = " + e.getKey());
+		String query = new String("DELETE FROM equipment_types WHERE `key` = " + e.getKey());
 		deleteFromDB(query);
 		
 	}
 
 	@Override
 	public void deletePlanElement(PlanElement e) throws SQLException {
-		String query = new String("DELETE FROM plan_elements WHERE key = " + e.getKey());
+		String query = new String("DELETE FROM plan_elements WHERE `key` = " + e.getKey());
 		deleteFromDB(query);
 	}
 
@@ -222,7 +222,7 @@ public class GTMySQLDB implements GTDB {
 
 	@Override
 	public void deleteWorkoutLog(WorkoutLog w) throws SQLException {
-		String query = new String("DELETE FROM workout_logs WHERE key = " + w.getKey());
+		String query = new String("DELETE FROM workout_logs WHERE `key` = " + w.getKey());
 		deleteFromDB(query);
 	}
 

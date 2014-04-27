@@ -16,6 +16,11 @@ import edu.gymtrack.model.WorkoutLog;
 
 public class EquipmentUI extends GTUI {
 	private static final long serialVersionUID = 1L;
+	private final String[] columnNames = {"Name", "Type", "Utilization"};
+	
+	private Object[][] tableData;
+	private ArrayList<Equipment> equipments = null;
+	private JScrollPane scrollablePane;
 	
 	public void createEquipmentUI(GymTrack gym){
 		gym.getContentPane().removeAll();
@@ -28,17 +33,21 @@ public class EquipmentUI extends GTUI {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		//setTitle("Equipment");
 		
-		String[] columnNames = {"Name", "Type", "Utilization"};
-		Object[][] tableData = getTableData();
+		tableData = getTableData();
 
 		JPanel topContainer = new JPanel();
 		contentPane.add(topContainer, BorderLayout.NORTH);
 
 		gym.btnAdd_equipment = new JButton("Add");
+		gym.btnAdd_equipment.addActionListener(gym);
 		topContainer.add(gym.btnAdd_equipment);
+		
 		gym.btnEdit_equipment = new JButton("Edit");
+		gym.btnEdit_equipment.addActionListener(gym);
 		topContainer.add(gym.btnEdit_equipment);
+		
 		gym.btnDelete_equipment = new JButton("Delete");
+		gym.btnDelete_equipment.addActionListener(gym);
 		topContainer.add(gym.btnDelete_equipment);
 		
 		JPanel bottomContainer = new JPanel();
@@ -65,24 +74,27 @@ public class EquipmentUI extends GTUI {
 		);
 		bottomPanel.setLayout(gl_bottomPanel);
 		
-		JScrollPane scrollablePane = new JScrollPane();
+		scrollablePane = new JScrollPane();
 		bottomContainer.add(scrollablePane, BorderLayout.CENTER);
 		
 		gym.equipmentTable_equipment = new JTable(tableData, columnNames);
 		gym.equipmentTable_equipment.setFillsViewportHeight(true);
 		scrollablePane.setViewportView(gym.equipmentTable_equipment);
 	}
-
-	//TODO implement
-	private static Object[][] getTableData(){
+	
+	private void updateEquipmentFromDB(){
 		Factory f = new Factory();
-		ArrayList<Equipment> equipments = null;
 		try {
 			equipments = f.getEquipment();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private Object[][] getTableData(){
+		Factory f = new Factory();
+		updateEquipmentFromDB();
 		
 		if(equipments == null)
 			return null;
@@ -107,6 +119,23 @@ public class EquipmentUI extends GTUI {
 		}
 		return data;
 	}
+	
+	public Equipment getSelectedEquipment(GymTrack gym){
+		int selected = gym.equipmentTable_equipment.getSelectedRow();
+		
+		if(selected < 0)
+			return null;
+		
+		return equipments.get(selected);
+	}
+	
+	public void refreshDisplay(GymTrack gym){
+		tableData = getTableData();
+		gym.equipmentTable_equipment = new JTable(tableData, columnNames);
+		gym.equipmentTable_equipment.setFillsViewportHeight(true);
+		scrollablePane.setViewportView(gym.equipmentTable_equipment);
+	}
+	
 	@Override
 	public GTUI showUI(GymTrack gym) {
 		createEquipmentUI(gym);
