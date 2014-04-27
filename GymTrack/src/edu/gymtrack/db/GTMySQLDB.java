@@ -220,9 +220,9 @@ public class GTMySQLDB implements GTDB {
 	public void updateWorkoutLog(WorkoutLog w) throws SQLException {
 		String query = new String(
 				"INSERT INTO `workout_logs` (`key`, `element`, `date`, `completed`) "
-				+ "VALUES (" + w.getKey() + "," + w.getElementKey() + "," + w.getDate() + "," + w.getNCompleted() + ")"
-				+ "ON DUPLICATE KEY UPDATE element=" + w.getElementKey() + ", date=" + w.getDate() + ", completed=" + w.getNCompleted() + ")");
-		getResultSetForQuery(query);
+				+ "VALUES (" + w.getKey() + "," + w.getElementKey() + ",'" + new java.sql.Timestamp(w.getDate().getTime()) + "'," + w.getNCompleted() + ") "
+				+ "ON DUPLICATE KEY UPDATE element=" + w.getElementKey() + ", date='" + new java.sql.Timestamp(w.getDate().getTime()) + "', completed=" + w.getNCompleted());
+		runUpdateQuery(query);
 	}
 
 	@Override

@@ -60,9 +60,11 @@ public class GymTrack extends JApplet implements ActionListener
 	 * Components used by LogWorkDialog
 	 */
 	protected JTextField amountTextField_LogWork;
+	protected JComboBox plansComboBox_LogWork;
 	protected JComboBox exerciseComboBox_LogWork;
 	protected JButton okButton_LogWork;
 	protected JButton cancelButton_LogWork;
+	protected LogWorkDialog logWorkDialog;
 	
 	/*
 	 * Components used by EditTrainees
@@ -227,8 +229,8 @@ public class GymTrack extends JApplet implements ActionListener
         	analyzeGymUI.goBack(this);
         }
         else if (arg0.getSource() == btnLogWork_MyPlans){
-				LogWorkDialog dialog = new LogWorkDialog(this, (MyPlansUI)myPlansUI);
-				dialog.setVisible(true);
+				logWorkDialog = new LogWorkDialog(this, (MyPlansUI)myPlansUI);
+				logWorkDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnSeeFeedback_MyPlans){
         	feedbackDialog = new SeeFeedbackDialog(this, loggedIn.getUserType());
@@ -406,6 +408,24 @@ public class GymTrack extends JApplet implements ActionListener
 		}
 		else if (arg0.getSource() == btnCancel_Feedback){
 			feedbackDialog.dispose();
+		}
+		else if (arg0.getSource() == okButton_LogWork){
+			WorkoutLog newLog = logWorkDialog.getNewEntry();
+			if(newLog != null){
+				ArrayList<WorkoutLog> arLog = new ArrayList<WorkoutLog>();
+				arLog.add(newLog);
+				try {
+					(new Factory()).updateWorkoutLogs(arLog);
+					logWorkDialog.dispose();
+					((MyPlansUI)myPlansUI).updateLogDetailsTable();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else if (arg0.getSource() == cancelButton_LogWork){
+			logWorkDialog.dispose();
 		}
 		else if (arg0.getSource() == btnUpdate_Feedback){
 			ArrayList<WorkoutPlan> updatedPlans = feedbackDialog.getUpdatedPlans();

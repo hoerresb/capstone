@@ -326,9 +326,18 @@ public class MyPlansUI extends GTUI {
 	}
 	
 	public final void updatePlanDetailsTable() { // refresh UI with selected plan
+		getDatabaseData();
 		TableModel myData = new DefaultTableModel(planTable_TableData, planTable_ColumnNames);
 		gym.planDetailsTable_MyPlans.setModel(myData);
 		gym.planDetailsTable_MyPlans.updateUI();
+	}
+	
+	public final void updateLogDetailsTable() { // refresh UI with selected plan
+		getDatabaseData();
+		worklogTable_TableData = getWorklogTableData();
+		TableModel myData = new DefaultTableModel(worklogTable_TableData, worklogTable_ColumnNames);
+		gym.loggedWorkTable_MyPlans.setModel(myData);
+		gym.loggedWorkTable_MyPlans.updateUI();
 	}
 	
 	// methods to create objects

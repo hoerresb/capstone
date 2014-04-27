@@ -2,6 +2,11 @@ package edu.gymtrack.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Date;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -16,19 +21,29 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-public class LogWorkDialog extends JDialog{
+import edu.gymtrack.model.Activity;
+import edu.gymtrack.model.WorkoutLog;
+import edu.gymtrack.model.WorkoutPlan;
+import edu.gymtrack.model.PlanElement;
+
+public class LogWorkDialog extends JDialog implements ActionListener{
 	private final JPanel contentPanel = new JPanel();
 	private static final long serialVersionUID = 1L;
+	private GymTrack gym;
+	private MyPlansUI plansUI;
+	private ArrayList<Integer> elementKeys;
 	
-	public LogWorkDialog(GymTrack gym, MyPlansUI plans) {
+	public LogWorkDialog(GymTrack gym, MyPlansUI plansUI) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		this.gym = gym;
+		this.plansUI = plansUI;
 		setModal(true);
 		setTitle("Log Work");
 		setBounds(100, 100, 450, 300);
 		setContentPane(contentPanel);
 		
 		String[] columnNames = {"Date", "Exercise", "Amount", "% of plan complete"};
-		Object[][] tableDataObjects = getWorklogTableData(plans);
+		Object[][] tableDataObjects = getWorklogTableData(plansUI);
 		
 		
 		JPanel topContainer = new JPanel();
@@ -61,8 +76,17 @@ public class LogWorkDialog extends JDialog{
 					.addComponent(dropDownContainer, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
 		);
 		
+		gym.plansComboBox_LogWork = new JComboBox();
+		gym.plansComboBox_LogWork.addActionListener(this);
+		gym.plansComboBox_LogWork.setModel(new DefaultComboBoxModel(getPlansDropDownMenuOptions(plansUI)));
+		
 		gym.exerciseComboBox_LogWork = new JComboBox();
-		gym.exerciseComboBox_LogWork.setModel(new DefaultComboBoxModel(getDropDownMenuOptions()));
+		gym.exerciseComboBox_LogWork.setModel(
+			new DefaultComboBoxModel(getActivitiesDropDownMenuOptions(
+				plansUI, 
+				plansUI.plans.get(gym.plansComboBox_LogWork.getSelectedIndex()))
+			)
+		);
 		
 		gym.amountTextField_LogWork = new JTextField();
 		gym.amountTextField_LogWork.setColumns(10);
@@ -70,10 +94,12 @@ public class LogWorkDialog extends JDialog{
 		gl_dropDownContainer.setHorizontalGroup(
 			gl_dropDownContainer.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_dropDownContainer.createSequentialGroup()
-					.addGap(35)
+//					.addGap(35)
+					.addComponent(gym.plansComboBox_LogWork, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
 					.addComponent(gym.exerciseComboBox_LogWork, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-					.addGap(76)
-					.addComponent(gym.amountTextField_LogWork, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(gym.amountTextField_LogWork, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(47, Short.MAX_VALUE))
 		);
 		gl_dropDownContainer.setVerticalGroup(
@@ -81,6 +107,7 @@ public class LogWorkDialog extends JDialog{
 				.addGroup(gl_dropDownContainer.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_dropDownContainer.createParallelGroup(Alignment.BASELINE)
+						.addComponent(gym.plansComboBox_LogWork, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(gym.exerciseComboBox_LogWork, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(gym.amountTextField_LogWork, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(24, Short.MAX_VALUE))
@@ -149,12 +176,55 @@ public class LogWorkDialog extends JDialog{
 		return data;
 	}
 	
-	//TODO fill this static String[] with real exercises
-	private String[] getDropDownMenuOptions(){
-		String[] options = new String[]{
-			"running (# of miles)", "curls (# of reps)", 
-			"leg curls (# of reps)"
-		};
-		return options;
+	private String[] getPlansDropDownMenuOptions(MyPlansUI plansUI){
+		ArrayList<String> strPlans = new ArrayList<String>();
+		for(WorkoutPlan plan : plansUI.plans){
+			strPlans.add(plan.getDateCreated().toString());
+		}
+		String[] result = new String[strPlans.size()];
+		strPlans.toArray(result);
+		return result;
+	}
+	
+	private String[] getActivitiesDropDownMenuOptions(MyPlansUI plansUI, WorkoutPlan plan){
+		ArrayList<String> strActivities = new ArrayList<String>();
+		elementKeys = new ArrayList<Integer>();
+		
+		for(PlanElement element : plansUI.elements.values()){
+			if(element.getPlan().getKey() == plan.getKey()){
+				strActivities.add(element.getActivityName());
+				elementKeys.add(element.getKey());
+			}
+		}
+		String[] result = new String[strActivities.size()];
+		strActivities.toArray(result);
+		return result;
+	}
+	
+	public WorkoutLog getNewEntry(){
+		if(elementKeys.isEmpty())
+			return null;
+		
+		String strAmount = gym.amountTextField_LogWork.getText();
+		int amount = 0;
+		try{
+			amount = Integer.parseInt(strAmount);
+		} catch(NumberFormatException e){
+			return null;
+		}
+		return new WorkoutLog(0, elementKeys.get(gym.exerciseComboBox_LogWork.getSelectedIndex()), new Date(), amount, true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		if(arg0.getSource() == gym.plansComboBox_LogWork){
+			gym.exerciseComboBox_LogWork.setModel(
+				new DefaultComboBoxModel(getActivitiesDropDownMenuOptions(
+					plansUI, 
+					plansUI.plans.get(gym.plansComboBox_LogWork.getSelectedIndex()))
+				)
+			);
+		}
+		
 	}
 }
