@@ -1,5 +1,6 @@
 package edu.gymtrack.view;
 
+import java.awt.Event;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class GymTrack extends JApplet implements ActionListener
 	protected int privilege;
 	protected int largetId;
 	protected User loggedIn = null;
+	protected int row = 0;
+	protected int col = 0;
 	GTUI previous;
 	/*
 	 * Components used by AddTraineeDialog
@@ -43,6 +46,14 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JRadioButton rdbtnMember_addUser;
 	protected AddUserDialog addUserDialog;
 	protected DeleteUserDialog deleteUserDialog;
+	protected JButton okButton_DeleteUser;
+	protected JTextField firstName_DeleteUser;
+	protected EditUserDialog editUserDialog;
+	protected JButton okButton_EditUser;
+	protected JTextField firstName_EditUser;
+	protected JTextField lastName_EditUser;
+	protected JTextField email_EditUser;
+	protected JTextField username_EditUser;
 	
 	/*
 	 * Components used by LogWorkDialog
@@ -150,6 +161,10 @@ public class GymTrack extends JApplet implements ActionListener
 	GTUI mainUI = new MainUI();
 	GTUI usersUI = new UsersUI();
 	
+	
+	
+
+	
 	public void init() {
 		setSize(800,400);
 		setName("GymTrack");
@@ -226,9 +241,68 @@ public class GymTrack extends JApplet implements ActionListener
         	this.addUserDialog = new AddUserDialog(this, this.usersUI);
         	this.addUserDialog.setVisible(true);
         }
+        else if (arg0.getSource() == btnEdit_users){
+        	this.editUserDialog = new EditUserDialog(this, this.usersUI);
+        	this.editUserDialog.setVisible(true);
+        }
         else if (arg0.getSource() == btnDelete_users){
         	this.deleteUserDialog = new DeleteUserDialog(this, this.usersUI);
         	this.deleteUserDialog.setVisible(true);
+        }
+        else if (arg0.getSource() == okButton_EditUser){
+        	this.row = usersTable_users.getSelectedRow();
+        	Factory factory = new Factory();
+            String username = this.username_EditUser.getText();
+        	String editUser = "";
+        	int editId = 0;
+        	UserType editType = null;
+        	int id = this.largetId;
+        	UserType type = UserType.CLIENT;
+        	if(this.rdbtnTrainer_addUser.isSelected()){
+        		type = UserType.TRAINER;
+        	}
+        	else{
+        		type = UserType.CLIENT;
+        	}
+        	
+        	editType = type;
+        	editId = id;
+        	
+        	
+        	System.out.println(editType);
+        	if(this.row != -1){
+        		
+        		for(int i = 0 ; i < 1; i++){
+        		 editUser =	(String) usersTable_users.getModel().getValueAt(this.row, 0);
+        		}
+        		
+        		
+        		
+        		User user = new User(username, editType, id, true);
+            	ArrayList<User> newData = new ArrayList<>();
+            	newData.add(user);
+            	user.setEdited(true);
+            	
+            	Authentication auth;
+            	try {
+    				auth = factory.createAuthentication();
+    				auth.addUser(editUser, "test");
+    				factory.updateUsers(newData, auth);
+    			} catch (SQLException e1) {
+    				// TODO catch
+    				e1.printStackTrace();
+    			}
+        		
+        	}
+       
+        	if(this.editUserDialog.callingUI == usersUI){
+        		usersUI.reloadPage(this);
+        		this.editUserDialog.dispose();
+        	}
+        	else if(this.addUserDialog.callingUI == editTraineesUI){
+        		editTraineesUI.reloadPage(this);
+        		this.addUserDialog.dispose();
+        	}
         }
         else if (arg0.getSource() == okButton_AddUser){
         	Factory factory = new Factory();
@@ -255,6 +329,7 @@ public class GymTrack extends JApplet implements ActionListener
 				// TODO catch
 				e1.printStackTrace();
 			}
+        	
         	if(this.addUserDialog.callingUI == usersUI){
         		usersUI.reloadPage(this);
         		this.addUserDialog.dispose();
@@ -262,6 +337,10 @@ public class GymTrack extends JApplet implements ActionListener
         	else if(this.deleteUserDialog.callingUI == usersUI){
         		usersUI.reloadPage(this);
         		this.deleteUserDialog.dispose();
+        	}
+        	else if(this.editUserDialog.callingUI == usersUI){
+        		usersUI.reloadPage(this);
+        		this.editUserDialog.dispose();
         	}
         	else if(this.addUserDialog.callingUI == editTraineesUI){
         		editTraineesUI.reloadPage(this);
@@ -341,6 +420,8 @@ public class GymTrack extends JApplet implements ActionListener
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 
 		
 /*		switch (this.txtUsername.getText()) {

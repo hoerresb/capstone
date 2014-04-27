@@ -25,7 +25,7 @@ public class DeleteUserDialog extends JDialog{
 		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModal(true);
-		setTitle("Add a User");
+		setTitle("Delete a User");
 		setBounds(100, 100, 450, 300);
 
 		setBounds(100, 100, 450, 300);
@@ -33,8 +33,8 @@ public class DeleteUserDialog extends JDialog{
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		JLabel lblFirstName = new JLabel("User Name");
-		gym.firstName_AddUser = new JTextField();
-		gym.firstName_AddUser.setColumns(10);
+		gym.firstName_DeleteUser = new JTextField();
+		gym.firstName_DeleteUser.setColumns(10);
 		/*JLabel lblLastName = new JLabel("Last name");
 		gym.lastName_AddUser = new JTextField();
 		gym.lastName_AddUser.setColumns(10);
@@ -60,7 +60,7 @@ public class DeleteUserDialog extends JDialog{
 								.addGroup(gl_contentPanel.createSequentialGroup()
 										.addComponent(lblFirstName)
 										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(gym.firstName_AddUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(gym.firstName_DeleteUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 										.addGroup(gl_contentPanel.createSequentialGroup()
 				
 				))));
@@ -70,7 +70,7 @@ public class DeleteUserDialog extends JDialog{
 						.addContainerGap()
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblFirstName)
-								.addComponent(gym.firstName_AddUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(gym.firstName_DeleteUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 								.addGap(18)
 								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 										
@@ -81,11 +81,11 @@ public class DeleteUserDialog extends JDialog{
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				gym.okButton_AddUser = new JButton("OK");
-				gym.okButton_AddUser.addActionListener(gym);
-				gym.okButton_AddUser.setActionCommand("OK");
-				buttonPane.add(gym.okButton_AddUser);
-				getRootPane().setDefaultButton(gym.okButton_AddUser);
+				gym.okButton_DeleteUser = new JButton("OK");
+				gym.okButton_DeleteUser.addActionListener(gym);
+				gym.okButton_DeleteUser.setActionCommand("OK");
+				buttonPane.add(gym.okButton_DeleteUser);
+				getRootPane().setDefaultButton(gym.okButton_DeleteUser);
 			}
 			{
 				gym.cancelButton_AddUser = new JButton("Cancel");
