@@ -1,9 +1,18 @@
 package edu.gymtrack.view;
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.EmptyBorder;
+
+import edu.gymtrack.db.Factory;
+import edu.gymtrack.model.Equipment;
+import edu.gymtrack.model.EquipmentType;
+import edu.gymtrack.model.WorkoutLog;
 
 public class EquipmentUI extends GTUI {
 	private static final long serialVersionUID = 1L;
@@ -19,7 +28,7 @@ public class EquipmentUI extends GTUI {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		//setTitle("Equipment");
 		
-		String[] columnNames = {"Type", "Count", "Utilization"};
+		String[] columnNames = {"Name", "Type", "Utilization"};
 		Object[][] tableData = getTableData();
 
 		JPanel topContainer = new JPanel();
@@ -66,13 +75,36 @@ public class EquipmentUI extends GTUI {
 
 	//TODO implement
 	private static Object[][] getTableData(){
-		Object[][] data = {
-			{"Treadmill", "15", "75%"}, {"Pull-up Bar", "2", "20%"},
-			{"Bowflex", "3", "85%"}, {"Free-weights", "6", "45%"},
-			{"Leg-press", "2", "25%"}, {"High-squat", "1","25%"}, 
-			{"Leg-extension", "3", "20%"}, {"Leg-curl", "3", "60%"}, 
-			{"Lat-pull down", "1", "75%"},{"Pec-deck", "1", "75%"}
-		};
+		Factory f = new Factory();
+		ArrayList<Equipment> equipments = null;
+		try {
+			equipments = f.getEquipment();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(equipments == null)
+			return null;
+		
+		Object[][] data = new Object[equipments.size()][3];
+		for(int i = 0; i < equipments.size(); ++i){
+			Equipment equipment = equipments.get(i);
+			data[i][0] = equipment.getName();
+			data[i][1] = equipment.getType().getName();
+			
+			int util = 0;
+			try {
+				ArrayList<WorkoutLog> logs = f.getWorkoutLogs(equipment);
+				for(WorkoutLog log : logs)
+					util += log.getNCompleted();
+					
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			data[i][2] = util;
+		}
 		return data;
 	}
 	@Override

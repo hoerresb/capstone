@@ -133,6 +133,16 @@ public class GTMySQLDB implements GTDB {
 		
 		return getResultSetForQuery(query);
 	}
+	
+	@Override
+	public ResultSet getWorkoutLogs(Equipment equipment) throws SQLException{
+		String query = new String(
+				"SELECT workout_logs.key, workout_logs.element, workout_logs.date, workout_logs.completed " +
+						"FROM plan_elements INNER JOIN workout_logs ON workout_logs.element = plan_elements.key " +
+						"WHERE plan_elements.equipment = '" + equipment.getKey() + "'");
+		
+		return getResultSetForQuery(query);
+	}
 
 	@Override
 	public void updateActivity(Activity a) throws SQLException {
