@@ -79,7 +79,7 @@ public class MyPlansUI extends GTUI {
         }
         else
         {
-        	planTable_TableData = new Object[1][4];
+        	planTable_TableData = new Object[0][4];
         }
         
         // List of workout logs at bottom

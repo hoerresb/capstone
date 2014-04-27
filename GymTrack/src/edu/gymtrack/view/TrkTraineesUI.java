@@ -7,6 +7,11 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.PlanElement;
 import edu.gymtrack.model.User;
@@ -16,15 +21,18 @@ import edu.gymtrack.model.WorkoutPlan;
 public class TrkTraineesUI extends GTUI {
 	private static final long serialVersionUID = 1L;
 	
-	final Factory factory = new Factory();
+	final static Factory factory = new Factory();
 	GymTrack gym;
 	
-	ArrayList<WorkoutPlan> plans;
+	static ArrayList<User> users;
+	static ArrayList<WorkoutPlan> plans;
 	ArrayList<PlanElement> elements;
-	ArrayList<WorkoutLog> logs;
+	static ArrayList<WorkoutLog> logs;
+	
+	JList<String> traineesList_TrkTrainees;
 	
 	String[] planTable_ColumnNames = {"Plan number", "Created On", "Goal", "Latest Feedback", "Percentage complete"};
-	Object[][] planTable_TableData = null;
+	static Object[][] planTable_TableData = null;
 	String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration/distance", "% of plan complete"};
 	Object[][] worklogTable_TableData = null;
 
@@ -42,14 +50,35 @@ public class TrkTraineesUI extends GTUI {
 		gym.setContentPane(contentPane);
 		//setTitle("Track Trainees");
 
-		String[] memberNames = getMemberNames(factory);
-		gym.traineesList_TrkTrainees = new JList<String>(memberNames);
-		gym.traineesList_TrkTrainees.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		gym.traineesList_TrkTrainees.setSelectedIndex(0);
-
-        
+		// list of trainees
 		
-        JScrollPane leftScrollablePane = new JScrollPane(gym.traineesList_TrkTrainees);
+		String[] memberNames = getMemberNames(factory);
+		traineesList_TrkTrainees = new JList<String>(memberNames);
+		traineesList_TrkTrainees.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		traineesList_TrkTrainees.setSelectedIndex(0);
+		traineesList_TrkTrainees.addListSelectionListener(new ListSelectionListener(){
+        	public void valueChanged(ListSelectionEvent arg0) { // when new index is selected, pulls corresponding user data and displays
+        		if (!arg0.getValueIsAdjusting()) {
+        			getPlanTableData(users.get(traineesList_TrkTrainees.getSelectedIndex()));
+        			updatePlanTable();
+        		}
+        	}
+        });
+		
+		// initial list of workout plans and logs
+		
+		if (traineesList_TrkTrainees.getModel().getSize() != 0)
+		{
+			getPlanTableData(users.get(traineesList_TrkTrainees.getSelectedIndex()));
+			worklogTable_TableData = getWorklogTableData(users.get(traineesList_TrkTrainees.getSelectedIndex()));
+		}
+		else
+		{
+			planTable_TableData = new Object[0][5];
+			worklogTable_TableData = new Object[0][4];
+		}
+		
+        JScrollPane leftScrollablePane = new JScrollPane(traineesList_TrkTrainees);
         JPanel rightPanel = new JPanel();
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                                    leftScrollablePane, rightPanel);
@@ -127,44 +156,65 @@ public class TrkTraineesUI extends GTUI {
         contentPane.add(splitPane);	
 	}
 	
-	//TODO implement
-	private static Object[][] getWorklogTableData(){
-		Object[][] data = {
-				{"1-15-2013","running", "1 mile", "5%"},
-				{"1-25-2013","bench press", "20 reps", "15%"},
-				{"1-30-2013","running", "2 mile", "25%"},
-				{"2-05-2013","sit ups", "100", "30%"},
-				{"2-20-2013","running", "1 mile", "50%"},
-				{"2-25-2013","pull ups", "25", "65%"}
-		};
+	//TODO calculate percentage completed
+	private static Object[][] getWorklogTableData(User user){
+		try {
+			logs = factory.getWorkoutLogs(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Object[][] data = new Object[logs.size()][4];
+		for (int i = 0; i < logs.size(); i++)
+		{
+			data[i][0] = logs.get(i).getDate();
+			data[i][1] = logs.get(i).getExerciseName();
+			data[i][2] = logs.get(i).getNCompleted();
+			data[i][3] = logs.get(i).getNCompleted(); // percentage
+		}
 		return data;
 	}
 
-	//TODO implement
-	private static Object[][] getPlanTableData(){
-		Object[][] data = {
-			{"PlanOne", "1-15-2013","Kill a bear", "good luck with that", "100%"},
-			{"PlanTwo", "6-20-2013","run a mile", "better get a bike", "100%"},
-			{"PlanThree", "9-19-2013","do a pull up", "here is a step stool", "100%"},
-			{"PlanFour", "1-1-2014","do a sit up", "elbows to the knees", "75%"},
-			{"PlanFive", "4-5-2014","touch my toes", "no no no, without bending your knees","1%"}
-		};
-		return data;
+	// TODO calculate completion rate on plans
+	private static void getPlanTableData(User user){
+		try {
+			plans = factory.getWorkoutPlansForUser(user);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		planTable_TableData = new Object[plans.size()][5];
+		for (int i = 0; i < plans.size(); i++)
+		{
+			planTable_TableData[i][0] = plans.get(i).getKey();
+			planTable_TableData[i][1] = plans.get(i).getDateCreated();
+			planTable_TableData[i][2] = plans.get(i).getGoals();
+			planTable_TableData[i][3] = plans.get(i).getFeedback();
+			planTable_TableData[i][4] = "Hi there.";
+		}
+		
 	}
 	private static String[] getMemberNames(Factory factory){
-        ArrayList<User> currentUserSet = new ArrayList<>();
+        users = new ArrayList<User>();
 		try 
 		{
-			currentUserSet = factory.getUsers();
+			users = factory.getUsers();
 		} catch (SQLException e) {
 			// TODO handle this
 			e.printStackTrace();
 		}  
-		String[] result = new String[currentUserSet.size()];
-		for (int i = 0; i < currentUserSet.size(); i++) {
-			result[i] = currentUserSet.get(i).getUsername();
+		String[] result = new String[users.size()];
+		for (int i = 0; i < users.size(); i++) {
+			result[i] = users.get(i).getUsername();
 		}
 		return result;
+	}
+	
+	// methods to refresh UI elements
+	
+	public final void updatePlanTable() { // refresh UI with selected plan
+		TableModel myData = new DefaultTableModel(planTable_TableData, planTable_ColumnNames);
+		gym.planTable_TrkTrainees.setModel(myData);
+		gym.planTable_TrkTrainees.updateUI();
 	}
 
 	@Override
