@@ -3,6 +3,8 @@ package edu.gymtrack.view;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -61,6 +63,8 @@ public class TrkTraineesUI extends GTUI {
         		if (!arg0.getValueIsAdjusting()) {
         			getPlanTableData(users.get(traineesList_TrkTrainees.getSelectedIndex()));
         			updatePlanTable();
+        			worklogTable_TableData = getWorklogTableData(users.get(traineesList_TrkTrainees.getSelectedIndex()));
+        			updateLogsTable();
         		}
         	}
         });
@@ -209,12 +213,40 @@ public class TrkTraineesUI extends GTUI {
 		return result;
 	}
 	
+	// method to add new workout plan or give feedback
+	
+	public final void newPlan(User client, User trainer, Date created, boolean isUserPlan, String goals, String feedback, int key)
+	{
+		plans.add(new WorkoutPlan(client, trainer, created, isUserPlan, goals, feedback, key, true));
+		
+		// update UI plans list
+		planTable_TableData = new Object[plans.size()][5];
+		for (int i = 0; i < plans.size(); i++)
+		{
+			// TODO calculation for completion percentage
+			planTable_TableData[i][0] = plans.get(i).getKey();
+			planTable_TableData[i][1] = plans.get(i).getDateCreated();
+			planTable_TableData[i][2] = plans.get(i).getGoals();
+			planTable_TableData[i][3] = plans.get(i).getFeedback();
+			planTable_TableData[i][4] = "Hi there.";
+		}
+		updatePlanTable();
+	}
+	
+	
+	
 	// methods to refresh UI elements
 	
 	public final void updatePlanTable() { // refresh UI with selected plan
 		TableModel myData = new DefaultTableModel(planTable_TableData, planTable_ColumnNames);
 		gym.planTable_TrkTrainees.setModel(myData);
 		gym.planTable_TrkTrainees.updateUI();
+	}
+	
+	public final void updateLogsTable() {
+		TableModel myData = new DefaultTableModel(worklogTable_TableData, worklogTable_ColumnNames);
+		gym.loggedProgressTable_TrkTrainees.setModel(myData);
+		gym.loggedProgressTable_TrkTrainees.updateUI();
 	}
 
 	@Override
