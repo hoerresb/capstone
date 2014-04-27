@@ -5,20 +5,13 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import org.jfree.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.time.Day;
+import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.PlanElement;
@@ -35,7 +28,13 @@ public class AnalyzeMeUI extends GTUI {
 		final Factory factory = new Factory();
 		
 		final XYDataset dataset = createDataset(factory, gym); 
-		final JFreeChart chart = createChart(dataset, gym);
+		final JFreeChart chart = ChartFactory.createTimeSeriesChart(
+				gym.loggedIn.getUsername() + "'s Workout History", 
+				"Date",
+				"Work",
+				dataset);
+				
+//				createChart(dataset, gym);
 		final ChartPanel chartPanel = new ChartPanel(chart);
 		
 		
@@ -83,7 +82,7 @@ public class AnalyzeMeUI extends GTUI {
 					final TimeSeries series = new TimeSeries(currentElement.getActivityName());
 					for (WorkoutLog currentLog: logs)
 					{
-						series.add(new Day(currentLog.getDate()), currentLog.getNCompleted());
+						series.add(new Second(currentLog.getDate()), currentLog.getNCompleted());
 					}
 					dataset.addSeries(series);
 				}
@@ -97,44 +96,45 @@ public class AnalyzeMeUI extends GTUI {
 		return dataset;
 	}
 	
-    private JFreeChart createChart(final XYDataset dataset, GymTrack gym) {
-    	
-    	// shamelessly ripped from java2s.com
-        
-        // create the chart...
-        final JFreeChart chart = ChartFactory.createXYLineChart(
-            (gym.loggedIn.getUsername() + "'s Workout History"),      // chart title
-            "Date",    
-            "Work",    
-            dataset,   
-            PlotOrientation.VERTICAL,
-            true,      
-            true,      
-            false
-        );
-
-
-        chart.setBackgroundPaint(Color.white);
-
-        final XYPlot plot = chart.getXYPlot();
-        plot.setBackgroundPaint(Color.lightGray);
-    //    plot.setAxisOffset(new Spacer(Spacer.ABSOLUTE, 5.0, 5.0, 5.0, 5.0));
-        plot.setDomainGridlinePaint(Color.white);
-        plot.setRangeGridlinePaint(Color.white);
-        
-        final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesLinesVisible(0, false);
-        renderer.setSeriesShapesVisible(1, false);
-        plot.setRenderer(renderer);
-
-        // change the auto tick unit selection to integer units only...
-        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        // OPTIONAL CUSTOMISATION COMPLETED.
-                
-        return chart;
-        
-    }
+//    private JFreeChart createChart(final XYDataset dataset, GymTrack gym) {
+//    	
+//    	// shamelessly ripped from java2s.com
+//        
+//        // create the chart...
+//        final JFreeChart chart = ChartFactory.createXYLineChart(
+//            (gym.loggedIn.getUsername() + "'s Workout History"),      // chart title
+//            "Date",    
+//            "Work",    
+//            dataset,   
+//            PlotOrientation.VERTICAL,
+//            true,      
+//            true,      
+//            false
+//        );
+//
+//
+//        chart.setBackgroundPaint(Color.white);
+//
+//        final XYPlot plot = chart.getXYPlot();
+//        plot.setBackgroundPaint(Color.lightGray);
+//    //    plot.setAxisOffset(new Spacer(Spacer.ABSOLUTE, 5.0, 5.0, 5.0, 5.0));
+//        plot.setDomainGridlinePaint(Color.white);
+//        plot.setRangeGridlinePaint(Color.white);
+//        
+//        final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+//        renderer.setSeriesLinesVisible(0, false);
+//        renderer.setSeriesShapesVisible(1, false);
+//        plot.setRenderer(renderer);
+//
+//        // change the auto tick unit selection to integer units only...
+////        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+////        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+////        rangeAxis.setStandardTickUnits(NumberAxis.createStandardTickUnits());
+//        // OPTIONAL CUSTOMISATION COMPLETED.
+//                
+//        return chart;
+//        
+//    }
 
 	public GTUI showUI(GymTrack gym) {
 		createAnalyzeMeUI(gym);
