@@ -48,7 +48,7 @@ public class GTMySQLDB implements GTDB {
 	private void deleteFromDB(String query) throws SQLException{
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
-		stmt.executeQuery(query);
+		stmt.executeUpdate(query);
 	}
 
 	@Override
@@ -206,7 +206,7 @@ public class GTMySQLDB implements GTDB {
 
 	@Override
 	public void deleteUser(User u) throws SQLException {
-		String query = new String("DELETE FROM users WHERE key = " + u.getID());
+		String query = new String("DELETE FROM users WHERE 'key' = " + u.getID());
 		deleteFromDB(query);
 	}
 
@@ -227,7 +227,7 @@ public class GTMySQLDB implements GTDB {
 
 	@Override
 	public void deleteWorkoutPlan(WorkoutPlan w) throws SQLException {
-		String query = new String("DELETE FROM workout_plans WHERE key = " + w.getKey());
+		String query = new String("DELETE FROM workout_plans WHERE 'key' = " + w.getKey());
 		deleteFromDB(query);
 	}
 
