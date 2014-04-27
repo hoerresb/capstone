@@ -13,7 +13,7 @@ public class DBMutable {
 		deleteFlag = willDelete;
 	}
 	
-	protected void setNew(boolean isNew){
+	public void setNew(boolean isNew){
 		newFlag = isNew;
 	}
 	

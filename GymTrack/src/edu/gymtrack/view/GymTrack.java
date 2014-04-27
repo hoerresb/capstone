@@ -10,6 +10,7 @@ import javax.swing.*;
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.User.UserType;
 import edu.gymtrack.model.WorkoutPlan;
+import edu.gymtrack.model.*;
 import edu.gymtrack.controller.Authentication;
 import edu.gymtrack.db.*;
 
@@ -246,8 +247,59 @@ public class GymTrack extends JApplet implements ActionListener
         	this.editUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnDelete_users){
-        	this.deleteUserDialog = new DeleteUserDialog(this, this.usersUI);
-        	this.deleteUserDialog.setVisible(true);
+        	this.row = usersTable_users.getSelectedRow();
+        	Factory factory = new Factory();
+        	String deleteUser = "";
+        	int deleteId = 0;
+        	UserType deleteType = null;
+        	String delete = "";
+        	
+        	
+        	System.out.println(deleteType);
+        	if(this.row != -1){
+        		
+        		for(int i = 0 ; i < 3; i++){
+        		 deleteUser =	(String) usersTable_users.getModel().getValueAt(this.row, 0);
+        		 delete = (String) usersTable_users.getModel().getValueAt(this.row,1);
+        		 deleteId = (int) usersTable_users.getModel().getValueAt(this.row,2);
+        		}
+        		
+        		if(deleteUser.equals(loggedIn.getUsername())){
+        			return;
+        		}
+        		
+        		if(delete.equalsIgnoreCase("TRAINER")){
+        			deleteType = UserType.TRAINER;
+        		}
+        		else if(delete.equalsIgnoreCase("Client")){
+        			deleteType = UserType.CLIENT;
+        		}
+        		
+        		
+        		
+        		User user = new User(deleteUser, deleteType, deleteId, true);
+            	ArrayList<User> newData = new ArrayList<>();
+            	newData.add(user);
+            	user.setDelete(true);
+            	user.setNew(false);
+  
+            	
+            	Authentication auth;
+            	try {
+    				auth = factory.createAuthentication();
+    				auth.addUser(deleteUser, "test");
+    				factory.updateUsers(newData, auth);
+    			} catch (SQLException e1) {
+    				// TODO catch
+    				e1.printStackTrace();
+    			}
+        		
+        	}
+       
+        	
+        	usersUI.reloadPage(this);
+        	
+        	
         }
         else if (arg0.getSource() == okButton_EditUser){
         	this.row = usersTable_users.getSelectedRow();
@@ -333,10 +385,6 @@ public class GymTrack extends JApplet implements ActionListener
         	if(this.addUserDialog.callingUI == usersUI){
         		usersUI.reloadPage(this);
         		this.addUserDialog.dispose();
-        	}
-        	else if(this.deleteUserDialog.callingUI == usersUI){
-        		usersUI.reloadPage(this);
-        		this.deleteUserDialog.dispose();
         	}
         	else if(this.editUserDialog.callingUI == usersUI){
         		usersUI.reloadPage(this);
