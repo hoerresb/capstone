@@ -5,15 +5,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.EmptyBorder;
 
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.User;
-import edu.gymtrack.model.User.UserType;
 
+@SuppressWarnings("serial")
 public class UsersUI extends GTUI {
-	private final long serialVersionUID = 1L;
 	
 	private String[] columnNames = {"Username", "Type", "ID"};
 	private JScrollPane scrollablePane;
@@ -121,7 +119,11 @@ public class UsersUI extends GTUI {
 		scrollablePane = new JScrollPane();
 		bottomContainer.add(scrollablePane, BorderLayout.CENTER);
 		
-		gym.usersTable_users = new JTable(tableData, columnNames);
+		gym.usersTable_users = new JTable(tableData, columnNames) {
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return false;
+			}
+		};
 		gym.usersTable_users.setFillsViewportHeight(true);
 		scrollablePane.setViewportView(gym.usersTable_users);
 	}

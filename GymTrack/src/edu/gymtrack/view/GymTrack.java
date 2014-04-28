@@ -344,12 +344,12 @@ public class GymTrack extends JApplet implements ActionListener
         	UserType editType = null;
         	int id = this.largetId;
         	UserType type = UserType.CLIENT;
-        	if(this.rdbtnTrainer_addUser.isSelected()){
+/*        	if(this.rdbtnTrainer_addUser.isSelected()){
         		type = UserType.TRAINER;
         	}
-        	else{
+        	else if(this.rdbtnTrainer_addUser.isSelected()){
         		type = UserType.CLIENT;
-        	}
+        	}*/
         	
         	editType = type;
         	editId = id;
@@ -402,8 +402,11 @@ public class GymTrack extends JApplet implements ActionListener
         	if(this.rdbtnTrainer_addUser.isSelected()){
         		type = UserType.TRAINER;
         	}
-        	else{
+        	else if(this.rdbtnMember_addUser.isSelected()){
         		type = UserType.CLIENT;
+        	}
+        	else {
+        		type = UserType.OWNER;
         	}
         	
         	User user = new User(username, type, id, true);
@@ -413,7 +416,7 @@ public class GymTrack extends JApplet implements ActionListener
         	Authentication auth;
         	try {
 				auth = factory.createAuthentication();
-				auth.addUser(username, "test");
+				auth.addUser(username, String.valueOf(this.password_AddEditUser.getPassword()));
 				factory.updateUsers(newData, auth);
 			} catch (SQLException e1) {
 				e1.printStackTrace();

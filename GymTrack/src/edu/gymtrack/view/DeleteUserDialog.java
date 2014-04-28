@@ -51,11 +51,5 @@ public class DeleteUserDialog extends JDialog{
 		gym.cancelButton_DeleteUser.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
 		gym.cancelButton_DeleteUser.addActionListener(gym);
 		buttonPane.add(gym.cancelButton_DeleteUser);
-		
-		if(callingUI == gym.editTraineesUI){
-			gym.rdbtnMember_addUser.setVisible(false);
-			gym.rdbtnTrainer_addUser.setVisible(false);
-		}
-
 	}
 }

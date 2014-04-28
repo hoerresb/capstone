@@ -143,6 +143,9 @@ public class AddEditUserDialog extends JDialog{
 		buttonPane.add(gym.cancelButton_AddEditUser);
 		
 		if(callingUI == gym.editTraineesUI){
+			if(!isEdit) {
+				
+			}
 			fromEditTraineeSpacer.setVisible(true);
 			fromUsersSpacer.setVisible(false);
 			gym.rdbtnOwner_addUser.setVisible(false);

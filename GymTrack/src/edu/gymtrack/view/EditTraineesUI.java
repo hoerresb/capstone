@@ -49,7 +49,7 @@ public class EditTraineesUI extends GTUI {
 		gym.btnDelete_EditTrainees = new JButton(new ImageIcon("images/delete.png", "Delete"));
 		gym.btnDelete_EditTrainees.setPreferredSize(new Dimension(90, 30));
 		gym.btnDelete_EditTrainees.setRolloverIcon(new ImageIcon("images/delete_over.png", "Delete"));
-		gym.btnAdd_EditTrainees.addActionListener(gym);
+		gym.btnDelete_EditTrainees.addActionListener(gym);
 		topContainer.add(gym.btnDelete_EditTrainees);
 
 		JPanel bottomContainer = new JPanel();
@@ -79,7 +79,11 @@ public class EditTraineesUI extends GTUI {
 		JScrollPane scrollablePane = new JScrollPane();
 		bottomContainer.add(scrollablePane, BorderLayout.CENTER);
 
-		gym.traineesTable_EditTrainees = new JTable(tableData, columnNames);
+		gym.traineesTable_EditTrainees = new JTable(tableData, columnNames) {
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return false;
+			}
+		};
 		gym.traineesTable_EditTrainees.setFillsViewportHeight(true);
 		scrollablePane.setViewportView(gym.traineesTable_EditTrainees);
 	}
