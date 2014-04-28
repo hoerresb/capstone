@@ -29,8 +29,9 @@ public class GymTrack extends JApplet implements ActionListener
 	 * Universal Components
 	 */
 	protected JButton btnLogout;
-	ConnectionErrorDialog connectionError;
+	protected ConnectionErrorDialog connectionError;
 	protected AddEditUserDialog addEditUserDialog;
+	protected DeleteUserDialog deleteUserDialog;
 	
 	/*
 	 * components used by ConnectionErrorDialog
@@ -54,19 +55,22 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JTextField lastName_AddUser;
 	protected JTextField email_AddUser;
 	protected JTextField username_AddUser;
-	protected JButton okButton_AddUser;
+	protected JButton okButton_AddEditUser;
 	protected JButton updateButton_EditUser;
-	protected JButton cancelButton_AddUser;
+	protected JButton cancelButton_AddEditUser;
 	protected JRadioButton rdbtnTrainer_addUser;
 	protected JRadioButton rdbtnMember_addUser;
-	protected DeleteUserDialog deleteUserDialog;
-	protected JButton okButton_DeleteUser;
 	protected JTextField firstName_DeleteUser;
-	protected JButton okButton_EditUser;
 	protected JTextField firstName_EditUser;
 	protected JTextField lastName_EditUser;
 	protected JTextField email_EditUser;
 	protected JTextField username_EditUser;
+	
+	/*
+	 * Components used by DeleteUserDialog
+	 */
+	protected JButton okButton_DeleteUser;
+	protected JButton cancelButton_DeleteUser;
 	
 	/*
 	 * Components used by LogWorkDialog
@@ -99,7 +103,7 @@ public class GymTrack extends JApplet implements ActionListener
 	/*
 	 * components used by LoginUI
 	 */
-	LoginErrorDialog loginError;
+	protected LoginErrorDialog loginError;
 	protected JButton btnSubmit;
 	protected JTextField txtUsername;
 	protected JPasswordField txtPassword;
@@ -130,7 +134,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnBack_equipment;
 	
 	/*
-	 * Components used by Add/Edit Equipment Dialog
+	 * Components used by AddEditEquipmentDialog
 	 */
 	protected JTextField nameTextField_EditEquip;
 	protected JComboBox typesComboBox_EditEquip;
@@ -332,7 +336,7 @@ public class GymTrack extends JApplet implements ActionListener
        
         	usersUI.reloadPage(this);
         }
-        else if (arg0.getSource() == okButton_EditUser){
+        else if (arg0.getSource() == updateButton_EditUser){
         	this.row = usersTable_users.getSelectedRow();
         	Factory factory = new Factory();
             String username = this.username_EditUser.getText();
@@ -388,10 +392,10 @@ public class GymTrack extends JApplet implements ActionListener
         		addEditUserDialog.dispose();
         	}
         }
-        else if(arg0.getSource() == cancelButton_AddUser) {
+        else if(arg0.getSource() == cancelButton_AddEditUser) {
         	addEditUserDialog.dispose();
         }
-        else if (arg0.getSource() == okButton_AddUser){
+        else if (arg0.getSource() == okButton_AddEditUser){
         	Factory factory = new Factory();
         	String username = this.username_AddUser.getText();
         	int id = this.largetId + 1;

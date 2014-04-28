@@ -109,16 +109,16 @@ public class AddUserDialog extends JDialog{
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				gym.okButton_AddUser = new JButton("OK");
-				gym.okButton_AddUser.addActionListener(gym);
-				gym.okButton_AddUser.setActionCommand("OK");
-				buttonPane.add(gym.okButton_AddUser);
-				getRootPane().setDefaultButton(gym.okButton_AddUser);
+				gym.okButton_AddEditUser = new JButton("OK");
+				gym.okButton_AddEditUser.addActionListener(gym);
+				gym.okButton_AddEditUser.setActionCommand("OK");
+				buttonPane.add(gym.okButton_AddEditUser);
+				getRootPane().setDefaultButton(gym.okButton_AddEditUser);
 			}
 			{
-				gym.cancelButton_AddUser = new JButton("Cancel");
-				gym.cancelButton_AddUser.setActionCommand("Cancel");
-				buttonPane.add(gym.cancelButton_AddUser);
+				gym.cancelButton_AddEditUser = new JButton("Cancel");
+				gym.cancelButton_AddEditUser.setActionCommand("Cancel");
+				buttonPane.add(gym.cancelButton_AddEditUser);
 			}
 		}
 		

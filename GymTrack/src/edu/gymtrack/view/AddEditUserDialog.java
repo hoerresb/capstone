@@ -130,18 +130,18 @@ public class AddEditUserDialog extends JDialog{
 			buttonPane.add(gym.updateButton_EditUser);
 		}
 		else {
-			gym.okButton_EditUser = new JButton(new ImageIcon("images/dialog_ok.png", "Ok"));
-			gym.okButton_EditUser.setPreferredSize(new Dimension(70,25));
-			gym.okButton_EditUser.setRolloverIcon(new ImageIcon("images/dialog_ok_over.png", "Ok"));
-			gym.okButton_EditUser.addActionListener(gym);
-			buttonPane.add(gym.okButton_EditUser);
+			gym.okButton_AddEditUser = new JButton(new ImageIcon("images/dialog_ok.png", "Ok"));
+			gym.okButton_AddEditUser.setPreferredSize(new Dimension(70,25));
+			gym.okButton_AddEditUser.setRolloverIcon(new ImageIcon("images/dialog_ok_over.png", "Ok"));
+			gym.okButton_AddEditUser.addActionListener(gym);
+			buttonPane.add(gym.okButton_AddEditUser);
 		}
 
-		gym.cancelButton_AddUser = new JButton(new ImageIcon("images/dialog_cancel.png", "Cancel"));
-		gym.cancelButton_AddUser.setPreferredSize(new Dimension(70,25));
-		gym.cancelButton_AddUser.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
-		gym.cancelButton_AddUser.addActionListener(gym);
-		buttonPane.add(gym.cancelButton_AddUser);
+		gym.cancelButton_AddEditUser = new JButton(new ImageIcon("images/dialog_cancel.png", "Cancel"));
+		gym.cancelButton_AddEditUser.setPreferredSize(new Dimension(70,25));
+		gym.cancelButton_AddEditUser.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
+		gym.cancelButton_AddEditUser.addActionListener(gym);
+		buttonPane.add(gym.cancelButton_AddEditUser);
 		
 		if(callingUI == gym.editTraineesUI){
 			gym.rdbtnMember_addUser.setVisible(false);

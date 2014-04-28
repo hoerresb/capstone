@@ -1,9 +1,12 @@
 package edu.gymtrack.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -81,22 +84,38 @@ public class DeleteUserDialog extends JDialog{
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				gym.okButton_DeleteUser = new JButton("OK");
-				gym.okButton_DeleteUser.addActionListener(gym);
-				gym.okButton_DeleteUser.setActionCommand("OK");
-				buttonPane.add(gym.okButton_DeleteUser);
-				getRootPane().setDefaultButton(gym.okButton_DeleteUser);
+				gym.okButton_AddEditUser = new JButton("OK");
+				gym.okButton_AddEditUser.addActionListener(gym);
+				gym.okButton_AddEditUser.setActionCommand("OK");
+				buttonPane.add(gym.okButton_AddEditUser);
+				getRootPane().setDefaultButton(gym.okButton_AddEditUser);
 			}
 			{
-				gym.cancelButton_AddUser = new JButton("Cancel");
-				gym.cancelButton_AddUser.setActionCommand("Cancel");
-				buttonPane.add(gym.cancelButton_AddUser);
+				gym.cancelButton_AddEditUser = new JButton("Cancel");
+				gym.cancelButton_AddEditUser.setActionCommand("Cancel");
+				buttonPane.add(gym.cancelButton_AddEditUser);
 			}
 		}
 		
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+		gym.okButton_DeleteUser = new JButton(new ImageIcon("images/dialog_ok.png", "Ok"));
+		gym.okButton_DeleteUser.setPreferredSize(new Dimension(70,25));
+		gym.okButton_DeleteUser.setRolloverIcon(new ImageIcon("images/dialog_ok_over.png", "Ok"));
+		gym.okButton_DeleteUser.addActionListener(gym);
+		buttonPane.add(gym.okButton_DeleteUser);
+		
+		gym.cancelButton_DeleteUser = new JButton(new ImageIcon("images/dialog_cancel.png", "Cancel"));
+		gym.cancelButton_DeleteUser.setPreferredSize(new Dimension(70,25));
+		gym.cancelButton_DeleteUser.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
+		gym.cancelButton_DeleteUser.addActionListener(gym);
+		buttonPane.add(gym.cancelButton_DeleteUser);
+		
 		if(callingUI == gym.editTraineesUI){
-			gym.rdbtnMember_addUser.hide();
-			gym.rdbtnTrainer_addUser.hide();
+			gym.rdbtnMember_addUser.setVisible(false);
+			gym.rdbtnTrainer_addUser.setVisible(false);
 		}
 
 	}
