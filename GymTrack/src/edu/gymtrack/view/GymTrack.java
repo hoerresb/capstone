@@ -29,6 +29,12 @@ public class GymTrack extends JApplet implements ActionListener
 	 * Universal Components
 	 */
 	protected JButton btnLogout;
+	ConnectionErrorDialog connectionError;
+	
+	/*
+	 * components used by ConnectionErrorDialog
+	 */
+	protected JButton btnOk_connectionerr;
 	
 	/*
 	 * Components used by AddTraineeDialog
@@ -94,7 +100,6 @@ public class GymTrack extends JApplet implements ActionListener
 	 * components used by LoginUI
 	 */
 	LoginErrorDialog loginError;
-	ConnectionErrorDialog connectionError;
 	protected JButton btnSubmit;
 	protected JTextField txtUsername;
 	protected JPasswordField txtPassword;
@@ -103,11 +108,6 @@ public class GymTrack extends JApplet implements ActionListener
 	 * components used by LoginErrorDialog
 	 */
 	protected JButton btnOk_loginerr;
-	
-	/*
-	 * components used by ConnectionErrorDialog
-	 */
-	protected JButton btnOk_connectionerr;
 	
 	/*
 	 * components used by MainUI
@@ -315,16 +315,14 @@ public class GymTrack extends JApplet implements ActionListener
     				auth.addUser(deleteUser, "test");
     				factory.updateUsers(newData, auth);
     			} catch (SQLException e1) {
-    				// TODO catch
     				e1.printStackTrace();
+    				connectionError = new ConnectionErrorDialog(this);
+					connectionError.setVisible(true);
     			}
         		
         	}
        
-        	
         	usersUI.reloadPage(this);
-        	
-        	
         }
         else if (arg0.getSource() == okButton_EditUser){
         	this.row = usersTable_users.getSelectedRow();
@@ -366,8 +364,9 @@ public class GymTrack extends JApplet implements ActionListener
     				auth.addUser(editUser, "test");
     				factory.updateUsers(newData, auth);
     			} catch (SQLException e1) {
-    				// TODO catch
     				e1.printStackTrace();
+    				connectionError = new ConnectionErrorDialog(this);
+					connectionError.setVisible(true);
     			}
         		
         	}
@@ -403,8 +402,9 @@ public class GymTrack extends JApplet implements ActionListener
 				auth.addUser(username, "test");
 				factory.updateUsers(newData, auth);
 			} catch (SQLException e1) {
-				// TODO catch
 				e1.printStackTrace();
+				connectionError = new ConnectionErrorDialog(this);
+				connectionError.setVisible(true);
 			}
         	
         	if(this.addUserDialog.callingUI == usersUI){
@@ -442,8 +442,9 @@ public class GymTrack extends JApplet implements ActionListener
 					logWorkDialog.dispose();
 					((MyPlansUI)myPlansUI).updateLogDetailsTable();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					connectionError = new ConnectionErrorDialog(this);
+					connectionError.setVisible(true);
 				}
 			}
 		}
@@ -456,8 +457,9 @@ public class GymTrack extends JApplet implements ActionListener
 				(new Factory()).updateWorkoutPlans(updatedPlans);
 				feedbackDialog.dispose();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				connectionError = new ConnectionErrorDialog(this);
+				connectionError.setVisible(true);
 			}
 		}
 		else if (arg0.getSource() == btnDelete_equipment){
@@ -469,8 +471,9 @@ public class GymTrack extends JApplet implements ActionListener
 				try {
 					(new Factory()).updateEquipment(alToDelete);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					connectionError = new ConnectionErrorDialog(this);
+					connectionError.setVisible(true);
 				}
 				
 				((EquipmentUI)equipmentUI).refreshDisplay(this);
@@ -496,8 +499,9 @@ public class GymTrack extends JApplet implements ActionListener
 				try {
 					(new Factory()).updateEquipment(alToEdit);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					connectionError = new ConnectionErrorDialog(this);
+					connectionError.setVisible(true);
 				}
 				addEditEquipmentDialog.dispose();
 				((EquipmentUI)equipmentUI).refreshDisplay(this);
@@ -512,8 +516,17 @@ public class GymTrack extends JApplet implements ActionListener
 		else if(arg0.getSource() == btnOk_connectionerr) {
 			connectionError.dispose();
 		}
-        else {
-        	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
+		else if(arg0.getSource() == btnProvideFeedback_TrkTrainees) {
+			// TODO
+		}
+		else if(arg0.getSource() == btnCreatNewPlan_TrkTrainees) {
+			// TODO
+		}
+		else if(arg0.getSource() == btnDeleteSelectedPlan_TrkTrainees) {
+			// TODO
+		}
+		else {
+			System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
 		}
 	}
 	
@@ -562,7 +575,6 @@ public class GymTrack extends JApplet implements ActionListener
 			}
 			
 		 catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			connectionError = new ConnectionErrorDialog(this);
 			connectionError.setVisible(true);

@@ -46,10 +46,13 @@ public class TrkTraineesUI extends GTUI {
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
+		gym.getContentPane().setLayout(new FlowLayout());
+		
 		JPanel contentPane = new JPanel();
+		contentPane.setPreferredSize(new Dimension(800,350));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		gym.setContentPane(contentPane);
+		gym.getContentPane().add(contentPane);
 		//setTitle("Track Trainees");
 
 		// list of trainees
@@ -87,40 +90,7 @@ public class TrkTraineesUI extends GTUI {
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                                    leftScrollablePane, rightPanel);
         rightPanel.setLayout(new BorderLayout(0, 0));
-        
-        JPanel bottomContainer = new JPanel();
-        rightPanel.add(bottomContainer, BorderLayout.SOUTH);
-        
-        gym.btnBack_TrkTrainees = new JButton("Back");
-        gym.btnBack_TrkTrainees.addActionListener(gym);
-        gym.btnProvideFeedback_TrkTrainees = new JButton("Provide Feedback");
-        gym.btnCreatNewPlan_TrkTrainees = new JButton("Create New Plan");
-        gym.btnDeleteSelectedPlan_TrkTrainees = new JButton("Delete Selected Plan");
-        
-        GroupLayout gl_bottomContainer = new GroupLayout(bottomContainer);
-        gl_bottomContainer.setHorizontalGroup(
-        	gl_bottomContainer.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_bottomContainer.createSequentialGroup()
-        			.addComponent(gym.btnBack_TrkTrainees)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(gym.btnProvideFeedback_TrkTrainees)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(gym.btnCreatNewPlan_TrkTrainees)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(gym.btnDeleteSelectedPlan_TrkTrainees)
-        			.addContainerGap(236, Short.MAX_VALUE))
-        );
-        gl_bottomContainer.setVerticalGroup(
-        	gl_bottomContainer.createParallelGroup(Alignment.TRAILING)
-        		.addGroup(gl_bottomContainer.createSequentialGroup()
-        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        			.addGroup(gl_bottomContainer.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(gym.btnBack_TrkTrainees)
-        				.addComponent(gym.btnProvideFeedback_TrkTrainees)
-        				.addComponent(gym.btnCreatNewPlan_TrkTrainees)
-        				.addComponent(gym.btnDeleteSelectedPlan_TrkTrainees)))
-        );
-        bottomContainer.setLayout(gl_bottomContainer);
+        rightPanel.setMinimumSize(new Dimension(500,50));
         
         JPanel topContainer = new JPanel();
         rightPanel.add(topContainer, BorderLayout.CENTER);
@@ -158,6 +128,49 @@ public class TrkTraineesUI extends GTUI {
         splitPane.setPreferredSize(new Dimension(400, 200));
 		
         contentPane.add(splitPane);	
+        
+        gym.btnProvideFeedback_TrkTrainees = new JButton("Provide Feedback");
+        gym.btnCreatNewPlan_TrkTrainees = new JButton("Create New Plan");
+        gym.btnDeleteSelectedPlan_TrkTrainees = new JButton("Delete Selected Plan");
+        
+        JPanel bottomPanel = new JPanel();
+		bottomPanel.setLayout(new FlowLayout());
+		gym.getContentPane().add(bottomPanel);
+		
+		gym.btnProvideFeedback_TrkTrainees = new JButton(new ImageIcon("images/providefeedback.png", "Provide Feedback"));
+		gym.btnProvideFeedback_TrkTrainees.setPreferredSize(new Dimension(190, 30));
+		gym.btnProvideFeedback_TrkTrainees.setRolloverIcon(new ImageIcon("images/providefeedback_over.png", "Provide Feedback"));
+		gym.btnProvideFeedback_TrkTrainees.addActionListener(gym);
+        bottomPanel.add(gym.btnProvideFeedback_TrkTrainees);
+        
+        gym.btnCreatNewPlan_TrkTrainees = new JButton(new ImageIcon("images/createnewplan.png", "Create New Plan"));
+        gym.btnCreatNewPlan_TrkTrainees.setPreferredSize(new Dimension(180, 30));
+        gym.btnCreatNewPlan_TrkTrainees.setRolloverIcon(new ImageIcon("images/createnewplan_over.png", "Create New Plan"));
+        gym.btnCreatNewPlan_TrkTrainees.addActionListener(gym);
+        bottomPanel.add(gym.btnCreatNewPlan_TrkTrainees);
+        
+        gym.btnDeleteSelectedPlan_TrkTrainees = new JButton(new ImageIcon("images/deleteselected.png", "Delete Selected"));
+        gym.btnDeleteSelectedPlan_TrkTrainees.setPreferredSize(new Dimension(180, 30));
+        gym.btnDeleteSelectedPlan_TrkTrainees.setRolloverIcon(new ImageIcon("images/deleteselected_over.png", "Delete Selected"));
+        gym.btnDeleteSelectedPlan_TrkTrainees.addActionListener(gym);
+        bottomPanel.add(gym.btnDeleteSelectedPlan_TrkTrainees);
+        
+        /*JSeparator separator = new JSeparator();
+		separator.setPreferredSize(new Dimension(180, 0));
+		bottomPanel.add(separator);*/
+		
+		gym.btnBack_TrkTrainees = new JButton(new ImageIcon("images/back.png", "Back"));
+		gym.btnBack_TrkTrainees.setPreferredSize(new Dimension(90, 30));
+		gym.btnBack_TrkTrainees.setRolloverIcon(new ImageIcon("images/back_over.png", "Logout"));
+		gym.btnBack_TrkTrainees.addActionListener(gym);
+        bottomPanel.add(gym.btnBack_TrkTrainees);
+        
+        gym.btnLogout = new JButton(new ImageIcon("images/logout.png", "Logout"));
+		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
+		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", "Logout"));
+		gym.btnLogout.addActionListener(gym);
+		bottomPanel.add(gym.btnLogout);
+        
 	}
 	
 	//TODO calculate percentage completed

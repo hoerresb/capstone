@@ -2,6 +2,8 @@ package edu.gymtrack.view;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -40,7 +42,9 @@ public class ConnectionErrorDialog extends JDialog {
 		buttonPane.setLayout(new FlowLayout());
 		this.getContentPane().add(buttonPane);
 
-		gym.btnOk_connectionerr = new JButton("Ok");
+		gym.btnOk_connectionerr = new JButton(new ImageIcon("images/dialog_ok.png", "Ok"));
+		gym.btnOk_connectionerr.setPreferredSize(new Dimension(70,25));
+		gym.btnOk_connectionerr.setRolloverIcon(new ImageIcon("images/dialog_ok_over.png", "Ok"));
 		gym.btnOk_connectionerr.addActionListener(gym);
 		buttonPane.add(gym.btnOk_connectionerr);
 	}

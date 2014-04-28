@@ -51,7 +51,6 @@ public class MyPlansUI extends GTUI {
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
-		
 		gym.getContentPane().setLayout(new FlowLayout());
 		
 		JPanel contentPane = new JPanel();
