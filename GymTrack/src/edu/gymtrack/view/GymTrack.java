@@ -424,10 +424,6 @@ public class GymTrack extends JApplet implements ActionListener
         		usersUI.reloadPage(this);
         		addEditUserDialog.dispose();
         	}
-        	else if(addEditUserDialog.callingUI == usersUI){
-        		usersUI.reloadPage(this);
-        		addEditUserDialog.dispose();
-        	}
         	else if(addEditUserDialog.callingUI == editTraineesUI){
         		editTraineesUI.reloadPage(this);
         		addEditUserDialog.dispose();
@@ -524,7 +520,7 @@ public class GymTrack extends JApplet implements ActionListener
 			addEditEquipmentDialog.dispose();
 		}
 		else if(arg0.getSource() == okButton_AddTrainee) {
-			// TODO
+			addEditUserDialog.dispose();
 		}
 		else if(arg0.getSource() == cancelButton_AddTrainee) {
 			addEditUserDialog.dispose();

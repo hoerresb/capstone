@@ -45,9 +45,17 @@ public class AddEditUserDialog extends JDialog{
 		contentPanel.setLayout(new FlowLayout());
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
+		gym.rdbtnTrainer_addUser = new JRadioButton("Trainer");
+		gym.rdbtnMember_addUser = new JRadioButton("Member");
+		addUser_buttonGroup.add(gym.rdbtnMember_addUser);
+		addUser_buttonGroup.add(gym.rdbtnTrainer_addUser);
+		gym.rdbtnMember_addUser.setSelected(true);
+		contentPanel.add(gym.rdbtnTrainer_addUser);
+		contentPanel.add(gym.rdbtnMember_addUser);
+		
 		JPanel firstName = new JPanel();
 		firstName.setLayout(new FlowLayout());
-		firstName.setPreferredSize(new Dimension(450, 50));
+		firstName.setPreferredSize(new Dimension(440, 25));
 		JLabel lblFirstName = new JLabel("First name: *");
 		gym.firstName_AddEditUser = new JTextField();
 		gym.firstName_AddEditUser.setColumns(10);
@@ -57,7 +65,7 @@ public class AddEditUserDialog extends JDialog{
 		
 		JPanel lastName = new JPanel();
 		lastName.setLayout(new FlowLayout());
-		lastName.setPreferredSize(new Dimension(450, 50));
+		lastName.setPreferredSize(new Dimension(440, 25));
 		JLabel lblLastName = new JLabel("Last name: *");
 		gym.lastName_AddEditUser = new JTextField();
 		gym.lastName_AddEditUser.setColumns(10);
@@ -65,32 +73,40 @@ public class AddEditUserDialog extends JDialog{
 		lastName.add(gym.lastName_AddEditUser);
 		contentPanel.add(lastName);
 		
+		JPanel email = new JPanel();
+		email.setLayout(new FlowLayout());
+		email.setPreferredSize(new Dimension(440, 25));
 		JLabel lblEmail = new JLabel("Email:");
 		gym.email_AddEditUser = new JTextField();
 		gym.email_AddEditUser.setColumns(20);
-		contentPanel.add(lblEmail);
-		contentPanel.add(gym.email_AddEditUser);
+		email.add(lblEmail);
+		email.add(gym.email_AddEditUser);
+		contentPanel.add(email);
 		
+		JPanel userName = new JPanel();
+		userName.setLayout(new FlowLayout());
+		userName.setPreferredSize(new Dimension(440, 25));
 		JLabel lblName = new JLabel("Username: *");
 		gym.username_AddEditUser = new JTextField();
 		gym.username_AddEditUser.setColumns(15);
-		contentPanel.add(lblName);
-		contentPanel.add(gym.username_AddEditUser);
+		userName.add(lblName);
+		userName.add(gym.username_AddEditUser);
+		contentPanel.add(userName);
 		
+		JPanel passWord = new JPanel();
+		passWord.setLayout(new FlowLayout());
+		passWord.setPreferredSize(new Dimension(440, 25));
 		JLabel lblPass = new JLabel("Password: *");
 		gym.password_AddEditUser = new JPasswordField();
-		gym.password_AddEditUser.setColumns(15);
-		contentPanel.add(lblPass);
-		contentPanel.add(gym.firstName_AddEditUser);
+		gym.password_AddEditUser.setColumns(8);
+		passWord.add(lblPass);
+		passWord.add(gym.password_AddEditUser);
+		contentPanel.add(passWord);
 		
 		JLabel lblRequired = new JLabel("The fields marked with a (*) are required");
 		contentPanel.add(lblRequired);
 		
-		gym.rdbtnTrainer_addUser = new JRadioButton("Trainer");
-		gym.rdbtnMember_addUser = new JRadioButton("Member");
-		addUser_buttonGroup.add(gym.rdbtnMember_addUser);
-		addUser_buttonGroup.add(gym.rdbtnTrainer_addUser);
-		gym.rdbtnMember_addUser.setSelected(true);
+		
 		
 		
 
@@ -177,7 +193,7 @@ public class AddEditUserDialog extends JDialog{
 		if(callingUI == gym.editTraineesUI){
 			gym.rdbtnMember_addUser.setVisible(false);
 			gym.rdbtnTrainer_addUser.setVisible(false);
-			gym.password_AddEditUser.setVisible(false);
+			passWord.setVisible(false);
 		}
 
 	}
