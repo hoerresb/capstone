@@ -47,11 +47,14 @@ public class AddEditUserDialog extends JDialog{
 		
 		gym.rdbtnTrainer_addUser = new JRadioButton("Trainer");
 		gym.rdbtnMember_addUser = new JRadioButton("Member");
+		gym.rdbtnOwner_addUser = new JRadioButton("Owner");
 		addUser_buttonGroup.add(gym.rdbtnMember_addUser);
 		addUser_buttonGroup.add(gym.rdbtnTrainer_addUser);
+		addUser_buttonGroup.add(gym.rdbtnOwner_addUser);
 		gym.rdbtnMember_addUser.setSelected(true);
-		contentPanel.add(gym.rdbtnTrainer_addUser);
 		contentPanel.add(gym.rdbtnMember_addUser);
+		contentPanel.add(gym.rdbtnTrainer_addUser);
+		contentPanel.add(gym.rdbtnOwner_addUser);
 		
 		JPanel firstName = new JPanel();
 		firstName.setLayout(new FlowLayout());
@@ -102,68 +105,17 @@ public class AddEditUserDialog extends JDialog{
 		passWord.add(lblPass);
 		passWord.add(gym.password_AddEditUser);
 		contentPanel.add(passWord);
+
+		JPanel fromUsersSpacer = new JPanel();
+		fromUsersSpacer.setPreferredSize(new Dimension(440, 30));
+		contentPanel.add(fromUsersSpacer);
+		
+		JPanel fromEditTraineeSpacer = new JPanel();
+		fromEditTraineeSpacer.setPreferredSize(new Dimension(440, 90));
+		contentPanel.add(fromEditTraineeSpacer);
 		
 		JLabel lblRequired = new JLabel("The fields marked with a (*) are required");
 		contentPanel.add(lblRequired);
-		
-		
-		
-		
-
-		/*GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addComponent(lblFirstName)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(gym.firstName_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_contentPanel.createSequentialGroup()
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblNewLabel)
-														.addComponent(lblLastName)
-														.addComponent(lblEmail))
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-																.addComponent(gym.lastName_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-																		.addComponent(gym.email_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																		.addComponent(gym.username_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-																		.addGroup(gl_contentPanel.createSequentialGroup()
-																				.addComponent(gym.rdbtnMember_addUser)
-																				.addPreferredGap(ComponentPlacement.UNRELATED)
-																				.addComponent(gym.rdbtnTrainer_addUser)))
-																				.addContainerGap(272, Short.MAX_VALUE))
-				);
-		gl_contentPanel.setVerticalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblFirstName)
-								.addComponent(gym.firstName_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGap(18)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblLastName)
-										.addComponent(gym.lastName_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGap(18)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-												.addComponent(lblEmail)
-												.addComponent(gym.email_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addGap(18)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-														.addComponent(lblNewLabel)
-														.addComponent(gym.username_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-														.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-																.addComponent(gym.rdbtnMember_addUser)
-																.addComponent(gym.rdbtnTrainer_addUser))
-																.addGap(22))
-				);*/
-		
-		//contentPanel.setLayout(gl_contentPanel);
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -191,9 +143,16 @@ public class AddEditUserDialog extends JDialog{
 		buttonPane.add(gym.cancelButton_AddEditUser);
 		
 		if(callingUI == gym.editTraineesUI){
+			fromEditTraineeSpacer.setVisible(true);
+			fromUsersSpacer.setVisible(false);
+			gym.rdbtnOwner_addUser.setVisible(false);
 			gym.rdbtnMember_addUser.setVisible(false);
 			gym.rdbtnTrainer_addUser.setVisible(false);
 			passWord.setVisible(false);
+		}
+		else {
+			fromEditTraineeSpacer.setVisible(false);
+			fromUsersSpacer.setVisible(true);
 		}
 
 	}

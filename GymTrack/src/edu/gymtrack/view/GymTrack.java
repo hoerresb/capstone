@@ -61,6 +61,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton cancelButton_AddEditUser;
 	protected JRadioButton rdbtnTrainer_addUser;
 	protected JRadioButton rdbtnMember_addUser;
+	protected JRadioButton rdbtnOwner_addUser;
 	protected String firstName_DeleteUser;
 	protected String lastName_DeleteUser;
 	
