@@ -141,10 +141,11 @@ public class EquipmentUI extends GTUI {
 	}
 	
 	public void refreshDisplay(GymTrack gym){
-		tableData = getTableData();
+		/*tableData = getTableData();
 		gym.equipmentTable_equipment = new JTable(tableData, columnNames);
 		gym.equipmentTable_equipment.setFillsViewportHeight(true);
-		scrollablePane.setViewportView(gym.equipmentTable_equipment);
+		scrollablePane.setViewportView(gym.equipmentTable_equipment);*/
+		this.reloadPage(gym);
 	}
 	
 	@Override

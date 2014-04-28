@@ -1,6 +1,7 @@
 package edu.gymtrack.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -35,17 +37,26 @@ public class AddEditEquipmentDialog extends JDialog{
 	private static final long serialVersionUID = 1L;
 	private GymTrack gym;
 	private ArrayList<Integer> equipmentKeys;
+	private boolean hideOkBtn = false; 
 	ArrayList<EquipmentType> types = null;
 	Equipment editing;
 	
-	public AddEditEquipmentDialog(GymTrack gym, Equipment equipment) {
+	public AddEditEquipmentDialog(GymTrack gym, Equipment equipment, boolean isEdit) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.gym = gym;
 		editing = equipment;
 		setModal(true);
-		setTitle("Add/Edit Equipment");
-		setBounds(100, 100, 450, 200);
+		if (isEdit) {
+			this.setTitle("Edit equipment");
+			this.hideOkBtn = true;
+		}
+		else {
+			this.setTitle("Add equipment");
+		}
+		setBounds(100, 100, 400, 120);
+		this.setPreferredSize(new Dimension(400,120));
 		setContentPane(contentPanel);
+		this.setResizable(false);
 		
 		JPanel topContainer = new JPanel();
 		getContentPane().setLayout(new BorderLayout());
@@ -53,9 +64,16 @@ public class AddEditEquipmentDialog extends JDialog{
 		getContentPane().add(topContainer, BorderLayout.CENTER);
 		
 		JPanel tableTitleContainer = new JPanel();
+		tableTitleContainer.setLayout(new FlowLayout());
+		tableTitleContainer.setPreferredSize(new Dimension(100,80));
 		JPanel dropDownContainer = new JPanel();
+		dropDownContainer.setLayout(new FlowLayout());
+		dropDownContainer.setPreferredSize(new Dimension(200,80));
 		
-		GroupLayout gl_topContainer = new GroupLayout(topContainer);
+		topContainer.add(tableTitleContainer, BorderLayout.CENTER);
+		topContainer.add(dropDownContainer, BorderLayout.CENTER);
+		
+		/*GroupLayout gl_topContainer = new GroupLayout(topContainer);
 		gl_topContainer.setHorizontalGroup(
 			gl_topContainer.createParallelGroup(Alignment.LEADING)
 				.addComponent(tableTitleContainer, GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
@@ -68,16 +86,19 @@ public class AddEditEquipmentDialog extends JDialog{
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(dropDownContainer, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
-		);
+		);*/
 		
 		gym.typesComboBox_EditEquip = new JComboBox();
 		gym.typesComboBox_EditEquip.setModel(new DefaultComboBoxModel(getTypesDropDownMenuOptions()));
+		tableTitleContainer.add(gym.typesComboBox_EditEquip);
+		
+		JLabel nameLabel = new JLabel("Name:");
+		dropDownContainer.add(nameLabel);
 		
 		gym.nameTextField_EditEquip = new JTextField();
 		gym.nameTextField_EditEquip.setColumns(10);
-		
-		JLabel nameLabel = new JLabel("Name");
-		GroupLayout gl_dropDownContainer = new GroupLayout(dropDownContainer);
+		dropDownContainer.add(gym.nameTextField_EditEquip);
+		/*GroupLayout gl_dropDownContainer = new GroupLayout(dropDownContainer);
 		gl_dropDownContainer.setHorizontalGroup(
 			gl_dropDownContainer.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_dropDownContainer.createSequentialGroup()
@@ -97,27 +118,32 @@ public class AddEditEquipmentDialog extends JDialog{
 						.addComponent(gym.nameTextField_EditEquip, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(24, Short.MAX_VALUE))
 		);
-		dropDownContainer.setLayout(gl_dropDownContainer);
+		dropDownContainer.setLayout(gl_dropDownContainer);*/
 
-		topContainer.setLayout(gl_topContainer);
-		{
-			JPanel buttonContainer = new JPanel();
-			buttonContainer.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonContainer, BorderLayout.SOUTH);
-			{
-				gym.okButton_EditEquip = new JButton("OK");
-				gym.okButton_EditEquip.addActionListener(gym);
-				gym.okButton_EditEquip.setActionCommand("OK");//find out what this does
-				buttonContainer.add(gym.okButton_EditEquip);
-				getRootPane().setDefaultButton(gym.okButton_EditEquip);
-			}
-			{
-				gym.cancelButton_EditEquip = new JButton("Cancel");
-				gym.cancelButton_EditEquip.addActionListener(gym);
-				gym.cancelButton_EditEquip.setActionCommand("Cancel");//find out what this does
-				buttonContainer.add(gym.cancelButton_EditEquip);
-			}
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+		if (this.hideOkBtn) {
+			gym.updateButton_EditEquip = new JButton(new ImageIcon("images/dialog_update.png", "Update"));
+			gym.updateButton_EditEquip.setPreferredSize(new Dimension(70,25));
+			gym.updateButton_EditEquip.setRolloverIcon(new ImageIcon("images/dialog_update_over.png", "Update"));
+			gym.updateButton_EditEquip.addActionListener(gym);
+			buttonPane.add(gym.updateButton_EditEquip);
 		}
+		else {
+			gym.okButton_EditEquip = new JButton(new ImageIcon("images/dialog_ok.png", "Ok"));
+			gym.okButton_EditEquip.setPreferredSize(new Dimension(70,25));
+			gym.okButton_EditEquip.setRolloverIcon(new ImageIcon("images/dialog_ok_over.png", "Ok"));
+			gym.okButton_EditEquip.addActionListener(gym);
+			buttonPane.add(gym.okButton_EditEquip);
+		}
+		
+		gym.cancelButton_EditEquip = new JButton(new ImageIcon("images/dialog_cancel.png", "Cancel"));
+		gym.cancelButton_EditEquip.setPreferredSize(new Dimension(70,25));
+		gym.cancelButton_EditEquip.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
+		gym.cancelButton_EditEquip.addActionListener(gym);
+		buttonPane.add(gym.cancelButton_EditEquip);
 		
 		if(editing != null){
 			gym.nameTextField_EditEquip.setText(equipment.getName());

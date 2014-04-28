@@ -135,6 +135,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JTextField nameTextField_EditEquip;
 	protected JComboBox typesComboBox_EditEquip;
 	protected JButton okButton_EditEquip;
+	protected JButton updateButton_EditEquip;
 	protected JButton cancelButton_EditEquip;
 	protected AddEditEquipmentDialog addEditEquipmentDialog;
 	
@@ -490,7 +491,7 @@ public class GymTrack extends JApplet implements ActionListener
 			}
 		}
 		else if (arg0.getSource() == btnAdd_equipment){
-			addEditEquipmentDialog = new AddEditEquipmentDialog(this, null);
+			addEditEquipmentDialog = new AddEditEquipmentDialog(this, null, false);
 			addEditEquipmentDialog.setVisible(true);
 		}
 		else if(arg0.getSource() == btnEdit_equipment){
@@ -498,10 +499,10 @@ public class GymTrack extends JApplet implements ActionListener
 				return;
 			
 			Equipment toEdit = ((EquipmentUI)equipmentUI).getSelectedEquipment(this);
-			addEditEquipmentDialog = new AddEditEquipmentDialog(this, toEdit);
+			addEditEquipmentDialog = new AddEditEquipmentDialog(this, toEdit, true);
 			addEditEquipmentDialog.setVisible(true);
 		}
-		else if(arg0.getSource() == okButton_EditEquip){
+		else if(arg0.getSource() == okButton_EditEquip || arg0.getSource() == updateButton_EditEquip){
 			Equipment updated = addEditEquipmentDialog.getUpdatedEntry();
 			if(updated != null){
 				ArrayList<Equipment> alToEdit = new ArrayList<Equipment>();

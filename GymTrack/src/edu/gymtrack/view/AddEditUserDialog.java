@@ -134,14 +134,13 @@ public class AddEditUserDialog extends JDialog{
 			gym.okButton_EditUser.setPreferredSize(new Dimension(70,25));
 			gym.okButton_EditUser.setRolloverIcon(new ImageIcon("images/dialog_ok_over.png", "Ok"));
 			gym.okButton_EditUser.addActionListener(gym);
-			//gym.okButton_EditUser.setActionCommand("OK");
 			buttonPane.add(gym.okButton_EditUser);
 		}
 
 		gym.cancelButton_AddUser = new JButton(new ImageIcon("images/dialog_cancel.png", "Cancel"));
 		gym.cancelButton_AddUser.setPreferredSize(new Dimension(70,25));
 		gym.cancelButton_AddUser.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
-		gym.cancelButton_AddUser.setActionCommand("Cancel");
+		gym.cancelButton_AddUser.addActionListener(gym);
 		buttonPane.add(gym.cancelButton_AddUser);
 		
 		if(callingUI == gym.editTraineesUI){
