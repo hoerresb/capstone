@@ -47,15 +47,18 @@ public class MyPlansUI extends GTUI {
 	public void createMyPlansUI(GymTrack gym){
 		this.gym = gym;
 		
-		JPanel contentPane = new JPanel();
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
-		contentPane = new JPanel();
+		
+		gym.getContentPane().setLayout(new FlowLayout());
+		
+		JPanel contentPane = new JPanel();
+		contentPane.setPreferredSize(new Dimension(800,350));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		gym.setContentPane(contentPane);
+		gym.getContentPane().add(contentPane);
 		//setTitle("My Plans");
 		
 		getDatabaseData();  // call this before working on data
@@ -95,48 +98,6 @@ public class MyPlansUI extends GTUI {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                                    leftScrollablePane, rightPanel);
-
-        gym.btnBack_MyPlans = new JButton("Back");
-        gym.btnBack_MyPlans.setFont(new Font("Calibri", Font.PLAIN, 13));
-        gym.btnBack_MyPlans.setPreferredSize(new Dimension(90, 30));
-        gym.btnBack_MyPlans.addActionListener(gym);
-        gym.btnLogout = new JButton("Logout");
-		gym.btnLogout.setFont(new Font("Calibri", Font.PLAIN, 13));
-		gym.btnLogout.setPreferredSize(new Dimension(90, 30));
-		gym.btnLogout.addActionListener(gym);
-        gym.btnLogWork_MyPlans = new JButton("Log Work");
-        gym.btnLogWork_MyPlans.addActionListener(gym);
-        gym.btnLogWork_MyPlans.setPreferredSize(new Dimension(90, 30));
-        gym.btnLogWork_MyPlans.setFont(new Font("Calibri", Font.PLAIN, 13));
-        gym.btnSeeFeedback_MyPlans = new JButton("Goals and Feedback");
-        gym.btnSeeFeedback_MyPlans.addActionListener(gym);
-        gym.btnSeeFeedback_MyPlans.setPreferredSize(new Dimension(90, 30));
-        gym.btnSeeFeedback_MyPlans.setFont(new Font("Calibri", Font.PLAIN, 13));
-        
-        GroupLayout gl_bottomContainer = new GroupLayout(bottomContainer);
-        gl_bottomContainer.setHorizontalGroup(
-        	gl_bottomContainer.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_bottomContainer.createSequentialGroup()
-        			.addComponent(gym.btnBack_MyPlans)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(gym.btnLogout)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(gym.btnLogWork_MyPlans)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(gym.btnSeeFeedback_MyPlans)
-        			.addContainerGap(385, Short.MAX_VALUE))
-        );
-        gl_bottomContainer.setVerticalGroup(
-        	gl_bottomContainer.createParallelGroup(Alignment.TRAILING)
-        		.addGroup(gl_bottomContainer.createSequentialGroup()
-        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        			.addGroup(gl_bottomContainer.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(gym.btnLogWork_MyPlans)
-        				.addComponent(gym.btnSeeFeedback_MyPlans)
-        				.addComponent(gym.btnBack_MyPlans)
-        				.addComponent(gym.btnLogout)))
-        );
-        bottomContainer.setLayout(gl_bottomContainer);
         
         JPanel topContainer = new JPanel();
         JPanel planDetailsContainer = new JPanel();
@@ -216,11 +177,43 @@ public class MyPlansUI extends GTUI {
 
         splitPane.setOneTouchExpandable(true);
         splitPane.setDividerLocation(150);
-        Dimension minimumSize = new Dimension(100, 50);
-        leftScrollablePane.setMinimumSize(minimumSize);
+        leftScrollablePane.setMinimumSize(new Dimension(100, 50));
+        leftScrollablePane.setMaximumSize(new Dimension(150, 50));
         splitPane.setPreferredSize(new Dimension(400, 200));
 		
         contentPane.add(splitPane);
+        
+        JPanel bottomPanel = new JPanel();
+		bottomPanel.setLayout(new FlowLayout());
+		gym.getContentPane().add(bottomPanel);
+		
+		gym.btnLogWork_MyPlans = new JButton(new ImageIcon("images/logwork.png", "Log Work"));
+        gym.btnLogWork_MyPlans.setPreferredSize(new Dimension(130, 30));
+        gym.btnLogWork_MyPlans.setRolloverIcon(new ImageIcon("images/logwork_over.png", "Log Work"));
+        gym.btnLogWork_MyPlans.addActionListener(gym);
+        bottomPanel.add(gym.btnLogWork_MyPlans);
+        
+        gym.btnSeeFeedback_MyPlans = new JButton(new ImageIcon("images/goalsandfeedback.png", "Goals and Feedback"));
+        gym.btnSeeFeedback_MyPlans.setPreferredSize(new Dimension(220, 30));
+        gym.btnSeeFeedback_MyPlans.setRolloverIcon(new ImageIcon("images/goalsandfeedback_over.png", "Goals and Feedback"));
+        gym.btnSeeFeedback_MyPlans.addActionListener(gym);
+        bottomPanel.add(gym.btnSeeFeedback_MyPlans);
+        
+        JSeparator separator = new JSeparator();
+		separator.setPreferredSize(new Dimension(180, 0));
+		bottomPanel.add(separator);
+		
+        gym.btnBack_MyPlans = new JButton(new ImageIcon("images/back.png", "Back"));
+        gym.btnBack_MyPlans.setPreferredSize(new Dimension(90, 30));
+        gym.btnBack_MyPlans.setRolloverIcon(new ImageIcon("images/back_over.png", "Logout"));
+        gym.btnBack_MyPlans.addActionListener(gym);
+        bottomPanel.add(gym.btnBack_MyPlans);
+        
+        gym.btnLogout = new JButton(new ImageIcon("images/logout.png", "Logout"));
+		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
+		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", "Logout"));
+		gym.btnLogout.addActionListener(gym);
+		bottomPanel.add(gym.btnLogout);
 	}
 	
 	private void getDatabaseData(){

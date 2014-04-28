@@ -34,18 +34,20 @@ public class EditTraineesUI extends GTUI {
 		JPanel topContainer = new JPanel();
 		contentPane.add(topContainer, BorderLayout.NORTH);
 
-		ImageIcon addIcon = new ImageIcon("images/add.png", "");
-		gym.btnAdd_EditTrainees = new JButton("", addIcon);
+		gym.btnAdd_EditTrainees = new JButton("", new ImageIcon("images/add.png", "Add"));
 		gym.btnAdd_EditTrainees.setPreferredSize(new Dimension(90, 30));
+		gym.btnAdd_EditTrainees.setRolloverIcon(new ImageIcon("images/add_over.png", "Add"));
 		gym.btnAdd_EditTrainees.addActionListener(gym);
 		topContainer.add(gym.btnAdd_EditTrainees);
 
-		gym.btnEdit_EditTrainees = new JButton("Edit");
+		gym.btnEdit_EditTrainees = new JButton("", new ImageIcon("images/edit.png", "Edit"));
 		gym.btnEdit_EditTrainees.setPreferredSize(new Dimension(90, 30));
+		gym.btnEdit_EditTrainees.setRolloverIcon(new ImageIcon("images/edit_over.png", "Edit"));
 		topContainer.add(gym.btnEdit_EditTrainees);
 
-		gym.btnDelete_EditTrainees = new JButton("Delete");
+		gym.btnDelete_EditTrainees = new JButton("", new ImageIcon("images/delete.png", "Delete"));
 		gym.btnDelete_EditTrainees.setPreferredSize(new Dimension(90, 30));
+		gym.btnDelete_EditTrainees.setRolloverIcon(new ImageIcon("images/delete_over.png", "Delete"));
 		topContainer.add(gym.btnDelete_EditTrainees);
 
 		JPanel bottomContainer = new JPanel();
@@ -54,7 +56,7 @@ public class EditTraineesUI extends GTUI {
 
 		JPanel bottomPanel = new JPanel();
 		bottomContainer.add(bottomPanel, BorderLayout.SOUTH);
-		bottomPanel.setLayout(new GridBagLayout());
+		bottomPanel.setLayout(new FlowLayout());
 		/*ImageIcon backIcon = new ImageIcon("images/back.png", "");
 		gym.btnBack_EditTrainees = new JButton("", backIcon);
 		gym.btnBack_EditTrainees.setPreferredSize(new Dimension(90, 30));
@@ -78,26 +80,19 @@ public class EditTraineesUI extends GTUI {
 				);*/
 		JSeparator separator = new JSeparator();
 		separator.setPreferredSize(new Dimension(530, 0));
-		GridBagConstraints gbc_separator = new GridBagConstraints();
 		bottomPanel.add(separator);
 		
-		GridBagConstraints gbc_btnBack = new GridBagConstraints();
-		ImageIcon backIcon = new ImageIcon("images/back.png", "");
-		gym.btnBack_EditTrainees = new JButton("", backIcon);
+		gym.btnBack_EditTrainees = new JButton("", new ImageIcon("images/back.png", "Back"));
 		gym.btnBack_EditTrainees.setPreferredSize(new Dimension(90, 30));
-		gbc_btnBack.insets = new Insets(10, 10, 10, 10);
+		gym.btnBack_EditTrainees.setRolloverIcon(new ImageIcon("images/back_over.png", "Back"));
 		gym.btnBack_EditTrainees.addActionListener(gym);
+		bottomPanel.add(gym.btnBack_EditTrainees);
 		
-		GridBagConstraints gbc_btnLogout = new GridBagConstraints();
-		ImageIcon logoutIcon = new ImageIcon("images/logout.png", "");
-		gym.btnLogout = new JButton("", logoutIcon);
-		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", ""));
+		gym.btnLogout = new JButton("", new ImageIcon("images/logout.png", "Logout"));
 		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
-		gbc_btnLogout.insets = new Insets(10, 10, 10, 10);
+		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", "Logout"));
 		gym.btnLogout.addActionListener(gym);
-		
-		bottomPanel.add(gym.btnBack_EditTrainees, gbc_btnBack);
-		bottomPanel.add(gym.btnLogout, gbc_btnLogout);
+		bottomPanel.add(gym.btnLogout);
 
 		JScrollPane scrollablePane = new JScrollPane();
 		bottomContainer.add(scrollablePane, BorderLayout.CENTER);
