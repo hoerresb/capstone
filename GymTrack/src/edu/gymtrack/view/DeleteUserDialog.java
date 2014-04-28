@@ -17,24 +17,30 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
+import edu.gymtrack.model.User;
+
 public class DeleteUserDialog extends JDialog{
 	private final JPanel contentPanel = new JPanel();
 	private static final long serialVersionUID = 1L;
 	public GTUI callingUI;
 	ButtonGroup addUser_buttonGroup = new ButtonGroup();
 
-	public DeleteUserDialog(GymTrack gym, GTUI callingUI){
+	public DeleteUserDialog(GymTrack gym, GTUI callingUI, User user){
 		this.callingUI = callingUI;
 		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModal(true);
 		setTitle("Delete a User");
-		setBounds(100, 100, 450, 300);
-
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 120);
+		this.setPreferredSize(new Dimension(450,120));
+		this.setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setLayout(new FlowLayout());
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		
+		JLabel question = new JLabel("Are you sure you want to delete \"" + user.getUsername() + "\"?");
+		contentPanel.add(question);
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

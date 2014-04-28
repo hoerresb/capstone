@@ -9,7 +9,6 @@ import javax.swing.*;
 
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.User.UserType;
-import edu.gymtrack.model.WorkoutPlan;
 import edu.gymtrack.model.*;
 import edu.gymtrack.controller.Authentication;
 import edu.gymtrack.db.*;
@@ -32,11 +31,17 @@ public class GymTrack extends JApplet implements ActionListener
 	protected ConnectionErrorDialog connectionError;
 	protected AddEditUserDialog addEditUserDialog;
 	protected DeleteUserDialog deleteUserDialog;
+	protected InvalidSelectionDialog invalidSelectionDialog;
 	
 	/*
 	 * components used by ConnectionErrorDialog
 	 */
 	protected JButton btnOk_connectionerr;
+	
+	/*
+	 * components used by InvalidSelectionDialog
+	 */
+	protected JButton btnOk_invalidSelection;
 	
 	/*
 	 * Components used by AddTraineeDialog
@@ -283,8 +288,15 @@ public class GymTrack extends JApplet implements ActionListener
         	addEditUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnDelete_users){
-        	deleteUserDialog = new DeleteUserDialog(this, this.usersUI, ((UsersUI)usersUI).getSelectedUser(this));
-        	deleteUserDialog.setVisible(true);
+        	User user = ((UsersUI)usersUI).getSelectedUser(this);
+        	if (user == null) {
+        		invalidSelectionDialog = new InvalidSelectionDialog(this);
+    			invalidSelectionDialog.setVisible(true);
+        	}
+        	else {
+        		deleteUserDialog = new DeleteUserDialog(this, this.usersUI, ((UsersUI)usersUI).getSelectedUser(this));
+            	deleteUserDialog.setVisible(true);
+        	}
         }
         else if (arg0.getSource() == updateButton_EditUser){
         	this.row = usersTable_users.getSelectedRow();
@@ -486,6 +498,9 @@ public class GymTrack extends JApplet implements ActionListener
 		}
 		else if(arg0.getSource() == btnOk_connectionerr) {
 			connectionError.dispose();
+		}
+		else if(arg0.getSource() == btnOk_invalidSelection) {
+			invalidSelectionDialog.dispose();
 		}
 		else if(arg0.getSource() == btnProvideFeedback_TrkTrainees) {
 			// TODO
