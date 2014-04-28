@@ -58,26 +58,23 @@ public class TrkTraineesUI extends GTUI {
 		// list of trainees
 		
 		String[] memberNames = getMemberNames(factory);
-		traineesList_TrkTrainees = new JList<String>(memberNames);
-		traineesList_TrkTrainees.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		traineesList_TrkTrainees.setSelectedIndex(0);
-		traineesList_TrkTrainees.addListSelectionListener(new ListSelectionListener(){
+		gym.traineesList_TrkTrainees = new JList<String>(memberNames);
+		gym.traineesList_TrkTrainees.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		gym.traineesList_TrkTrainees.setSelectedIndex(0);
+		gym.traineesList_TrkTrainees.addListSelectionListener(new ListSelectionListener(){
         	public void valueChanged(ListSelectionEvent arg0) { // when new index is selected, pulls corresponding user data and displays
         		if (!arg0.getValueIsAdjusting()) {
-        			getPlanTableData(users.get(traineesList_TrkTrainees.getSelectedIndex()));
-        			updatePlanTable();
-        			worklogTable_TableData = getWorklogTableData(users.get(traineesList_TrkTrainees.getSelectedIndex()));
-        			updateLogsTable();
+        			refreshUserList();
         		}
         	}
         });
 		
 		// initial list of workout plans and logs
 		
-		if (traineesList_TrkTrainees.getModel().getSize() != 0)
+		if (gym.traineesList_TrkTrainees.getModel().getSize() != 0)
 		{
-			getPlanTableData(users.get(traineesList_TrkTrainees.getSelectedIndex()));
-			worklogTable_TableData = getWorklogTableData(users.get(traineesList_TrkTrainees.getSelectedIndex()));
+			getPlanTableData(users.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
+			worklogTable_TableData = getWorklogTableData(users.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
 		}
 		else
 		{
@@ -85,7 +82,7 @@ public class TrkTraineesUI extends GTUI {
 			worklogTable_TableData = new Object[0][4];
 		}
 		
-        JScrollPane leftScrollablePane = new JScrollPane(traineesList_TrkTrainees);
+        JScrollPane leftScrollablePane = new JScrollPane(gym.traineesList_TrkTrainees);
         JPanel rightPanel = new JPanel();
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                                    leftScrollablePane, rightPanel);
@@ -260,6 +257,13 @@ public class TrkTraineesUI extends GTUI {
 		TableModel myData = new DefaultTableModel(worklogTable_TableData, worklogTable_ColumnNames);
 		gym.loggedProgressTable_TrkTrainees.setModel(myData);
 		gym.loggedProgressTable_TrkTrainees.updateUI();
+	}
+	
+	public void refreshUserList() {
+		getPlanTableData(users.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
+		updatePlanTable();
+		worklogTable_TableData = getWorklogTableData(users.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
+		updateLogsTable();
 	}
 
 	@Override

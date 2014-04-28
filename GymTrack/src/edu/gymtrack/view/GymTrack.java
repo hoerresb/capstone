@@ -188,6 +188,14 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnCancel_Feedback;
 	protected JButton btnUpdate_Feedback;
 	
+	/*
+	 * Components used by provideFeedbackDialog
+	 */
+	
+	ProvideFeedbackDialog provideFeedbackDialog;
+	protected JButton btnCancel_PFeedback;
+	protected JButton btnUpdate_PFeedback;
+	
 	// View objects -- I didn't know how to get the back button to work without making them unstatic
 	GTUI loginUI = new LoginUI();
 	GTUI myPlansUI = new MyPlansUI();
@@ -504,7 +512,8 @@ public class GymTrack extends JApplet implements ActionListener
 			invalidSelectionDialog.dispose();
 		}
 		else if(arg0.getSource() == btnProvideFeedback_TrkTrainees) {
-			// TODO
+			provideFeedbackDialog = new ProvideFeedbackDialog(this, loggedIn.getUserType());
+			provideFeedbackDialog.setVisible(true);
 		}
 		else if(arg0.getSource() == btnCreatNewPlan_TrkTrainees) {
 			// TODO
