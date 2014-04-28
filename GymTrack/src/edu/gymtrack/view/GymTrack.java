@@ -323,6 +323,7 @@ public class GymTrack extends JApplet implements ActionListener
         		
         		for(int i = 0 ; i < 1; i++){
         		 editUser =	(String) usersTable_users.getModel().getValueAt(this.row, 0);
+        		 id = (int) usersTable_users.getModel().getValueAt(this.row, 2);
         		}
         		
         		
