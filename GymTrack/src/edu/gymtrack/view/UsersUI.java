@@ -15,6 +15,7 @@ public class UsersUI extends GTUI {
 	
 	private String[] columnNames = {"Username", "Type", "ID"};
 	private JScrollPane scrollablePane;
+	private ArrayList<User> currentUserSet = null;
 
 	public void createUsersUI(GymTrack gym){
 		Factory factory = new Factory();
@@ -131,7 +132,7 @@ public class UsersUI extends GTUI {
 	
 	protected  Object[][] getTableData(Factory factory, GymTrack gym, User.UserType filterType){
 		gym.largetId = 0;
-        ArrayList<User> currentUserSet = new ArrayList<>();
+        currentUserSet = new ArrayList<>();
 		try 
 		{
 			currentUserSet = factory.getUsers();
@@ -168,6 +169,15 @@ public class UsersUI extends GTUI {
 		gym.usersTable_users.repaint();
 	}
 
+	public User getSelectedUser(GymTrack gym){
+		int selected = gym.usersTable_users.getSelectedRow();
+		System.out.println(selected + ": " + currentUserSet.get(selected));
+		if(selected < 0)
+			return null;
+		
+		return currentUserSet.get(selected);
+	}
+	
 	@Override
 	public GTUI showUI(GymTrack gym) {
 		createUsersUI(gym);

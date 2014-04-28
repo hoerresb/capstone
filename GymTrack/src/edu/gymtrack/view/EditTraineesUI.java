@@ -14,8 +14,7 @@ import edu.gymtrack.model.User.UserType;
 
 @SuppressWarnings("serial")
 public class EditTraineesUI extends GTUI {
-	
-	private ArrayList<User> users = null;
+
 	
 	public void createEditTraineesUI(GymTrack gym){
 		Factory factory = new Factory();
@@ -118,17 +117,17 @@ public class EditTraineesUI extends GTUI {
 			}
 		}
 		return tableData;
-	}// end getTableData
-
-	public User getSelectedUser(GymTrack gym){
-		int selected = gym.traineesTable_EditTrainees.getSelectedRow();
+	}// end getTableData
+	/*public Equipment getSelectedEquipment(GymTrack gym){
+		int selected = gym.equipmentTable_equipment.getSelectedRow();
 		
 		if(selected < 0)
 			return null;
 		
 		return users.get(selected);
-	}
+	}*/
 	
+
 	@Override
 	public GTUI showUI(GymTrack gym) {
 		createEditTraineesUI(gym);
