@@ -31,8 +31,8 @@ public class UsersUI extends GTUI {
 		
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		gym.setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		gym.setContentPane(contentPane);
 
 		JPanel topContainer = new JPanel();
 		contentPane.add(topContainer, BorderLayout.NORTH);
@@ -56,15 +56,21 @@ public class UsersUI extends GTUI {
 		Component horizontalStrut = Box.createHorizontalStrut(60);
 		topContainer.add(horizontalStrut);
 
-		gym.btnAdd_users = new JButton("Add");
+		gym.btnAdd_users = new JButton(new ImageIcon("images/add.png", "Add"));
+		gym.btnAdd_users.setPreferredSize(new Dimension(90, 30));
+		gym.btnAdd_users.setRolloverIcon(new ImageIcon("images/add_over.png", "Add"));
 		gym.btnAdd_users.addActionListener(gym);
 		topContainer.add(gym.btnAdd_users);
 
-		gym.btnEdit_users = new JButton("Edit");
+		gym.btnEdit_users = new JButton(new ImageIcon("images/edit.png", "Edit"));
+		gym.btnEdit_users.setPreferredSize(new Dimension(90, 30));
+		gym.btnEdit_users.setRolloverIcon(new ImageIcon("images/edit_over.png", "Edit"));
 		gym.btnEdit_users.addActionListener(gym);
 		topContainer.add(gym.btnEdit_users);
 
-		gym.btnDelete_users = new JButton("Delete");
+		gym.btnDelete_users = new JButton(new ImageIcon("images/delete.png", "Delete"));
+		gym.btnDelete_users.setPreferredSize(new Dimension(90, 30));
+		gym.btnDelete_users.setRolloverIcon(new ImageIcon("images/delete_over.png", "Delete"));
 		gym.btnDelete_users.addActionListener(gym);
 		topContainer.add(gym.btnDelete_users);
 		
@@ -73,6 +79,26 @@ public class UsersUI extends GTUI {
 		bottomContainer.setLayout(new BorderLayout(0, 0));
 		
 		JPanel bottomPanel = new JPanel();
+		bottomContainer.add(bottomPanel, BorderLayout.SOUTH);
+		bottomPanel.setLayout(new FlowLayout());
+
+		JSeparator separator = new JSeparator();
+		separator.setPreferredSize(new Dimension(530, 0));
+		bottomPanel.add(separator);
+		
+		gym.btnBack_users = new JButton(new ImageIcon("images/back.png", "Back"));
+		gym.btnBack_users.setPreferredSize(new Dimension(90, 30));
+		gym.btnBack_users.setRolloverIcon(new ImageIcon("images/back_over.png", "Back"));
+		gym.btnBack_users.addActionListener(gym);
+		bottomPanel.add(gym.btnBack_users);
+		
+		gym.btnLogout = new JButton(new ImageIcon("images/logout.png", "Logout"));
+		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
+		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", "Logout"));
+		gym.btnLogout.addActionListener(gym);
+		bottomPanel.add(gym.btnLogout);
+		
+		/*JPanel bottomPanel = new JPanel();
 		bottomContainer.add(bottomPanel, BorderLayout.SOUTH);
 		
 		gym.btnBack_users = new JButton("Back");
@@ -90,7 +116,7 @@ public class UsersUI extends GTUI {
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(gym.btnBack_users, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
 		);
-		bottomPanel.setLayout(gl_bottomPanel);
+		bottomPanel.setLayout(gl_bottomPanel);*/
 		
 		scrollablePane = new JScrollPane();
 		bottomContainer.add(scrollablePane, BorderLayout.CENTER);

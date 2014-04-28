@@ -59,27 +59,7 @@ public class EditTraineesUI extends GTUI {
 		JPanel bottomPanel = new JPanel();
 		bottomContainer.add(bottomPanel, BorderLayout.SOUTH);
 		bottomPanel.setLayout(new FlowLayout());
-		/*ImageIcon backIcon = new ImageIcon("images/back.png", "");
-		gym.btnBack_EditTrainees = new JButton("", backIcon);
-		gym.btnBack_EditTrainees.setPreferredSize(new Dimension(90, 30));
-		//gym.btnBack_EditTrainees.setMinimumSize(new Dimension(90, 30));
-		gym.btnBack_EditTrainees.addActionListener(gym);
-		gym.btnLogout = new JButton("Logout");
-		gym.btnLogout.setPreferredSize(new Dimension(90, 30));
-		gym.btnLogout.addActionListener(gym);
-		GroupLayout gl_bottomPanel = new GroupLayout(bottomPanel);
-		gl_bottomPanel.setHorizontalGroup(
-				gl_bottomPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_bottomPanel.createSequentialGroup()
-						.addComponent(gym.btnBack_EditTrainees)
-						.addContainerGap(524, Short.MAX_VALUE))
-				);
-		gl_bottomPanel.setVerticalGroup(
-				gl_bottomPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_bottomPanel.createSequentialGroup()
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(gym.btnBack_EditTrainees))
-				);*/
+
 		JSeparator separator = new JSeparator();
 		separator.setPreferredSize(new Dimension(530, 0));
 		bottomPanel.add(separator);
