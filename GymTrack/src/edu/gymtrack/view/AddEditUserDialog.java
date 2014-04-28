@@ -1,9 +1,12 @@
 package edu.gymtrack.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -14,21 +17,29 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-public class EditUserDialog extends JDialog{
+public class AddEditUserDialog extends JDialog{
 	private final JPanel contentPanel = new JPanel();
 	private static final long serialVersionUID = 1L;
 	public GTUI callingUI;
+	private boolean hideOkBtn = false; 
 	ButtonGroup addUser_buttonGroup = new ButtonGroup();
 
-	public EditUserDialog(GymTrack gym, GTUI callingUI){
+	public AddEditUserDialog(GymTrack gym, GTUI callingUI, boolean isEdit){
 		this.callingUI = callingUI;
 		
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setModal(true);
-		setTitle("Edit a User");
-		setBounds(100, 100, 450, 300);
-
-		setBounds(100, 100, 450, 300);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		this.setModal(true);
+		if (isEdit) {
+			this.setTitle("Edit user");
+			this.hideOkBtn = true;
+		}
+		else {
+			this.setTitle("Add a User");
+		}
+		this.setBounds(100, 100, 450, 300);
+		this.setPreferredSize(new Dimension(450,300));
+		this.setResizable(false);
+		
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -105,28 +116,37 @@ public class EditUserDialog extends JDialog{
 																.addComponent(gym.rdbtnTrainer_addUser))
 																.addGap(22))
 				);
+		
 		contentPanel.setLayout(gl_contentPanel);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				gym.okButton_EditUser = new JButton("OK");
-				gym.okButton_EditUser.addActionListener(gym);
-				gym.okButton_EditUser.setActionCommand("OK");
-				buttonPane.add(gym.okButton_EditUser);
-				getRootPane().setDefaultButton(gym.okButton_AddUser);
-			}
-			{
-				gym.cancelButton_AddUser = new JButton("Cancel");
-				gym.cancelButton_AddUser.setActionCommand("Cancel");
-				buttonPane.add(gym.cancelButton_AddUser);
-			}
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+		if (this.hideOkBtn) {
+			gym.updateButton_EditUser = new JButton(new ImageIcon("images/dialog_update.png", "Update"));
+			gym.updateButton_EditUser.setPreferredSize(new Dimension(70,25));
+			gym.updateButton_EditUser.setRolloverIcon(new ImageIcon("images/dialog_update_over.png", "Update"));
+			gym.updateButton_EditUser.addActionListener(gym);
+			buttonPane.add(gym.updateButton_EditUser);
 		}
+		else {
+			gym.okButton_EditUser = new JButton(new ImageIcon("images/dialog_ok.png", "Ok"));
+			gym.okButton_EditUser.setPreferredSize(new Dimension(70,25));
+			gym.okButton_EditUser.setRolloverIcon(new ImageIcon("images/dialog_ok_over.png", "Ok"));
+			gym.okButton_EditUser.addActionListener(gym);
+			//gym.okButton_EditUser.setActionCommand("OK");
+			buttonPane.add(gym.okButton_EditUser);
+		}
+
+		gym.cancelButton_AddUser = new JButton(new ImageIcon("images/dialog_cancel.png", "Cancel"));
+		gym.cancelButton_AddUser.setPreferredSize(new Dimension(70,25));
+		gym.cancelButton_AddUser.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
+		gym.cancelButton_AddUser.setActionCommand("Cancel");
+		buttonPane.add(gym.cancelButton_AddUser);
 		
 		if(callingUI == gym.editTraineesUI){
-			gym.rdbtnMember_addUser.hide();
-			gym.rdbtnTrainer_addUser.hide();
+			gym.rdbtnMember_addUser.setVisible(false);
+			gym.rdbtnTrainer_addUser.setVisible(false);
 		}
 
 	}

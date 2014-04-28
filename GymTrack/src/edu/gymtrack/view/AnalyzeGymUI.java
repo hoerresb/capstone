@@ -28,27 +28,37 @@ public class AnalyzeGymUI extends GTUI {
 		
 		final PieDataset dataset = createDataset(factory);
 		JFreeChart chart = createChart(dataset);
-		ChartPanel panel = new ChartPanel(chart);
-		
+		ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new Dimension(800,350));		
 		
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
-		GridLayout gridLayout = new GridLayout(2,0);
-		gym.getContentPane().setLayout(gridLayout);
+		gym.getContentPane().setLayout(new FlowLayout());
 		
-		JPanel topPanel = new JPanel();
-		topPanel.setSize(800, 400);
-		gym.getContentPane().add(panel);
+		gym.getContentPane().add(chartPanel);
 		
-		JLabel lblGymtrack = new JLabel("TODO - create AnalyzeGymUI");
-		lblGymtrack.setFont(new Font("Calibri", Font.PLAIN, 30));
-		topPanel.add(lblGymtrack);
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.setPreferredSize(new Dimension(800,50));
 		
-		gym.btnBack_AnalyzeGym = new JButton("Back");
+		JSeparator separator = new JSeparator();
+		separator.setPreferredSize(new Dimension(530, 0));
+		bottomPanel.add(separator);
+		
+		gym.btnBack_AnalyzeGym = new JButton("", new ImageIcon("images/back.png", "Back"));
+		gym.btnBack_AnalyzeGym.setPreferredSize(new Dimension(90, 30));
+		gym.btnBack_AnalyzeGym.setRolloverIcon(new ImageIcon("images/back_over.png", "Back"));
 		gym.btnBack_AnalyzeGym.addActionListener(gym);
-		gym.getContentPane().add(gym.btnBack_AnalyzeGym);
+		bottomPanel.add(gym.btnBack_AnalyzeGym);
+		
+		gym.btnLogout = new JButton("", new ImageIcon("images/logout.png", "Logout"));
+		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
+		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", "Logout"));
+		gym.btnLogout.addActionListener(gym);
+		bottomPanel.add(gym.btnLogout);
+		
+		gym.getContentPane().add(bottomPanel);
 	}
 
 	@Override

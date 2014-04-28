@@ -43,7 +43,7 @@ public class EditTraineesUI extends GTUI {
 		gym.btnEdit_EditTrainees = new JButton(new ImageIcon("images/edit.png", "Edit"));
 		gym.btnEdit_EditTrainees.setPreferredSize(new Dimension(90, 30));
 		gym.btnEdit_EditTrainees.setRolloverIcon(new ImageIcon("images/edit_over.png", "Edit"));
-		gym.btnAdd_EditTrainees.addActionListener(gym);
+		gym.btnEdit_EditTrainees.addActionListener(gym);
 		topContainer.add(gym.btnEdit_EditTrainees);
 
 		gym.btnDelete_EditTrainees = new JButton(new ImageIcon("images/delete.png", "Delete"));

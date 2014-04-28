@@ -30,6 +30,7 @@ public class GymTrack extends JApplet implements ActionListener
 	 */
 	protected JButton btnLogout;
 	ConnectionErrorDialog connectionError;
+	protected AddEditUserDialog addEditUserDialog;
 	
 	/*
 	 * components used by ConnectionErrorDialog
@@ -47,21 +48,20 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton cancelButton_AddTrainee;
 	
 	/*
-	 * Components used by AddUserDialog
+	 * Components used by AddEditUserDialog
 	 */
 	protected JTextField firstName_AddUser;
 	protected JTextField lastName_AddUser;
 	protected JTextField email_AddUser;
 	protected JTextField username_AddUser;
 	protected JButton okButton_AddUser;
+	protected JButton updateButton_EditUser;
 	protected JButton cancelButton_AddUser;
 	protected JRadioButton rdbtnTrainer_addUser;
 	protected JRadioButton rdbtnMember_addUser;
-	protected AddUserDialog addUserDialog;
 	protected DeleteUserDialog deleteUserDialog;
 	protected JButton okButton_DeleteUser;
 	protected JTextField firstName_DeleteUser;
-	protected EditUserDialog editUserDialog;
 	protected JButton okButton_EditUser;
 	protected JTextField firstName_EditUser;
 	protected JTextField lastName_EditUser;
@@ -260,16 +260,23 @@ public class GymTrack extends JApplet implements ActionListener
         	feedbackDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnAdd_EditTrainees){
-        	this.addUserDialog = new AddUserDialog(this, this.editTraineesUI);
-        	this.addUserDialog.setVisible(true);
+        	addEditUserDialog = new AddEditUserDialog(this, this.editTraineesUI, false);
+        	addEditUserDialog.setVisible(true);
+        }
+        else if (arg0.getSource() == btnEdit_EditTrainees) {
+        	addEditUserDialog = new AddEditUserDialog(this, this.editTraineesUI, true);
+        	addEditUserDialog.setVisible(true);
+        }
+        else if (arg0.getSource() == btnDelete_EditTrainees) {
+        	// TODO
         }
         else if (arg0.getSource() == btnAdd_users){
-        	this.addUserDialog = new AddUserDialog(this, this.usersUI);
-        	this.addUserDialog.setVisible(true);
+        	addEditUserDialog = new AddEditUserDialog(this, this.usersUI, false);
+        	addEditUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnEdit_users){
-        	this.editUserDialog = new EditUserDialog(this, this.usersUI);
-        	this.editUserDialog.setVisible(true);
+        	addEditUserDialog = new AddEditUserDialog(this, this.usersUI, true);
+        	addEditUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnDelete_users){
         	this.row = usersTable_users.getSelectedRow();
@@ -371,14 +378,17 @@ public class GymTrack extends JApplet implements ActionListener
         		
         	}
        
-        	if(this.editUserDialog.callingUI == usersUI){
+        	if(addEditUserDialog.callingUI == usersUI){
         		usersUI.reloadPage(this);
-        		this.editUserDialog.dispose();
+        		addEditUserDialog.dispose();
         	}
-        	else if(this.addUserDialog.callingUI == editTraineesUI){
+        	else if(addEditUserDialog.callingUI == editTraineesUI){
         		editTraineesUI.reloadPage(this);
-        		this.addUserDialog.dispose();
+        		addEditUserDialog.dispose();
         	}
+        }
+        else if(arg0.getSource() == cancelButton_AddUser) {
+        	addEditUserDialog.dispose();
         }
         else if (arg0.getSource() == okButton_AddUser){
         	Factory factory = new Factory();
@@ -407,17 +417,17 @@ public class GymTrack extends JApplet implements ActionListener
 				connectionError.setVisible(true);
 			}
         	
-        	if(this.addUserDialog.callingUI == usersUI){
+        	if(addEditUserDialog.callingUI == usersUI){
         		usersUI.reloadPage(this);
-        		this.addUserDialog.dispose();
+        		addEditUserDialog.dispose();
         	}
-        	else if(this.editUserDialog.callingUI == usersUI){
+        	else if(addEditUserDialog.callingUI == usersUI){
         		usersUI.reloadPage(this);
-        		this.editUserDialog.dispose();
+        		addEditUserDialog.dispose();
         	}
-        	else if(this.addUserDialog.callingUI == editTraineesUI){
+        	else if(addEditUserDialog.callingUI == editTraineesUI){
         		editTraineesUI.reloadPage(this);
-        		this.addUserDialog.dispose();
+        		addEditUserDialog.dispose();
         	}
         }
         else if(arg0.getSource() == rdbtnAll_users){
@@ -509,6 +519,12 @@ public class GymTrack extends JApplet implements ActionListener
 		}
 		else if(arg0.getSource() == cancelButton_EditEquip){
 			addEditEquipmentDialog.dispose();
+		}
+		else if(arg0.getSource() == okButton_AddTrainee) {
+			// TODO
+		}
+		else if(arg0.getSource() == cancelButton_AddTrainee) {
+			addEditUserDialog.dispose();
 		}
 		else if(arg0.getSource() == btnOk_loginerr) {
 			loginError.dispose();
