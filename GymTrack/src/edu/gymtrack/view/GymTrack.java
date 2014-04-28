@@ -24,6 +24,12 @@ public class GymTrack extends JApplet implements ActionListener
 	protected int row = 0;
 	protected int col = 0;
 	GTUI previous;
+	
+	/*
+	 * Universal Components
+	 */
+	protected JButton btnLogout;
+	
 	/*
 	 * Components used by AddTraineeDialog
 	 */
@@ -87,9 +93,15 @@ public class GymTrack extends JApplet implements ActionListener
 	/*
 	 * components used by LoginUI
 	 */
+	LoginErrorDialog loginError;
 	protected JButton btnSubmit;
 	protected JTextField txtUsername;
 	protected JPasswordField txtPassword;
+	
+	/*
+	 * components used by LoginErrorDialog
+	 */
+	protected JButton btnOk_loginerr;
 	
 	/*
 	 * components used by MainUI
@@ -101,7 +113,6 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnEquipment;
 	protected JButton btnUsers;
 	protected JButton btnAnalyzeGym;
-	protected JButton btnLogout;
 	
 	/*
 	 * Component used by EquipmentUI
@@ -238,8 +249,8 @@ public class GymTrack extends JApplet implements ActionListener
         	analyzeGymUI.goBack(this);
         }
         else if (arg0.getSource() == btnLogWork_MyPlans){
-				logWorkDialog = new LogWorkDialog(this, (MyPlansUI)myPlansUI);
-				logWorkDialog.setVisible(true);
+			logWorkDialog = new LogWorkDialog(this, (MyPlansUI)myPlansUI);
+			logWorkDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnSeeFeedback_MyPlans){
         	feedbackDialog = new SeeFeedbackDialog(this, loggedIn.getUserType());
@@ -492,6 +503,9 @@ public class GymTrack extends JApplet implements ActionListener
 		else if(arg0.getSource() == cancelButton_EditEquip){
 			addEditEquipmentDialog.dispose();
 		}
+		else if(arg0.getSource() == btnOk_loginerr) {
+			loginError.dispose();
+		}
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
 		}
@@ -528,11 +542,12 @@ public class GymTrack extends JApplet implements ActionListener
 					if(log == false){
 						mainUI.logOut(this);
 					}
-						
 					}
 				}
 			if(log == false){
 				mainUI.logOut(this);
+				loginError = new LoginErrorDialog(this);
+				loginError.setVisible(true);
 			}
 			else{
 				mainUI.switchUI(this);

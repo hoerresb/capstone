@@ -177,8 +177,7 @@ public class MyPlansUI extends GTUI {
         splitPane.setOneTouchExpandable(true);
         splitPane.setDividerLocation(150);
         leftScrollablePane.setMinimumSize(new Dimension(100,50));
-        leftScrollablePane.setMaximumSize(new Dimension(200,50));
-        splitPane.setPreferredSize(new Dimension(400,200));
+        splitPane.setPreferredSize(new Dimension(800,200));
 		
         contentPane.add(splitPane);
         
