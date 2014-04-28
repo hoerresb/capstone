@@ -94,6 +94,7 @@ public class GymTrack extends JApplet implements ActionListener
 	 * components used by LoginUI
 	 */
 	LoginErrorDialog loginError;
+	ConnectionErrorDialog connectionError;
 	protected JButton btnSubmit;
 	protected JTextField txtUsername;
 	protected JPasswordField txtPassword;
@@ -102,6 +103,11 @@ public class GymTrack extends JApplet implements ActionListener
 	 * components used by LoginErrorDialog
 	 */
 	protected JButton btnOk_loginerr;
+	
+	/*
+	 * components used by ConnectionErrorDialog
+	 */
+	protected JButton btnOk_connectionerr;
 	
 	/*
 	 * components used by MainUI
@@ -183,9 +189,6 @@ public class GymTrack extends JApplet implements ActionListener
 	GTUI equipmentUI = new EquipmentUI();
 	GTUI mainUI = new MainUI();
 	GTUI usersUI = new UsersUI();
-	
-	
-	
 
 	
 	public void init() {
@@ -506,6 +509,9 @@ public class GymTrack extends JApplet implements ActionListener
 		else if(arg0.getSource() == btnOk_loginerr) {
 			loginError.dispose();
 		}
+		else if(arg0.getSource() == btnOk_connectionerr) {
+			connectionError.dispose();
+		}
         else {
         	System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
 		}
@@ -516,10 +522,11 @@ public class GymTrack extends JApplet implements ActionListener
 		Factory f = new Factory();
 		try {
 			String username = this.txtUsername.getText();
-			System.out.println(username);
 			Authentication a = Factory.createAuthentication();
 			ArrayList<User> u = f.getUsers();
-			if(a.authenticateUser(username, this.txtPassword.getText())){
+			System.out.println(username);
+			//System.out.println(this.txtPassword.getPassword());
+			if(a.authenticateUser(username, String.valueOf(this.txtPassword.getPassword()))){
 				for(int i = 0; i < u.size(); i++){
 					if(username.equals(u.get(i).getUsername())){
 						loggedIn = u.get(i);
@@ -557,6 +564,8 @@ public class GymTrack extends JApplet implements ActionListener
 		 catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			connectionError = new ConnectionErrorDialog(this);
+			connectionError.setVisible(true);
 		}
 		
 		
