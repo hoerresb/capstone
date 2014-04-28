@@ -35,67 +35,6 @@ public class DeleteUserDialog extends JDialog{
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		JLabel lblFirstName = new JLabel("User Name");
-		gym.firstName_DeleteUser = new JTextField();
-		gym.firstName_DeleteUser.setColumns(10);
-		/*JLabel lblLastName = new JLabel("Last name");
-		gym.lastName_AddUser = new JTextField();
-		gym.lastName_AddUser.setColumns(10);
-		JLabel lblEmail = new JLabel("Email");
-		gym.email_AddUser = new JTextField();
-		gym.email_AddUser.setColumns(10);
-		JLabel lblNewLabel = new JLabel("Username");
-		gym.username_AddUser = new JTextField();
-		gym.username_AddUser.setColumns(10);*/
-
-		//gym.rdbtnTrainer_addUser = new JRadioButton("Trainer");
-		//gym.rdbtnMember_addUser = new JRadioButton("Member");
-		//addUser_buttonGroup.add(gym.rdbtnMember_addUser);
-		//addUser_buttonGroup.add(gym.rdbtnTrainer_addUser);
-		//gym.rdbtnMember_addUser.setSelected(true);
-
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addComponent(lblFirstName)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(gym.firstName_DeleteUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_contentPanel.createSequentialGroup()
-				
-				))));
-		gl_contentPanel.setVerticalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblFirstName)
-								.addComponent(gym.firstName_DeleteUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGap(18)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-										
-				)));
-		contentPanel.setLayout(gl_contentPanel);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				gym.okButton_AddEditUser = new JButton("OK");
-				gym.okButton_AddEditUser.addActionListener(gym);
-				gym.okButton_AddEditUser.setActionCommand("OK");
-				buttonPane.add(gym.okButton_AddEditUser);
-				getRootPane().setDefaultButton(gym.okButton_AddEditUser);
-			}
-			{
-				gym.cancelButton_AddEditUser = new JButton("Cancel");
-				gym.cancelButton_AddEditUser.setActionCommand("Cancel");
-				buttonPane.add(gym.cancelButton_AddEditUser);
-			}
-		}
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

@@ -51,20 +51,18 @@ public class GymTrack extends JApplet implements ActionListener
 	/*
 	 * Components used by AddEditUserDialog
 	 */
-	protected JTextField firstName_AddUser;
-	protected JTextField lastName_AddUser;
-	protected JTextField email_AddUser;
-	protected JTextField username_AddUser;
+	protected JTextField firstName_AddEditUser;
+	protected JTextField lastName_AddEditUser;
+	protected JTextField email_AddEditUser;
+	protected JTextField username_AddEditUser;
+	protected JPasswordField password_AddEditUser;
 	protected JButton okButton_AddEditUser;
 	protected JButton updateButton_EditUser;
 	protected JButton cancelButton_AddEditUser;
 	protected JRadioButton rdbtnTrainer_addUser;
 	protected JRadioButton rdbtnMember_addUser;
-	protected JTextField firstName_DeleteUser;
-	protected JTextField firstName_EditUser;
-	protected JTextField lastName_EditUser;
-	protected JTextField email_EditUser;
-	protected JTextField username_EditUser;
+	protected String firstName_DeleteUser;
+	protected String lastName_DeleteUser;
 	
 	/*
 	 * Components used by DeleteUserDialog
@@ -339,7 +337,7 @@ public class GymTrack extends JApplet implements ActionListener
         else if (arg0.getSource() == updateButton_EditUser){
         	this.row = usersTable_users.getSelectedRow();
         	Factory factory = new Factory();
-            String username = this.username_EditUser.getText();
+            String username = this.username_AddEditUser.getText();
         	String editUser = "";
         	int editId = 0;
         	UserType editType = null;
@@ -397,7 +395,7 @@ public class GymTrack extends JApplet implements ActionListener
         }
         else if (arg0.getSource() == okButton_AddEditUser){
         	Factory factory = new Factory();
-        	String username = this.username_AddUser.getText();
+        	String username = this.username_AddEditUser.getText();
         	int id = this.largetId + 1;
         	UserType type = UserType.CLIENT;
         	if(this.rdbtnTrainer_addUser.isSelected()){

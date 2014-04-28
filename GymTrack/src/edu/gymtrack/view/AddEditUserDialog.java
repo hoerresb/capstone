@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout.Alignment;
@@ -34,27 +35,56 @@ public class AddEditUserDialog extends JDialog{
 			this.hideOkBtn = true;
 		}
 		else {
-			this.setTitle("Add a User");
+			this.setTitle("Add a user");
 		}
 		this.setBounds(100, 100, 450, 300);
 		this.setPreferredSize(new Dimension(450,300));
 		this.setResizable(false);
 		
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setLayout(new FlowLayout());
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		JLabel lblFirstName = new JLabel("First name");
-		gym.firstName_EditUser = new JTextField();
-		gym.firstName_EditUser.setColumns(10);
-		JLabel lblLastName = new JLabel("Last name");
-		gym.lastName_EditUser = new JTextField();
-		gym.lastName_EditUser.setColumns(10);
-		JLabel lblEmail = new JLabel("Email");
-		gym.email_EditUser = new JTextField();
-		gym.email_EditUser.setColumns(10);
-		JLabel lblNewLabel = new JLabel("Username");
-		gym.username_EditUser = new JTextField();
-		gym.username_EditUser.setColumns(10);
+		
+		JPanel firstName = new JPanel();
+		firstName.setLayout(new FlowLayout());
+		firstName.setPreferredSize(new Dimension(450, 50));
+		JLabel lblFirstName = new JLabel("First name: *");
+		gym.firstName_AddEditUser = new JTextField();
+		gym.firstName_AddEditUser.setColumns(10);
+		firstName.add(lblFirstName);
+		firstName.add(gym.firstName_AddEditUser);
+		contentPanel.add(firstName);
+		
+		JPanel lastName = new JPanel();
+		lastName.setLayout(new FlowLayout());
+		lastName.setPreferredSize(new Dimension(450, 50));
+		JLabel lblLastName = new JLabel("Last name: *");
+		gym.lastName_AddEditUser = new JTextField();
+		gym.lastName_AddEditUser.setColumns(10);
+		lastName.add(lblLastName);
+		lastName.add(gym.lastName_AddEditUser);
+		contentPanel.add(lastName);
+		
+		JLabel lblEmail = new JLabel("Email:");
+		gym.email_AddEditUser = new JTextField();
+		gym.email_AddEditUser.setColumns(20);
+		contentPanel.add(lblEmail);
+		contentPanel.add(gym.email_AddEditUser);
+		
+		JLabel lblName = new JLabel("Username: *");
+		gym.username_AddEditUser = new JTextField();
+		gym.username_AddEditUser.setColumns(15);
+		contentPanel.add(lblName);
+		contentPanel.add(gym.username_AddEditUser);
+		
+		JLabel lblPass = new JLabel("Password: *");
+		gym.password_AddEditUser = new JPasswordField();
+		gym.password_AddEditUser.setColumns(15);
+		contentPanel.add(lblPass);
+		contentPanel.add(gym.firstName_AddEditUser);
+		
+		JLabel lblRequired = new JLabel("The fields marked with a (*) are required");
+		contentPanel.add(lblRequired);
 		
 		gym.rdbtnTrainer_addUser = new JRadioButton("Trainer");
 		gym.rdbtnMember_addUser = new JRadioButton("Member");
@@ -62,9 +92,9 @@ public class AddEditUserDialog extends JDialog{
 		addUser_buttonGroup.add(gym.rdbtnTrainer_addUser);
 		gym.rdbtnMember_addUser.setSelected(true);
 		
+		
 
-
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
+		/*GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 				gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
@@ -73,7 +103,7 @@ public class AddEditUserDialog extends JDialog{
 								.addGroup(gl_contentPanel.createSequentialGroup()
 										.addComponent(lblFirstName)
 										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(gym.firstName_EditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(gym.firstName_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 										.addGroup(gl_contentPanel.createSequentialGroup()
 												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 														.addComponent(lblNewLabel)
@@ -81,10 +111,10 @@ public class AddEditUserDialog extends JDialog{
 														.addComponent(lblEmail))
 														.addPreferredGap(ComponentPlacement.UNRELATED)
 														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-																.addComponent(gym.lastName_EditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																.addComponent(gym.lastName_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 																.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-																		.addComponent(gym.email_EditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																		.addComponent(gym.username_EditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+																		.addComponent(gym.email_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																		.addComponent(gym.username_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 																		.addGroup(gl_contentPanel.createSequentialGroup()
 																				.addComponent(gym.rdbtnMember_addUser)
 																				.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -97,27 +127,28 @@ public class AddEditUserDialog extends JDialog{
 						.addContainerGap()
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblFirstName)
-								.addComponent(gym.firstName_EditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(gym.firstName_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 								.addGap(18)
 								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 										.addComponent(lblLastName)
-										.addComponent(gym.lastName_EditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(gym.lastName_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 										.addGap(18)
 										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 												.addComponent(lblEmail)
-												.addComponent(gym.email_EditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addComponent(gym.email_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 												.addGap(18)
 												.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 														.addComponent(lblNewLabel)
-														.addComponent(gym.username_EditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+														.addComponent(gym.username_AddEditUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 														.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
 														.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 																.addComponent(gym.rdbtnMember_addUser)
 																.addComponent(gym.rdbtnTrainer_addUser))
 																.addGap(22))
-				);
+				);*/
 		
-		contentPanel.setLayout(gl_contentPanel);
+		//contentPanel.setLayout(gl_contentPanel);
+		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -146,6 +177,7 @@ public class AddEditUserDialog extends JDialog{
 		if(callingUI == gym.editTraineesUI){
 			gym.rdbtnMember_addUser.setVisible(false);
 			gym.rdbtnTrainer_addUser.setVisible(false);
+			gym.password_AddEditUser.setVisible(false);
 		}
 
 	}
