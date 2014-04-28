@@ -59,11 +59,11 @@ public class AnalyzeMeUI extends GTUI {
 		gym.btnBack_AnalyzeMe.setPreferredSize(new Dimension(90, 30));
 		gym.btnBack_AnalyzeMe.setFont(new Font("Calibri", Font.PLAIN, 13));
 		gym.btnBack_AnalyzeMe.addActionListener(gym);
-		topPanel.add(gym.btnBack_AnalyzeMe);
+		gym.getContentPane().add(gym.btnBack_AnalyzeMe);
 		gym.btnLogout.setFont(new Font("Calibri", Font.PLAIN, 13));
 		gym.btnLogout.setPreferredSize(new Dimension(90, 30));
 		gym.btnLogout.addActionListener(gym);
-		topPanel.add(gym.btnLogout);
+		gym.getContentPane().add(gym.btnLogout);
 	}
 	
 	private XYDataset createDataset(Factory factory, GymTrack gym){
