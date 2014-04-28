@@ -88,7 +88,12 @@ public class EquipmentUI extends GTUI {
 		scrollablePane = new JScrollPane();
 		bottomContainer.add(scrollablePane, BorderLayout.CENTER);
 		
-		gym.equipmentTable_equipment = new JTable(tableData, columnNames);
+		gym.equipmentTable_equipment = new JTable(tableData, columnNames) {
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return false;
+			}
+		};
+		gym.equipmentTable_equipment.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		gym.equipmentTable_equipment.setFillsViewportHeight(true);
 		scrollablePane.setViewportView(gym.equipmentTable_equipment);
 	}

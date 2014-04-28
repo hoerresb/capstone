@@ -1,19 +1,22 @@
 package edu.gymtrack.view;
+
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.EmptyBorder;
 
 import edu.gymtrack.db.Factory;
+import edu.gymtrack.model.Equipment;
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.User.UserType;
 
+@SuppressWarnings("serial")
 public class EditTraineesUI extends GTUI {
-	private static final long serialVersionUID = 1L;
-
+	
+	private ArrayList<User> users = null;
+	
 	public void createEditTraineesUI(GymTrack gym){
 		Factory factory = new Factory();
 		gym.getContentPane().removeAll();
@@ -84,6 +87,7 @@ public class EditTraineesUI extends GTUI {
 				return false;
 			}
 		};
+		gym.traineesTable_EditTrainees.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		gym.traineesTable_EditTrainees.setFillsViewportHeight(true);
 		scrollablePane.setViewportView(gym.traineesTable_EditTrainees);
 	}
@@ -116,6 +120,15 @@ public class EditTraineesUI extends GTUI {
 		return tableData;
 	}// end getTableData
 
+	public User getSelectedUser(GymTrack gym){
+		int selected = gym.traineesTable_EditTrainees.getSelectedRow();
+		
+		if(selected < 0)
+			return null;
+		
+		return users.get(selected);
+	}
+	
 	@Override
 	public GTUI showUI(GymTrack gym) {
 		createEditTraineesUI(gym);

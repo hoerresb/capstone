@@ -124,6 +124,7 @@ public class UsersUI extends GTUI {
 				return false;
 			}
 		};
+		gym.usersTable_users.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		gym.usersTable_users.setFillsViewportHeight(true);
 		scrollablePane.setViewportView(gym.usersTable_users);
 	}
