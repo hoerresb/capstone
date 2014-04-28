@@ -436,6 +436,17 @@ public class GymTrack extends JApplet implements ActionListener
 		else if (arg0.getSource() == cancelButton_LogWork){
 			logWorkDialog.dispose();
 		}
+		else if (arg0.getSource() == btnUpdate_PFeedback){
+			ArrayList<WorkoutPlan> updatedPlans = provideFeedbackDialog.getUpdatedPlans();
+			try {
+				(new Factory()).updateWorkoutPlans(updatedPlans);
+				provideFeedbackDialog.dispose();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				connectionError = new ConnectionErrorDialog(this);
+				connectionError.setVisible(true);
+			}
+		}
 		else if (arg0.getSource() == btnUpdate_Feedback){
 			ArrayList<WorkoutPlan> updatedPlans = feedbackDialog.getUpdatedPlans();
 			try {
@@ -447,6 +458,9 @@ public class GymTrack extends JApplet implements ActionListener
 				connectionError.setVisible(true);
 			}
 		}
+		else if (arg0.getSource() == btnCancel_PFeedback){
+			provideFeedbackDialog.dispose();
+			}
 		else if (arg0.getSource() == btnDelete_equipment){
 			Equipment toDelete = ((EquipmentUI)equipmentUI).getSelectedEquipment(this);
 			if(toDelete != null){

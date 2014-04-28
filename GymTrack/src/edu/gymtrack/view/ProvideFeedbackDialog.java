@@ -56,6 +56,7 @@ public class ProvideFeedbackDialog extends JDialog{
 			JTextArea jGoalTxt = new JTextArea();
 			jGoalTxt.setText(plan.getGoals());
 			jGoalTexts.add(jGoalTxt);
+			jGoalTxt.setEditable(false);
 			add(jGoalTxt);
 			
 			JLabel fbLabel = new JLabel("Feedback:");
@@ -64,7 +65,6 @@ public class ProvideFeedbackDialog extends JDialog{
 			JTextArea jFBTxt = new JTextArea();
 			jFBTxt.setText(plan.getFeedback());
 			if(editorType == User.UserType.CLIENT);
-				jFBTxt.setEditable(false);
 			jFBTexts.add(jFBTxt);
 			add(jFBTxt);
 			
@@ -73,13 +73,13 @@ public class ProvideFeedbackDialog extends JDialog{
 		
 		JPanel controlPanel = new JPanel(new GridLayout());
 		
-		gym.btnUpdate_Feedback = new JButton("Update");
-		gym.btnUpdate_Feedback.addActionListener(gym);
-		controlPanel.add(gym.btnUpdate_Feedback, null);
+		gym.btnUpdate_PFeedback = new JButton("Update");
+		gym.btnUpdate_PFeedback.addActionListener(gym);
+		controlPanel.add(gym.btnUpdate_PFeedback, null);
 		
-		gym.btnCancel_Feedback = new JButton("Cancel");
-		gym.btnCancel_Feedback.addActionListener(gym);
-		controlPanel.add(gym.btnCancel_Feedback, null);
+		gym.btnCancel_PFeedback = new JButton("Cancel");
+		gym.btnCancel_PFeedback.addActionListener(gym);
+		controlPanel.add(gym.btnCancel_PFeedback, null);
 		
 		add(controlPanel);
 	}
