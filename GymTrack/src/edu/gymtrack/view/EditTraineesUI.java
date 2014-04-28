@@ -34,18 +34,18 @@ public class EditTraineesUI extends GTUI {
 		JPanel topContainer = new JPanel();
 		contentPane.add(topContainer, BorderLayout.NORTH);
 
-		gym.btnAdd_EditTrainees = new JButton("", new ImageIcon("images/add.png", "Add"));
+		gym.btnAdd_EditTrainees = new JButton(new ImageIcon("images/add.png", "Add"));
 		gym.btnAdd_EditTrainees.setPreferredSize(new Dimension(90, 30));
 		gym.btnAdd_EditTrainees.setRolloverIcon(new ImageIcon("images/add_over.png", "Add"));
 		gym.btnAdd_EditTrainees.addActionListener(gym);
 		topContainer.add(gym.btnAdd_EditTrainees);
 
-		gym.btnEdit_EditTrainees = new JButton("", new ImageIcon("images/edit.png", "Edit"));
+		gym.btnEdit_EditTrainees = new JButton(new ImageIcon("images/edit.png", "Edit"));
 		gym.btnEdit_EditTrainees.setPreferredSize(new Dimension(90, 30));
 		gym.btnEdit_EditTrainees.setRolloverIcon(new ImageIcon("images/edit_over.png", "Edit"));
 		topContainer.add(gym.btnEdit_EditTrainees);
 
-		gym.btnDelete_EditTrainees = new JButton("", new ImageIcon("images/delete.png", "Delete"));
+		gym.btnDelete_EditTrainees = new JButton(new ImageIcon("images/delete.png", "Delete"));
 		gym.btnDelete_EditTrainees.setPreferredSize(new Dimension(90, 30));
 		gym.btnDelete_EditTrainees.setRolloverIcon(new ImageIcon("images/delete_over.png", "Delete"));
 		topContainer.add(gym.btnDelete_EditTrainees);
@@ -82,13 +82,13 @@ public class EditTraineesUI extends GTUI {
 		separator.setPreferredSize(new Dimension(530, 0));
 		bottomPanel.add(separator);
 		
-		gym.btnBack_EditTrainees = new JButton("", new ImageIcon("images/back.png", "Back"));
+		gym.btnBack_EditTrainees = new JButton(new ImageIcon("images/back.png", "Back"));
 		gym.btnBack_EditTrainees.setPreferredSize(new Dimension(90, 30));
 		gym.btnBack_EditTrainees.setRolloverIcon(new ImageIcon("images/back_over.png", "Back"));
 		gym.btnBack_EditTrainees.addActionListener(gym);
 		bottomPanel.add(gym.btnBack_EditTrainees);
 		
-		gym.btnLogout = new JButton("", new ImageIcon("images/logout.png", "Logout"));
+		gym.btnLogout = new JButton(new ImageIcon("images/logout.png", "Logout"));
 		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
 		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", "Logout"));
 		gym.btnLogout.addActionListener(gym);

@@ -58,7 +58,7 @@ public class MainUI extends GTUI {
 		gbc_btnAnalyze.gridy = 1;
 		gym.getContentPane().add(gym.btnAnalyzeMe, gbc_btnAnalyze);
 		
-		gym.btnLogout = new JButton("", new ImageIcon("images/logout.png", "Logout"));
+		gym.btnLogout = new JButton(new ImageIcon("images/logout.png", "Logout"));
 		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", ""));
 		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
 		GridBagConstraints gbc_btnLogout = new GridBagConstraints();

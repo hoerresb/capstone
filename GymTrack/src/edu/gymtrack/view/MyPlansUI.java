@@ -93,8 +93,7 @@ public class MyPlansUI extends GTUI {
         
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout(0, 0));
-        JPanel bottomContainer = new JPanel();
-        rightPanel.add(bottomContainer, BorderLayout.SOUTH);
+        rightPanel.setMinimumSize(new Dimension(500,50));
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                                    leftScrollablePane, rightPanel);
@@ -177,9 +176,9 @@ public class MyPlansUI extends GTUI {
 
         splitPane.setOneTouchExpandable(true);
         splitPane.setDividerLocation(150);
-        leftScrollablePane.setMinimumSize(new Dimension(100, 50));
-        leftScrollablePane.setMaximumSize(new Dimension(150, 50));
-        splitPane.setPreferredSize(new Dimension(400, 200));
+        leftScrollablePane.setMinimumSize(new Dimension(100,50));
+        leftScrollablePane.setMaximumSize(new Dimension(200,50));
+        splitPane.setPreferredSize(new Dimension(400,200));
 		
         contentPane.add(splitPane);
         
