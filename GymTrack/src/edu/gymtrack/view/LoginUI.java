@@ -21,8 +21,7 @@ public class LoginUI extends GTUI {
 		
 		JPanel lowerPanel = new JPanel();
 		gym.getContentPane().add(lowerPanel);
-		GridBagLayout gridBadLayout = new GridBagLayout();
-		lowerPanel.setLayout(gridBadLayout);
+		lowerPanel.setLayout(new GridBagLayout());
 		
 		JSeparator separator = new JSeparator();
 		separator.setPreferredSize(new Dimension(0, 30));
