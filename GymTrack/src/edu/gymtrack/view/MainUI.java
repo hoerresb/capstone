@@ -42,7 +42,6 @@ public class MainUI extends GTUI {
 		gym.btnMyPlans = new JButton("My Plans");
 		gym.btnMyPlans.setFont(new Font("Calibri", Font.PLAIN, 13));
 		gym.btnMyPlans.setPreferredSize(new Dimension(150, 100));
-		gym.btnMyPlans.setMinimumSize(new Dimension(150, 100));
 		GridBagConstraints gbc_btnMyPlans = new GridBagConstraints();
 		gym.btnMyPlans.addActionListener(gym);
 		gbc_btnMyPlans.insets = new Insets(40, 40, 0, 40);
@@ -53,7 +52,6 @@ public class MainUI extends GTUI {
 		gym.btnAnalyzeMe = new JButton("Analyze Me");
 		gym.btnAnalyzeMe.setFont(new Font("Calibri", Font.PLAIN, 13));
 		gym.btnAnalyzeMe.setPreferredSize(new Dimension(150, 100));
-		gym.btnAnalyzeMe.setMinimumSize(new Dimension(150, 100));
 		GridBagConstraints gbc_btnAnalyze = new GridBagConstraints();
 		gym.btnAnalyzeMe.addActionListener(gym);
 		gbc_btnAnalyze.insets = new Insets(40, 0, 0, 40);
@@ -61,7 +59,7 @@ public class MainUI extends GTUI {
 		gbc_btnAnalyze.gridy = 1;
 		gym.getContentPane().add(gym.btnAnalyzeMe, gbc_btnAnalyze);
 		
-		ImageIcon logoutIcon = new ImageIcon("images/logout.png", "");
+		ImageIcon logoutIcon = new ImageIcon("images/logout.png", "Logout");
 		gym.btnLogout = new JButton("", logoutIcon);
 		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", ""));
 		gym.btnLogout.setPreferredSize(new Dimension(120, 30));

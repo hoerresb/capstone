@@ -11,19 +11,15 @@ public class LoginUI extends GTUI {
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
-		GridLayout gridLayout = new GridLayout(2,0);
-		gym.getContentPane().setLayout(gridLayout);
+		gym.getContentPane().setLayout(new FlowLayout());
 		
 		JPanel topPanel = new JPanel();
-		topPanel.setSize(800, 400);
 		gym.getContentPane().add(topPanel);
 		
-		JLabel lblGymtrack = new JLabel("GymTrack");
-		lblGymtrack.setFont(new Font("Calibri", Font.PLAIN, 120));
+		JLabel lblGymtrack = new JLabel(new ImageIcon("images/logo.png", "GymTrack"));
 		topPanel.add(lblGymtrack);
 		
 		JPanel lowerPanel = new JPanel();
-		lowerPanel.setSize(600, 50);
 		gym.getContentPane().add(lowerPanel);
 		GridBagLayout gridBadLayout = new GridBagLayout();
 		lowerPanel.setLayout(gridBadLayout);
@@ -76,10 +72,9 @@ public class LoginUI extends GTUI {
 		gbc_separator.gridy = 3;
 		lowerPanel.add(separator, gbc_separator);
 		
-		gym.btnSubmit = new JButton();
-		gym.btnSubmit.setFont(new Font("Calibri", Font.BOLD, 14));
+		gym.btnSubmit = new JButton(new ImageIcon("images/signin.png", "Signin"));
 		gym.btnSubmit.setPreferredSize(new Dimension(90, 30));
-		gym.btnSubmit.setText("Sign In");
+		gym.btnSubmit.setRolloverIcon(new ImageIcon("images/signin_over.png", "Signin"));
 		gym.btnSubmit.addActionListener(gym);
 		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
 		gbc_btnSubmit.gridx = 0;
