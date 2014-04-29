@@ -14,7 +14,11 @@ import edu.gymtrack.model.User.UserType;
 
 @SuppressWarnings("serial")
 public class EditTraineesUI extends GTUI {
-
+	private final String[] columnNames = {"Username", "Type", "ID"};
+	
+	private JScrollPane scrollablePane;
+	
+	private ArrayList<User> trainees;
 	
 	public void createEditTraineesUI(GymTrack gym){
 		Factory factory = new Factory();
@@ -30,7 +34,6 @@ public class EditTraineesUI extends GTUI {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		String[] columnNames = {"Username", "Type", "ID"};
 		Object[][] tableData = getTableData(factory, gym);
 
 		JPanel topContainer = new JPanel();
@@ -78,7 +81,7 @@ public class EditTraineesUI extends GTUI {
 		gym.btnLogout.addActionListener(gym);
 		bottomPanel.add(gym.btnLogout);
 
-		JScrollPane scrollablePane = new JScrollPane();
+		scrollablePane = new JScrollPane();
 		bottomContainer.add(scrollablePane, BorderLayout.CENTER);
 
 		gym.traineesTable_EditTrainees = new JTable(tableData, columnNames) {
@@ -103,12 +106,16 @@ public class EditTraineesUI extends GTUI {
 		}  
 		Object[][] tableData = new Object[currentUserSet.size()][3];
 		
+		trainees = new ArrayList<User>();
 		int j =0;
 		for (int i = 0; i < currentUserSet.size(); i++) {
 			if(currentUserSet.get(i).getUserType() == UserType.CLIENT){
 				tableData[j][0] = currentUserSet.get(i).getUsername();
 				tableData[j][1] = currentUserSet.get(i).getUserType().toString();
 				tableData[j][2] = currentUserSet.get(i).getID();
+				
+				trainees.add(currentUserSet.get(i));
+				
 				++j;
 			}
 			
@@ -126,6 +133,25 @@ public class EditTraineesUI extends GTUI {
 		
 		return users.get(selected);
 	}*/
+	
+	public void refreshTable(GymTrack gym){
+		gym.traineesTable_EditTrainees = new JTable(getTableData(new Factory(), gym), columnNames) {
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return false;
+			}
+		};
+		scrollablePane.setViewportView(gym.traineesTable_EditTrainees);
+		gym.traineesTable_EditTrainees.updateUI();
+	}
+	
+	public User getSelectedTrainee(GymTrack gym){
+		int row = gym.traineesTable_EditTrainees.getSelectedRow();
+		
+		if(row < 0)
+			return null;
+		
+		return trainees.get(row);
+	}
 	
 
 	@Override

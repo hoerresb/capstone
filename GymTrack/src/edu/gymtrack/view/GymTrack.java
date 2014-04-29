@@ -290,7 +290,22 @@ public class GymTrack extends JApplet implements ActionListener
         	addEditUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnDelete_EditTrainees) {
-        	// TODO
+        	User toDelete = ((EditTraineesUI)editTraineesUI).getSelectedTrainee(this);
+        	if(toDelete == null)
+        		return;
+        	
+        	toDelete.setDelete(true);
+        	ArrayList<User> users = new ArrayList<User>();
+        	users.add(toDelete);
+        	
+        	Factory f = new Factory();
+        	try {
+				f.updateUsers(users, Factory.createAuthentication());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	((EditTraineesUI)editTraineesUI).refreshTable(this);
         }
         else if (arg0.getSource() == btnAdd_users){
         	addEditUserDialog = new AddEditUserDialog(this, this.usersUI, false);
