@@ -124,6 +124,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnAnalyzeMe;
 	protected JButton btnEditTrainees;
 	protected JButton btnTrkTrainees;
+	protected JButton btnAnalyzeTrainees;
 	protected JButton btnEquipment;
 	protected JButton btnUsers;
 	protected JButton btnAnalyzeGym;
@@ -203,6 +204,7 @@ public class GymTrack extends JApplet implements ActionListener
 	GTUI analyzeGymUI = new AnalyzeGymUI();
 	GTUI editTraineesUI = new EditTraineesUI();
 	GTUI trkTraineesUI = new TrkTraineesUI();
+	GTUI analyzeTraineesUI = new AnalyzeTraineesUI();
 	GTUI equipmentUI = new EquipmentUI();
 	GTUI mainUI = new MainUI();
 	GTUI usersUI = new UsersUI();
@@ -232,6 +234,9 @@ public class GymTrack extends JApplet implements ActionListener
 		}
         else if (arg0.getSource() == btnTrkTrainees) {
         	trkTraineesUI.switchUI(this);
+        }
+        else if (arg0.getSource() == btnAnalyzeTrainees) {
+        	analyzeTraineesUI.switchUI(this);
         }
         else if (arg0.getSource() == btnEquipment) {
         	equipmentUI.switchUI(this);

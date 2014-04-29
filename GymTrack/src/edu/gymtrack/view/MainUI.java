@@ -89,6 +89,16 @@ public class MainUI extends GTUI {
 		gbc_btnTrkTrainees.gridx = 3;
 		gbc_btnTrkTrainees.gridy = 1;
 		gym.getContentPane().add(gym.btnTrkTrainees, gbc_btnTrkTrainees);
+		
+		gym.btnAnalyzeTrainees = new JButton(new ImageIcon("images/analyzetrainees.png", "Analyze Trainees"));
+		gym.btnAnalyzeTrainees.setPreferredSize(new Dimension(150, 100));
+		gym.btnAnalyzeTrainees.setRolloverIcon(new ImageIcon("images/analyzetrainees_over.png", "Analyze Trainees"));
+		GridBagConstraints gbc_btnAnalyzeTrainees = new GridBagConstraints();
+		gym.btnAnalyzeTrainees.addActionListener(gym);
+		gbc_btnAnalyzeTrainees.insets = new Insets(40, 40, 0, 40);
+		gbc_btnAnalyzeTrainees.gridx = 0;
+		gbc_btnAnalyzeTrainees.gridy = 2;
+		gym.getContentPane().add(gym.btnAnalyzeTrainees, gbc_btnAnalyzeTrainees);
 	}
 	
 	private static void setOwner(GymTrack gym) {
@@ -97,8 +107,8 @@ public class MainUI extends GTUI {
 		gym.btnEquipment.setRolloverIcon(new ImageIcon("images/equipment_over.png", "Equipment"));
 		GridBagConstraints gbc_btnEquipment = new GridBagConstraints();
 		gym.btnEquipment.addActionListener(gym);
-		gbc_btnEquipment.insets = new Insets(40, 40, 0, 40);
-		gbc_btnEquipment.gridx = 0;
+		gbc_btnEquipment.insets = new Insets(40, 0, 0, 40);
+		gbc_btnEquipment.gridx = 1;
 		gbc_btnEquipment.gridy = 2;
 		gym.getContentPane().add(gym.btnEquipment, gbc_btnEquipment);
 		
@@ -108,7 +118,7 @@ public class MainUI extends GTUI {
 		GridBagConstraints gbc_btnUsers = new GridBagConstraints();
 		gym.btnUsers.addActionListener(gym);
 		gbc_btnUsers.insets = new Insets(40, 0, 0, 40);
-		gbc_btnUsers.gridx = 1;
+		gbc_btnUsers.gridx = 2;
 		gbc_btnUsers.gridy = 2;
 		gym.getContentPane().add(gym.btnUsers, gbc_btnUsers);
 		
@@ -118,7 +128,7 @@ public class MainUI extends GTUI {
 		GridBagConstraints gbc_btnAnalyzeGym = new GridBagConstraints();
 		gym.btnAnalyzeGym.addActionListener(gym);
 		gbc_btnAnalyzeGym.insets = new Insets(40, 0, 0, 40);
-		gbc_btnAnalyzeGym.gridx = 2;
+		gbc_btnAnalyzeGym.gridx = 3;
 		gbc_btnAnalyzeGym.gridy = 2;
 		gym.getContentPane().add(gym.btnAnalyzeGym, gbc_btnAnalyzeGym);
 	}
