@@ -24,6 +24,11 @@ public class AnalyzeMeUI extends GTUI {
 	
 	
 	public void createAnalyzeMeUI(GymTrack gym){
+		gym.getContentPane().removeAll();
+		gym.getContentPane().revalidate();
+		gym.getContentPane().repaint();
+		gym.setSize(800,400);
+		gym.getContentPane().setLayout(new FlowLayout());
 		
 		final Factory factory = new Factory();
 		
@@ -33,17 +38,10 @@ public class AnalyzeMeUI extends GTUI {
 				"Date",
 				"Work",
 				dataset);
-				
-//				createChart(dataset, gym);
+		
 		final ChartPanel chartPanel = new ChartPanel(chart);
-		chartPanel.setPreferredSize(new Dimension(800,350));
-		
-		
-		gym.getContentPane().removeAll();
-		gym.getContentPane().revalidate();
-		gym.getContentPane().repaint();
-		gym.setSize(800,400);
-		gym.getContentPane().setLayout(new FlowLayout());
+		chartPanel.setPreferredSize(new Dimension(600,350));
+		chartPanel.setMinimumSize(new Dimension(400,350));
 
 		gym.getContentPane().add(chartPanel);
 		/* 
