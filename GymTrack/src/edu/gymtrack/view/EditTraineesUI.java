@@ -104,25 +104,26 @@ public class EditTraineesUI extends GTUI {
 			// TODO handle this
 			e.printStackTrace();
 		}  
-		Object[][] tableData = new Object[currentUserSet.size()][3];
 		
 		trainees = new ArrayList<User>();
-		int j =0;
-		for (int i = 0; i < currentUserSet.size(); i++) {
-			if(currentUserSet.get(i).getUserType() == UserType.CLIENT){
-				tableData[j][0] = currentUserSet.get(i).getUsername();
-				tableData[j][1] = currentUserSet.get(i).getUserType().toString();
-				tableData[j][2] = currentUserSet.get(i).getID();
-				
-				trainees.add(currentUserSet.get(i));
-				
-				++j;
-			}
+		for (User u : currentUserSet) {
+			if(u.getUserType() == UserType.CLIENT)
+				trainees.add(u);
 			
-			if(currentUserSet.get(i).getID() > gym.largetId){
-				gym.largetId = currentUserSet.get(i).getID();
+			if(u.getID() > gym.largetId){
+				gym.largetId = u.getID();
 			}
 		}
+		
+		Object[][] tableData = new Object[trainees.size()][3];
+		for(int i = 0; i < trainees.size(); ++i){
+			User u = trainees.get(i);
+			
+			tableData[i][0] = u.getUsername();
+			tableData[i][1] = u.getUserType().toString();
+			tableData[i][2] = u.getID();
+		}
+		
 		return tableData;
 	}// end getTableData
 	/*public Equipment getSelectedEquipment(GymTrack gym){
