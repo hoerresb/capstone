@@ -76,7 +76,7 @@ public class Factory {
 		ArrayList<PlanElement> results = new ArrayList<PlanElement>();
 		
 		ArrayList<Activity> activities = getActivities();
-		ArrayList<Equipment> equipments = getEquipment();
+		ArrayList<EquipmentType> equipmentTypes = getEquipmentTypes();
 		
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getElementsForPlan(plan);
@@ -89,10 +89,10 @@ public class Factory {
 				}
 			}
 			
-			Equipment equipment = null;
-			for(Equipment e : equipments){
-				if(e.getKey() == rs.getInt("equipment")){
-					equipment = e;
+			EquipmentType equipmentType = null;
+			for(EquipmentType e : equipmentTypes){
+				if(e.getKey() == rs.getInt("equipment_type")){
+					equipmentType = e;
 					break;
 				}
 			}
@@ -100,7 +100,7 @@ public class Factory {
 			int elementKey = rs.getInt("key");
 			ArrayList<WorkoutLog> logs = getWorkoutLogs(elementKey);
 			
-			results.add(new PlanElement(activity, equipment, plan, rs.getInt("amount_required"), elementKey, logs, false));
+			results.add(new PlanElement(activity, equipmentType, plan, rs.getInt("amount_required"), elementKey, logs, false));
 		}
 		
 		return results;

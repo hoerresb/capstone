@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 public class PlanElement extends DBMutable{
 	private Activity activity;
-	private Equipment equipment;
+	private EquipmentType equipmentType;
 	private int nRequired;
 	private int key;
 	private WorkoutPlan plan;
 	private ArrayList<WorkoutLog> logs = new ArrayList<WorkoutLog>();
 	
-	public PlanElement(Activity activity, Equipment equipment, WorkoutPlan plan, int nRequired, int key, 
+	public PlanElement(Activity activity, EquipmentType equipmentType, WorkoutPlan plan, int nRequired, int key, 
 			ArrayList<WorkoutLog> logs, boolean isNew){
 		this.activity = activity;
-		this.equipment = equipment;
+		this.equipmentType = equipmentType;
 		this.nRequired = nRequired;
 		this.logs = logs;
 		this.key = key;
@@ -31,8 +31,8 @@ public class PlanElement extends DBMutable{
 		return activity;
 	}
 	
-	public Equipment getEquipment(){
-		return equipment;
+	public EquipmentType getEquipmentType(){
+		return equipmentType;
 	}
 	
 	public int getNRequired(){
@@ -48,7 +48,7 @@ public class PlanElement extends DBMutable{
 	}
 	
 	public String toString(){
-		return "Activity: " + activity.getName() + ", Equipment: " + equipment.getName() + 
+		return "Activity: " + activity.getName() + ", Equipment Type: " + equipmentType.getName() + 
 				", Requirement: " + nRequired + ", Logs: " + logs.toString();
 	}
 }

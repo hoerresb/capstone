@@ -20,6 +20,7 @@ import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.Activity;
 import edu.gymtrack.model.DBMutable;
 import edu.gymtrack.model.Equipment;
+import edu.gymtrack.model.EquipmentType;
 import edu.gymtrack.model.PlanElement;
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.WorkoutLog;
@@ -39,7 +40,7 @@ public class MyPlansUI extends GTUI {
 	Map<Integer, Integer> elementRequirements = new HashMap<Integer, Integer>();
 	Map<Integer, Integer> completion = new HashMap<Integer, Integer>();
 	
-	String[] planTable_ColumnNames = {"Exercise", "Equipment", "Amount", "Total % Complete"};
+	String[] planTable_ColumnNames = {"Exercise", "Equipment Type", "Amount", "Total % Complete"};
     Object[][] planTable_TableData = null;
     String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration(mins)/distance(miles)", "% of plan complete"};
 	Object[][] worklogTable_TableData = null;
@@ -259,7 +260,7 @@ public class MyPlansUI extends GTUI {
 				continue;
 				
 			planTable_TableData[i][0] = planElement.getActivityName();
-			planTable_TableData[i][1] = planElement.getEquipment().getName();
+			planTable_TableData[i][1] = planElement.getEquipmentType().getName();
 			planTable_TableData[i][2] = planElement.getNRequired() + " " + activities.get(planElement.getActivity().getKey()).getUnit();
 			planTable_TableData[i][3] = (double)completion.get(planElement.getKey()) / planElement.getNRequired() * 100;
 		}
@@ -346,10 +347,10 @@ public class MyPlansUI extends GTUI {
 		planList_MyPlans.updateUI();
 	}
 	
-	public final void newElement(Activity activity, Equipment equipment, WorkoutPlan plan, int nRequired, int key)
+	public final void newElement(Activity activity, EquipmentType equipmentType, WorkoutPlan plan, int nRequired, int key)
 	{
 		for(key = 0; key <= Integer.MAX_VALUE && elements.containsKey(key); ++key);
-		elements.put(key, new PlanElement(activity, equipment, plan, nRequired, key, null, true));
+		elements.put(key, new PlanElement(activity, equipmentType, plan, nRequired, key, null, true));
 		
 		try {
 			commitElementChanges();

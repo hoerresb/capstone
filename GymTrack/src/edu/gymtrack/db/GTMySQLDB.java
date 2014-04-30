@@ -96,6 +96,12 @@ public class GTMySQLDB implements GTDB {
 		String query = new String("SELECT * FROM equipment");
 		return getResultSetForQuery(query);
 	}
+	
+	@Override
+	public ResultSet getEquipment(EquipmentType type) throws SQLException{
+		String query = new String("SELECT * FROM equipment WHERE type=" + type.getKey());
+		return getResultSetForQuery(query);
+	}
 
 	@Override
 	public ResultSet getEquipmentTypes() throws SQLException {
@@ -174,9 +180,9 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public void updatePlanElement(PlanElement e) throws SQLException {
 		String query = new String(
-				"INSERT INTO `plan_elements` (`key`,`plan`,`activity`,`equipment`,`amount_required`) "
-				+ "VALUES (" + e.getKey() + "," + e.getPlan().getKey() + "," + e.getActivity().getKey() + "," + e.getEquipment().getKey() + "," + e.getNRequired() + ") "
-				+ "ON DUPLICATE KEY UPDATE plan=" + e.getPlan().getKey() + ", activity=" + e.getActivity().getKey() + ", equipment=" + e.getEquipment().getKey() + ", amount_required=" + e.getNRequired());
+				"INSERT INTO `plan_elements` (`key`,`plan`,`activity`,`equipment_type`,`amount_required`) "
+				+ "VALUES (" + e.getKey() + "," + e.getPlan().getKey() + "," + e.getActivity().getKey() + "," + e.getEquipmentType().getKey() + "," + e.getNRequired() + ") "
+				+ "ON DUPLICATE KEY UPDATE plan=" + e.getPlan().getKey() + ", activity=" + e.getActivity().getKey() + ", equipment_type=" + e.getEquipmentType().getKey() + ", amount_required=" + e.getNRequired());
 		runUpdateQuery(query);
 	}
 
