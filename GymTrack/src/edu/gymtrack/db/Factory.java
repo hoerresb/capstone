@@ -58,6 +58,19 @@ public class Factory {
 		return results;
 	}
 	
+	public ArrayList<Equipment> getEquipment(EquipmentType type) throws SQLException
+	{
+		ArrayList<Equipment> results = new ArrayList<Equipment>();
+		
+		GTDB db = new GTMySQLDB();
+		ResultSet rs = db.getEquipment(type);
+		while(rs.next()){
+			results.add(new Equipment(rs.getInt("key"), type, rs.getString("name"), false));
+		}
+		
+		return results;
+	}
+	
 	public ArrayList<EquipmentType> getEquipmentTypes() throws SQLException
 	{
 		ArrayList<EquipmentType> results = new ArrayList<EquipmentType>();
@@ -122,12 +135,17 @@ public class Factory {
 	public ArrayList<WorkoutLog> getWorkoutLogs(int elementKey) throws SQLException
 	{
 		ArrayList<WorkoutLog> results = new ArrayList<WorkoutLog>();
+		ArrayList<Equipment> equipment = getEquipment();
 		
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getWorkoutLogs(elementKey);
 		while(rs.next()){
-			WorkoutLog log = new WorkoutLog(rs.getInt("key"), elementKey, rs.getTimestamp("date"), rs.getInt("completed"), rs.getString("name"), false);
-			results.add(log);
+			for(Equipment e : equipment){
+				if(e.getKey() == rs.getInt("equipment")){
+					WorkoutLog log = new WorkoutLog(rs.getInt("key"), elementKey, rs.getTimestamp("date"), rs.getInt("completed"), rs.getString("name"), e, false);
+					results.add(log);
+				}
+			}
 		}
 		return results;
 	}
@@ -135,12 +153,17 @@ public class Factory {
 	public ArrayList<WorkoutLog> getWorkoutLogs(User user) throws SQLException
 	{
 		ArrayList<WorkoutLog> results = new ArrayList<WorkoutLog>();
+		ArrayList<Equipment> equipment = getEquipment();
 		
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getWorkoutLogs(user);
 		while(rs.next()){
-			WorkoutLog log = new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), rs.getString("name"), false);
-			results.add(log);
+			for(Equipment e : equipment){
+				if(e.getKey() == rs.getInt("equipment")){
+					WorkoutLog log = new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), rs.getString("name"), e, false);
+					results.add(log);
+				}
+			}
 		}
 		return results;
 	}
@@ -152,7 +175,7 @@ public class Factory {
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getWorkoutLogs(equipment);
 		while(rs.next()){
-			WorkoutLog log = new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), false);
+			WorkoutLog log = new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), equipment, false);
 			results.add(log);
 		}
 		return results;
@@ -189,11 +212,16 @@ public class Factory {
 	
 	ArrayList<WorkoutLog> getLogsForUser(User user) throws SQLException{
 		ArrayList<WorkoutLog> results = new ArrayList<WorkoutLog>();
+		ArrayList<Equipment> equipment = getEquipment();
 		
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getWorkoutLogs(user);
 		while(rs.next()){
-			results.add(new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), rs.getString("name"), false));
+			for(Equipment e : equipment){
+				if(e.getKey() == rs.getInt("equipment")){
+					results.add(new WorkoutLog(rs.getInt("key"), rs.getInt("element"), rs.getDate("date"), rs.getInt("completed"), rs.getString("name"), e, false));
+				}
+			}
 		}
 		
 		return results;

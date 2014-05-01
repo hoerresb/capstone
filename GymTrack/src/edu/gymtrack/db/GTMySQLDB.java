@@ -120,7 +120,7 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public ResultSet getWorkoutLogs(int elementKey) throws SQLException {
 		String query = new String(
-				"SELECT workout_logs.key, workout_logs.element, workout_logs.date, workout_logs.completed, activities.name "
+				"SELECT workout_logs.key, workout_logs.element, workout_logs.date, workout_logs.completed, workout_logs.equipment, activities.name "
 				+ "FROM workout_logs INNER JOIN plan_elements ON plan_elements.key = workout_logs.element "
 				+ "INNER JOIN activities ON plan_elements.activity = activities.key "
 				+ "WHERE element='" + elementKey + '\'');
@@ -130,7 +130,7 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public ResultSet getWorkoutLogs(User user) throws SQLException {
 		String query = new String(
-				"SELECT workout_logs.key, workout_logs.element, workout_logs.date, workout_logs.completed, activities.name " +
+				"SELECT workout_logs.key, workout_logs.element, workout_logs.date, workout_logs.completed, workout_logs.equipment, activities.name " +
 						"FROM users INNER JOIN workout_plans ON users.key = workout_plans.user " +
 						"INNER JOIN plan_elements ON plan_elements.plan = workout_plans.key " +
 						"INNER JOIN workout_logs ON workout_logs.element = plan_elements.key " +
@@ -143,7 +143,7 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public ResultSet getWorkoutLogs(Equipment equipment) throws SQLException{
 		String query = new String(
-				"SELECT workout_logs.key, workout_logs.element, workout_logs.date, workout_logs.completed " +
+				"SELECT workout_logs.key, workout_logs.element, workout_logs.date, workout_logs.completed, workout_logs.equipment " +
 						"FROM plan_elements INNER JOIN workout_logs ON workout_logs.element = plan_elements.key " +
 						"WHERE plan_elements.equipment = '" + equipment.getKey() + "'");
 		
@@ -235,9 +235,9 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public void updateWorkoutLog(WorkoutLog w) throws SQLException {
 		String query = new String(
-				"INSERT INTO `workout_logs` (`key`, `element`, `date`, `completed`) "
-				+ "VALUES (" + w.getKey() + "," + w.getElementKey() + ",'" + new java.sql.Timestamp(w.getDate().getTime()) + "'," + w.getNCompleted() + ") "
-				+ "ON DUPLICATE KEY UPDATE element=" + w.getElementKey() + ", date='" + new java.sql.Timestamp(w.getDate().getTime()) + "', completed=" + w.getNCompleted());
+				"INSERT INTO `workout_logs` (`key`, `element`, `date`, `completed`, `equipment`) "
+				+ "VALUES (" + w.getKey() + "," + w.getElementKey() + ",'" + new java.sql.Timestamp(w.getDate().getTime()) + "'," + w.getNCompleted() + "," + w.getEquipment().getKey() + ") "
+				+ "ON DUPLICATE KEY UPDATE element=" + w.getElementKey() + ", date='" + new java.sql.Timestamp(w.getDate().getTime()) + "', completed=" + w.getNCompleted() + ", equipment=" + w.getEquipment().getKey());
 		runUpdateQuery(query);
 	}
 

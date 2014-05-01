@@ -80,8 +80,9 @@ public class GymTrack extends JApplet implements ActionListener
 	 * Components used by LogWorkDialog
 	 */
 	protected JTextField amountTextField_LogWork;
-	protected JComboBox plansComboBox_LogWork;
-	protected JComboBox exerciseComboBox_LogWork;
+	protected JComboBox<String> plansComboBox_LogWork;
+	protected JComboBox<String> exerciseComboBox_LogWork;
+	protected JComboBox<String> equipmentComboBox_LogWork;
 	protected JButton okButton_LogWork;
 	protected JButton cancelButton_LogWork;
 	protected LogWorkDialog logWorkDialog;
