@@ -21,6 +21,7 @@ import edu.gymtrack.model.WorkoutPlan;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -34,7 +35,6 @@ public class AnalyzeTraineesUI extends GTUI {
 	JFreeChart chart;
 	GymTrack gym;
 	ChartPanel chartPanel;
-	JPanel contentPane;
 	
 	JList<String> traineesList_TrkTrainees;
 	
@@ -63,16 +63,16 @@ public class AnalyzeTraineesUI extends GTUI {
         	}
         });
 		
+		refreshChart();
+		
 		chartPanel = new ChartPanel(chart);
 		chartPanel.setPreferredSize(new Dimension(600,350));
 		chartPanel.setMinimumSize(new Dimension(600,350));
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setPreferredSize(new Dimension(800,350));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		gym.getContentPane().add(contentPane);
-		
-		refreshChart();
 		
         JScrollPane leftScrollablePane = new JScrollPane(gym.traineesList_TrkTrainees);
         JPanel rightPanel = new JPanel();
@@ -165,17 +165,14 @@ public class AnalyzeTraineesUI extends GTUI {
 	
 	// methods to refresh UI elements
 	public void refreshChart() {
-		User user = users.get(gym.traineesList_TrkTrainees.getSelectedIndex());
-		dataset = createDataset(factory, gym, user); 
+		dataset = createDataset(factory, gym, users.get(gym.traineesList_TrkTrainees.getSelectedIndex())); 
 		chart = ChartFactory.createTimeSeriesChart(
-				user.getUsername() + "'s Workout History", 
+				users.get(gym.traineesList_TrkTrainees.getSelectedIndex()).getUsername() + "'s Workout History", 
 				"Date",
 				"Work",
 				dataset);
-		chart.fireChartChanged();
-		chartPanel.validate();
-		contentPane.validate();
-		gym.revalidate();
+		chartPanel.setChart(chart);
+		chartPanel.repaint();
 	}
 
 	@Override

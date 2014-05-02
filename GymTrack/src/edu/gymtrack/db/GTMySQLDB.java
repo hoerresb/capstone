@@ -9,8 +9,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException;
 
 import edu.gymtrack.controller.Authentication;
 import edu.gymtrack.model.Activity;
@@ -25,12 +27,33 @@ public class GTMySQLDB implements GTDB {
 	private final String dbUser = "gtuser";
 	private final String dbPassword = "gt1234user";
 	
+	private Stack<Connection> connections = new Stack<Connection>();
+	
 	private Connection getConnection() throws SQLException {
-	    return DriverManager.getConnection(
-	                         "jdbc:mysql://halenka.com:3308/gymtrack",
-	                         dbUser,
-	                         dbPassword);
+		Connection c = null;
+		while(c == null){
+			try{
+				c = DriverManager.getConnection(
+		                "jdbc:mysql://halenka.com:3308/gymtrack",
+		                dbUser,
+		                dbPassword);
+			}catch(MySQLNonTransientConnectionException e){
+				while(!connections.isEmpty()){
+					Connection conn = connections.pop();
+					if(!conn.isClosed()){
+						connections.pop().close();
+						System.out.println("Forcibly closed db connection...");
+					}
+				}
+			}
+		}
+		connections.push(c);
+	    return c;
 	}
+	
+//	public void closeConnection() throws SQLException{
+//		connections.pop().close();
+//	}
 	
 	private ResultSet getResultSetForQuery(String query) throws SQLException{
 		Connection con = getConnection();
