@@ -1,13 +1,14 @@
 package edu.gymtrack.view;
 
+import java.awt.Checkbox;
 import java.awt.Event;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
-import edu.gymtrack.model.User;
 import edu.gymtrack.model.User.UserType;
 import edu.gymtrack.model.*;
 import edu.gymtrack.controller.Authentication;
@@ -23,6 +24,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected int row = 0;
 	protected int col = 0;
 	GTUI previous;
+	protected String username;
 	
 	/*
 	 * Universal Components
@@ -32,6 +34,17 @@ public class GymTrack extends JApplet implements ActionListener
 	protected AddEditUserDialog addEditUserDialog;
 	protected DeleteUserDialog deleteUserDialog;
 	protected InvalidSelectionDialog invalidSelectionDialog;
+	protected CreatePlan createPlan;
+	
+	/*
+	 * components used by CreatePlan
+	 */
+	protected JTextField textField_CreatePlan;
+	protected JComboBox comboBox_CreatePlan;
+	protected JTable table_CreatePlan;
+	protected DefaultTableModel model;
+	protected JButton okButton_CreatePlan;
+	protected JButton cancelButton_CreatePlan;
 	
 	/*
 	 * components used by ConnectionErrorDialog
@@ -69,6 +82,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JRadioButton rdbtnOwner_addUser;
 	protected String firstName_DeleteUser;
 	protected String lastName_DeleteUser;
+	protected Checkbox isTraineeCB_AddEditUser;
 	
 	/*
 	 * Components used by DeleteUserDialog
@@ -283,12 +297,62 @@ public class GymTrack extends JApplet implements ActionListener
         	feedbackDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnAdd_EditTrainees){
+        	if(traineesTable_EditTrainees.getSelectedRow() < 0)
+        		return;
+        	
         	addEditUserDialog = new AddEditUserDialog(this, this.editTraineesUI, false);
         	addEditUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnEdit_EditTrainees) {
+        	if(traineesTable_EditTrainees.getSelectedRow() < 0)
+        		return;
+        	
         	addEditUserDialog = new AddEditUserDialog(this, this.editTraineesUI, true);
         	addEditUserDialog.setVisible(true);
+        }
+        else if (arg0.getSource() == btnDeleteSelectedPlan_TrkTrainees){
+        	//TODO delete the plan selected in planTable_TrkTrainees
+        	int row = this.planTable_TrkTrainees.getSelectedRow();
+        	String planNumber = (String)this.planTable_TrkTrainees.getModel().getValueAt(row, 1);
+        	String member = (String)this.traineesList_TrkTrainees.getSelectedValue();
+        	//TODO delete from database 'planNumber' for 'member'
+        	trkTraineesUI.reloadPage(this);
+        }
+        else if (arg0.getSource() == btnCreatNewPlan_TrkTrainees){
+        	createPlan = new CreatePlan(this, this.editTraineesUI);
+        	createPlan.setVisible(true);
+        }
+        else if (arg0.getSource() == okButton_CreatePlan) {
+        	int numRows = table_CreatePlan.getModel().getRowCount();
+        	String[] exercises = new String[numRows];
+        	String[] reps = new String[numRows];
+        	
+        	//populate the exercise array
+        	for(int i = 0; i<numRows; ++i){
+        		exercises[i] = (String)table_CreatePlan.getModel().getValueAt(i, 0);
+        	}
+        	
+        	//populate the reps array
+        	for(int i = 0; i<numRows; ++i){
+        		reps[i] = (String)table_CreatePlan.getModel().getValueAt(i, 1);
+        	}
+        	
+        	String member = (String)this.traineesList_TrkTrainees.getSelectedValue();
+        	String trainer = this.username;
+        	
+        	/*
+        	 * At this point the two arrays, exercises and reps, contain all the plan elements
+        	 * the exercise at exercises[i] correlates to the reps in reps[i]
+        	 * with these two arrays we need to create a WorkoutPlan() for the member/trainer
+        	 * combination and save it to the database 
+        	 * the refresh TrkTrainees
+        	 */
+        	
+        	this.createPlan.dispose();
+        	trkTraineesUI.reloadPage(this);
+        }
+        else if (arg0.getSource() == cancelButton_CreatePlan){
+        	this.createPlan.dispose();
         }
         else if (arg0.getSource() == btnDelete_EditTrainees) {
         	User toDelete = ((EditTraineesUI)editTraineesUI).getSelectedTrainee(this);
@@ -653,6 +717,7 @@ public class GymTrack extends JApplet implements ActionListener
 		Factory f = new Factory();
 		try {
 			String username = this.txtUsername.getText();
+			this.username = username;
 			Authentication a = Factory.createAuthentication();
 			ArrayList<User> u = f.getUsers();
 			System.out.println(username);
