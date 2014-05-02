@@ -63,9 +63,8 @@ public class AnalyzeTraineesUI extends GTUI {
         	}
         });
 		
-		refreshChart();
-		
 		chartPanel = new ChartPanel(chart);
+		refreshChart();
 		chartPanel.setPreferredSize(new Dimension(600,350));
 		chartPanel.setMinimumSize(new Dimension(600,350));
 		JPanel contentPane = new JPanel();
