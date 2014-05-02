@@ -19,6 +19,8 @@ public interface GTDB {
 	
 	public ResultSet getPlansForUser(String username) throws SQLException;
 	
+	public ResultSet getWorkoutPlans() throws SQLException;
+	
 	public ResultSet getUsers() throws SQLException;
 	
 	public ResultSet getActivities() throws SQLException;

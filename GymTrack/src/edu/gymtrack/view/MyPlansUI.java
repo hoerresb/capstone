@@ -333,35 +333,35 @@ public class MyPlansUI extends GTUI {
 	
 	// methods to create objects
 	
-	public final void newPlan(User client, User trainer, Date created, boolean isUserPlan, String goals, String feedback, int key)
-	{
-		plans.add(new WorkoutPlan(client, trainer, created, isUserPlan, goals, feedback, key, true));
-		
-		// update UI plans list
-		String[] myPlans = new String[plans.size()];
-		for (int i = 0; i < plans.size(); i++)
-		{
-			myPlans[i] = plans.get(i).getDateCreated().toString();
-		}
-		planList_MyPlans.setListData(myPlans);
-		planList_MyPlans.updateUI();
-	}
+//	public final void newPlan(User client, Date created, boolean isUserPlan, String goals, String feedback, int key)
+//	{
+//		plans.add(new WorkoutPlan(client, created, isUserPlan, goals, feedback, key, true));
+//		
+//		// update UI plans list
+//		String[] myPlans = new String[plans.size()];
+//		for (int i = 0; i < plans.size(); i++)
+//		{
+//			myPlans[i] = plans.get(i).getDateCreated().toString();
+//		}
+//		planList_MyPlans.setListData(myPlans);
+//		planList_MyPlans.updateUI();
+//	}
 	
-	public final void newElement(Activity activity, EquipmentType equipmentType, WorkoutPlan plan, int nRequired, int key)
-	{
-		for(key = 0; key <= Integer.MAX_VALUE && elements.containsKey(key); ++key);
-		elements.put(key, new PlanElement(activity, equipmentType, plan, nRequired, key, null, true));
-		
-		try {
-			commitElementChanges();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		getDatabaseData();
-		getPlanTableData(plans.get(planList_MyPlans.getMinSelectionIndex()));
-		updatePlanDetailsTable();
+//	public final void newElement(Activity activity, EquipmentType equipmentType, WorkoutPlan plan, int nRequired, int key)
+//	{
+//		for(key = 0; key <= Integer.MAX_VALUE && elements.containsKey(key); ++key);
+//		elements.put(key, new PlanElement(activity, equipmentType, plan, nRequired, key, null, true));
+//		
+//		try {
+//			commitElementChanges();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		getDatabaseData();
+//		getPlanTableData(plans.get(planList_MyPlans.getMinSelectionIndex()));
+//		updatePlanDetailsTable();
 		
 //		// update UI elements list
 //		for (int i = 0; i < elements.size(); i++)
@@ -373,7 +373,7 @@ public class MyPlansUI extends GTUI {
 //		TableModel myData = new DefaultTableModel(planTable_TableData, planTable_ColumnNames);
 //		gym.planDetailsTable_MyPlans.setModel(myData);
 //		gym.planDetailsTable_MyPlans.updateUI();
-	}
+//	}
 	
 	public final void newLog(int key, int elementKey, Date date, int completed)
 	{

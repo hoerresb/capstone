@@ -7,11 +7,13 @@ public class User extends DBMutable{
 	private String name;
 	private UserType type;
 	private int id;
+	private int trainerID;
 	
-	public User(String username, UserType type, int id, boolean isNew){
+	public User(String username, UserType type, int id, int trainerID, boolean isNew){
 		this.username = username;
 		this.type = type;
 		this.id = id;
+		this.trainerID = trainerID;
 		setNew(isNew);
 		setDelete(false);
 		setEdited(false);
@@ -31,6 +33,10 @@ public class User extends DBMutable{
 	
 	public int getID(){
 		return id;
+	}
+	
+	public int getTrainerID(){
+		return trainerID;
 	}
 	
 	public boolean isTrainer(){

@@ -4,16 +4,14 @@ import java.util.Date;
 
 public class WorkoutPlan extends DBMutable{
 	private User client;
-	private User trainer;
 	private Date created;
 	private boolean isUserPlan;
 	private String goals;
 	private String feedback;
 	private int key;
 	
-	public WorkoutPlan(User client, User trainer, Date created, boolean isUserPlan, String goals, String feedback, int key, boolean isNew){
+	public WorkoutPlan(User client, Date created, boolean isUserPlan, String goals, String feedback, int key, boolean isNew){
 		this.client = client;
-		this.trainer = trainer;
 		this.created = created;
 		this.isUserPlan = isUserPlan;
 		this.goals = goals;
@@ -26,10 +24,6 @@ public class WorkoutPlan extends DBMutable{
 	
 	public User getClient() {
 		return client;
-	}
-
-	public User getTrainer() {
-		return trainer;
 	}
 
 	public Date getDateCreated() {
@@ -62,7 +56,7 @@ public class WorkoutPlan extends DBMutable{
 	
 	@Override
 	public String toString(){
-		return "Client: " + getClient().getUsername() + ", Trainer: " + getTrainer().getUsername() + ", Created: "
+		return "Client: " + getClient().getUsername() + ", Created: "
 				+ getDateCreated() + ", Personal plan: " + isUserPlan() + ", Goals: " + getGoals() + ", Feedback: "
 				+ getFeedback();
 	}

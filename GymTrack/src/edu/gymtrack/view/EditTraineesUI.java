@@ -11,14 +11,16 @@ import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.Equipment;
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.User.UserType;
+import edu.gymtrack.model.WorkoutPlan;
 
 @SuppressWarnings("serial")
 public class EditTraineesUI extends GTUI {
-	private final String[] columnNames = {"Username", "Type", "ID"};
+	private final String[] columnNames = {"Username", "Type", "My Trainee"};
 	
 	private JScrollPane scrollablePane;
 	
 	private ArrayList<User> trainees;
+	private ArrayList<Boolean> userMine;
 	
 	public void createEditTraineesUI(GymTrack gym){
 		Factory factory = new Factory();
@@ -115,25 +117,26 @@ public class EditTraineesUI extends GTUI {
 			}
 		}
 		
+		ArrayList<WorkoutPlan> userPlans = new ArrayList<WorkoutPlan>();
+		try {
+			userPlans = (new Factory()).getWorkoutPlans();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		userMine = new ArrayList<Boolean>();
 		Object[][] tableData = new Object[trainees.size()][3];
 		for(int i = 0; i < trainees.size(); ++i){
 			User u = trainees.get(i);
 			
 			tableData[i][0] = u.getUsername();
 			tableData[i][1] = u.getUserType().toString();
-			tableData[i][2] = u.getID();
+			tableData[i][2] = u.getTrainerID() == gym.loggedIn.getID();
 		}
 		
 		return tableData;
-	}// end getTableData
-	/*public Equipment getSelectedEquipment(GymTrack gym){
-		int selected = gym.equipmentTable_equipment.getSelectedRow();
-		
-		if(selected < 0)
-			return null;
-		
-		return users.get(selected);
-	}*/
+	}// end getTableData
 	
 	public void refreshTable(GymTrack gym){
 		gym.traineesTable_EditTrainees = new JTable(getTableData(new Factory(), gym), columnNames) {
@@ -152,6 +155,15 @@ public class EditTraineesUI extends GTUI {
 			return null;
 		
 		return trainees.get(row);
+	}
+	
+	public boolean selectedIsMine(GymTrack gym){
+		int row = gym.traineesTable_EditTrainees.getSelectedRow();
+		
+		if(row < 0)
+			return false;
+		
+		return userMine.get(row);
 	}
 	
 

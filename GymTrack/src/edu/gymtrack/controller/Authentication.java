@@ -49,7 +49,7 @@ public class Authentication {
 		if(!userHashPairs.containsKey(username))
 			return false;
 		
-		if(!getHashForPassword(oldPass).equals(userHashPairs.get(username)))
+		if(oldPass != null && !getHashForPassword(oldPass).equals(userHashPairs.get(username)))
 			return false;
 		
 		userHashPairs.put(username, getHashForPassword(newPass));

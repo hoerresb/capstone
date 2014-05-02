@@ -225,23 +225,23 @@ public class TrkTraineesUI extends GTUI {
 	
 	// method to add new workout plan or give feedback
 	
-	public final void newPlan(User client, User trainer, Date created, boolean isUserPlan, String goals, String feedback, int key)
-	{
-		plans.add(new WorkoutPlan(client, trainer, created, isUserPlan, goals, feedback, key, true));
-		
-		// update UI plans list
-		planTable_TableData = new Object[plans.size()][5];
-		for (int i = 0; i < plans.size(); i++)
-		{
-			// TODO calculation for completion percentage
-			planTable_TableData[i][0] = plans.get(i).getKey();
-			planTable_TableData[i][1] = plans.get(i).getDateCreated();
-			planTable_TableData[i][2] = plans.get(i).getGoals();
-			planTable_TableData[i][3] = plans.get(i).getFeedback();
-			planTable_TableData[i][4] = "Hi there.";
-		}
-		updatePlanTable();
-	}
+//	public final void newPlan(User client, User trainer, Date created, boolean isUserPlan, String goals, String feedback, int key)
+//	{
+//		plans.add(new WorkoutPlan(client, trainer, created, isUserPlan, goals, feedback, key, true));
+//		
+//		// update UI plans list
+//		planTable_TableData = new Object[plans.size()][5];
+//		for (int i = 0; i < plans.size(); i++)
+//		{
+//			// TODO calculation for completion percentage
+//			planTable_TableData[i][0] = plans.get(i).getKey();
+//			planTable_TableData[i][1] = plans.get(i).getDateCreated();
+//			planTable_TableData[i][2] = plans.get(i).getGoals();
+//			planTable_TableData[i][3] = plans.get(i).getFeedback();
+//			planTable_TableData[i][4] = "Hi there.";
+//		}
+//		updatePlanTable();
+//	}
 	
 	
 	

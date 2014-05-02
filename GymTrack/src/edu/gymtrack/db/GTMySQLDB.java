@@ -55,12 +55,19 @@ public class GTMySQLDB implements GTDB {
 	public ResultSet getPlansForUser(String username) throws SQLException {
 		String query = new String(
 			"SELECT users.username, workout_plans.created, workout_plans.is_user, " +
-					"workout_plans.goals, workout_plans.feedback, workout_plans.key,"
-					+ "workout_plans.trainer " +
+					"workout_plans.goals, workout_plans.feedback, workout_plans.key " +
 					"FROM users LEFT JOIN workout_plans " +
 					"ON users.key = workout_plans.user " +
 					"WHERE users.username = '" + username + "'"
 			);
+		return getResultSetForQuery(query);
+	}
+	
+	public ResultSet getWorkoutPlans() throws SQLException{
+		String query = new String(
+				"SELECT * FROM workout_plans " +
+				"INNER JOIN users ON workout_plans.user = users.key"
+				);
 		return getResultSetForQuery(query);
 	}
 
@@ -189,9 +196,9 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public void updateUser(User u, Authentication auth) throws SQLException {
 		String query = new String(
-				"INSERT INTO `users` (`key`,`username`,`password`,`type`) "
-				+ "VALUES (" + u.getID() + ",'" + u.getUsername() + "','" + auth.getHashForUser(u.getUsername()) + "'," + (u.getUserType().ordinal() + 1) + ") "
-				+ "ON DUPLICATE KEY UPDATE username='" + u.getUsername() + "', password='" + auth.getHashForUser(u.getUsername()) + "', type=" + (u.getUserType().ordinal() + 1));
+				"INSERT INTO `users` (`key`,`username`,`password`,`type`,`trainer`) "
+				+ "VALUES (" + u.getID() + ",'" + u.getUsername() + "','" + auth.getHashForUser(u.getUsername()) + "'," + (u.getUserType().ordinal() + 1) + "," + u.getTrainerID() + ") "
+				+ "ON DUPLICATE KEY UPDATE username='" + u.getUsername() + "', password='" + auth.getHashForUser(u.getUsername()) + "', type=" + (u.getUserType().ordinal() + 1) + ", trainer=" + u.getTrainerID());
 		runUpdateQuery(query);
 	}
 
@@ -250,9 +257,9 @@ public class GTMySQLDB implements GTDB {
 	@Override
 	public void updateWorkoutPlan(WorkoutPlan w) throws SQLException {
 		String query = new String(
-				"INSERT INTO `workout_plans` (`key`,`trainer`,`user`,`created`,`is_user`,`goals`,`feedback`) "
-				+ "VALUES (" + w.getKey() + "," + w.getTrainer().getID() + "," + w.getClient().getID() + ",'" + new java.sql.Timestamp(w.getDateCreated().getTime()) + "'," + w.isUserPlan() + ",'" + w.getGoals() + "','" + w.getFeedback() + "') "
-				+ "ON DUPLICATE KEY UPDATE trainer=" + w.getTrainer().getID() + ", user=" + w.getClient().getID() + ", created='" + new java.sql.Timestamp(w.getDateCreated().getTime()) + "', is_user=" + w.isUserPlan() + ", goals='" + w.getGoals() + "', feedback='" + w.getFeedback() + "'" );
+				"INSERT INTO `workout_plans` (`key`,`user`,`created`,`is_user`,`goals`,`feedback`) "
+				+ "VALUES (" + w.getKey() + "," + w.getClient().getID() + ",'" + new java.sql.Timestamp(w.getDateCreated().getTime()) + "'," + w.isUserPlan() + ",'" + w.getGoals() + "','" + w.getFeedback() + "') "
+				+ "ON DUPLICATE KEY UPDATE user=" + w.getClient().getID() + ", created='" + new java.sql.Timestamp(w.getDateCreated().getTime()) + "', is_user=" + w.isUserPlan() + ", goals='" + w.getGoals() + "', feedback='" + w.getFeedback() + "'" );
 		runUpdateQuery(query);
 	}
 }

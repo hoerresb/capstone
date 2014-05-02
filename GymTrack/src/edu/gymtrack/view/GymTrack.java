@@ -83,6 +83,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected String firstName_DeleteUser;
 	protected String lastName_DeleteUser;
 	protected Checkbox isTraineeCB_AddEditUser;
+	protected JComboBox<String> trainer_AddEditUser;
 	
 	/*
 	 * Components used by DeleteUserDialog
@@ -297,17 +298,14 @@ public class GymTrack extends JApplet implements ActionListener
         	feedbackDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnAdd_EditTrainees){
-        	if(traineesTable_EditTrainees.getSelectedRow() < 0)
-        		return;
-        	
-        	addEditUserDialog = new AddEditUserDialog(this, this.editTraineesUI, false);
+        	addEditUserDialog = new AddEditUserDialog(this, null, editTraineesUI);
         	addEditUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnEdit_EditTrainees) {
         	if(traineesTable_EditTrainees.getSelectedRow() < 0)
         		return;
         	
-        	addEditUserDialog = new AddEditUserDialog(this, this.editTraineesUI, true);
+        	addEditUserDialog = new AddEditUserDialog(this, ((EditTraineesUI)editTraineesUI).getSelectedTrainee(this), editTraineesUI);
         	addEditUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnDeleteSelectedPlan_TrkTrainees){
@@ -417,11 +415,11 @@ public class GymTrack extends JApplet implements ActionListener
         	((EditTraineesUI)editTraineesUI).refreshTable(this);
         }
         else if (arg0.getSource() == btnAdd_users){
-        	addEditUserDialog = new AddEditUserDialog(this, this.usersUI, false);
+        	addEditUserDialog = new AddEditUserDialog(this, null, usersUI);
         	addEditUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnEdit_users){
-        	addEditUserDialog = new AddEditUserDialog(this, this.usersUI, true);
+        	addEditUserDialog = new AddEditUserDialog(this, ((UsersUI)usersUI).getSelectedUser(this), usersUI);
         	addEditUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnDelete_users){
@@ -436,14 +434,11 @@ public class GymTrack extends JApplet implements ActionListener
         	}
         }
         else if (arg0.getSource() == updateButton_EditUser){
-        	this.row = usersTable_users.getSelectedRow();
-        	Factory factory = new Factory();
-            String username = this.username_AddEditUser.getText();
-        	String editUser = "";
-        	int editId = 0;
-        	UserType editType = null;
-        	int id = this.largetId;
-        	UserType type = UserType.CLIENT;
+//        	String editUser = "";
+//        	int editId = 0;
+//        	UserType editType = null;
+//        	int id = this.largetId;
+//        	UserType type = UserType.CLIENT;
 /*        	if(this.rdbtnTrainer_addUser.isSelected()){
         		type = UserType.TRAINER;
         	}
@@ -451,37 +446,54 @@ public class GymTrack extends JApplet implements ActionListener
         		type = UserType.CLIENT;
         	}*/
         	
-        	editType = type;
-        	editId = id;
+//        	editType = type;
+//        	editId = id;
         	
         	
-        	System.out.println(editType);
-        	if(this.row != -1){
+//        	System.out.println(editType);
+//        	if(this.row != -1){
+//        		
+//        		for(int i = 0 ; i < 1; i++){
+//        		 editUser =	(String) usersTable_users.getModel().getValueAt(this.row, 0);
+//        		 id = (int) usersTable_users.getModel().getValueAt(this.row, 2);
+//        		}
+        	
         		
-        		for(int i = 0 ; i < 1; i++){
-        		 editUser =	(String) usersTable_users.getModel().getValueAt(this.row, 0);
-        		 id = (int) usersTable_users.getModel().getValueAt(this.row, 2);
-        		}
         		
+            User toEdit = addEditUserDialog.getUserToEdit();
+            String username = this.username_AddEditUser.getText();
+            int trainerID = addEditUserDialog.getSelectedTrainer(this).getID();
+            boolean editing = toEdit != null;
+            
+            User edited;
+            if(editing){
+            	edited = new User(username, toEdit.getUserType(), toEdit.getID(), trainerID, false);
+            	edited.setEdited(true);
+            }
+            else{
+            	edited = new User(username, User.UserType.CLIENT, 0, trainerID, true); //FIXME radio button
+            }
+            
+        	ArrayList<User> newData = new ArrayList<>();
+        	newData.add(edited);
+        	
+        	Factory factory = new Factory();
+        	Authentication auth;
+        	try {
+				auth = factory.createAuthentication();
+				if(auth.getHashForUser(username) == null)
+					auth.addUser(edited.getUsername(), password_AddEditUser.getText());
+				else if(!password_AddEditUser.getText().isEmpty())
+					auth.updatePassword(username, null, password_AddEditUser.getText());
+					
+				factory.updateUsers(newData, auth);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+				connectionError = new ConnectionErrorDialog(this);
+				connectionError.setVisible(true);
+			}
         		
-        		
-        		User user = new User(username, editType, id, true);
-            	ArrayList<User> newData = new ArrayList<>();
-            	newData.add(user);
-            	user.setEdited(true);
-            	
-            	Authentication auth;
-            	try {
-    				auth = factory.createAuthentication();
-    				auth.addUser(editUser, "test");
-    				factory.updateUsers(newData, auth);
-    			} catch (SQLException e1) {
-    				e1.printStackTrace();
-    				connectionError = new ConnectionErrorDialog(this);
-					connectionError.setVisible(true);
-    			}
-        		
-        	}
+//        	}
        
         	if(addEditUserDialog.callingUI == usersUI){
         		usersUI.reloadPage(this);
@@ -510,7 +522,7 @@ public class GymTrack extends JApplet implements ActionListener
         		type = UserType.OWNER;
         	}
         	
-        	User user = new User(username, type, id, true);
+        	User user = new User(username, type, id, addEditUserDialog.getSelectedTrainer(this).getID(), true);
         	ArrayList<User> newData = new ArrayList<>();
         	newData.add(user);
         	

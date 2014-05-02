@@ -11,6 +11,7 @@ import edu.gymtrack.model.Equipment;
 import edu.gymtrack.model.EquipmentType;
 import edu.gymtrack.model.PlanElement;
 import edu.gymtrack.model.User;
+import edu.gymtrack.model.User.UserType;
 import edu.gymtrack.model.WorkoutLog;
 import edu.gymtrack.model.WorkoutPlan;
 
@@ -126,7 +127,7 @@ public class Factory {
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getUsers();
 		while(rs.next()){
-			User user = new User(rs.getString("username"), User.UserType.values()[rs.getInt("type") - 1], rs.getInt("key"), false);
+			User user = new User(rs.getString("username"), User.UserType.values()[rs.getInt("type") - 1], rs.getInt("key"), rs.getInt("trainer"), false);
 			results.add(user);
 		}
 		return results;
@@ -184,25 +185,55 @@ public class Factory {
 	public ArrayList<WorkoutPlan> getWorkoutPlansForUser(User user) throws SQLException
 	{
 		ArrayList<WorkoutPlan> results = new ArrayList<WorkoutPlan>();
-		ArrayList<User> users = getUsers();
+//		ArrayList<User> users = getUsers();
 		
 		GTDB db = new GTMySQLDB();
 		ResultSet rs = db.getPlansForUser(user.getUsername());
 		while(rs.next()){
+//			// get trainer for this plan
+//			User trainer = null;
+//			int trainerID = rs.getInt("trainer");
+//			for(User u : users){
+//				if(u.isTrainer() && u.getID() == trainerID){
+//					trainer = u;
+//					break;
+//				}
+//			}
+//			if(trainer == null)
+//				continue;
+			
+			
+			WorkoutPlan plan = new WorkoutPlan(user, rs.getDate("created"), rs.getBoolean("is_user"), 
+					rs.getString("goals"), rs.getString("feedback"), rs.getInt("key"), false);
+			results.add(plan);
+		}
+		
+		return results;
+	}
+	
+	public ArrayList<WorkoutPlan> getWorkoutPlans() throws SQLException{
+		ArrayList<WorkoutPlan> results = new ArrayList<WorkoutPlan>();
+//		ArrayList<User> users = getUsers();
+		
+		GTDB db = new GTMySQLDB();
+		ResultSet rs = db.getWorkoutPlans();
+		while(rs.next()){
 			// get trainer for this plan
-			User trainer = null;
-			int trainerID = rs.getInt("trainer");
-			for(User u : users){
-				if(u.isTrainer() && u.getID() == trainerID){
-					trainer = u;
-					break;
-				}
-			}
-			if(trainer == null)
-				continue;
+//			User trainer = null;
+//			int trainerID = rs.getInt("trainer");
+//			for(User u : users){
+//				if(u.isTrainer() && u.getID() == trainerID){
+//					trainer = u;
+//					break;
+//				}
+//			}
+//			if(trainer == null)
+//				continue;
 			
 			
-			WorkoutPlan plan = new WorkoutPlan(user, trainer, rs.getDate("created"), rs.getBoolean("is_user"), 
+			WorkoutPlan plan = new WorkoutPlan(
+					new User(rs.getString("username"), User.UserType.values()[rs.getInt("type") - 1], rs.getInt("users.key"), rs.getInt("trainer"), false),
+					rs.getDate("created"), rs.getBoolean("is_user"), 
 					rs.getString("goals"), rs.getString("feedback"), rs.getInt("key"), false);
 			results.add(plan);
 		}
