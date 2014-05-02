@@ -5,6 +5,7 @@ import java.awt.Event;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -24,7 +25,6 @@ public class GymTrack extends JApplet implements ActionListener
 	protected int row = 0;
 	protected int col = 0;
 	GTUI previous;
-	protected String username;
 	
 	/*
 	 * Universal Components
@@ -40,6 +40,7 @@ public class GymTrack extends JApplet implements ActionListener
 	 * components used by CreatePlan
 	 */
 	protected JTextField textField_CreatePlan;
+	protected JTextField goalTextField_CreatePlan;
 	protected JComboBox comboBox_CreatePlan;
 	protected JTable table_CreatePlan;
 	protected DefaultTableModel model;
@@ -186,7 +187,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnProvideFeedback_TrkTrainees;
 	protected JButton btnCreatNewPlan_TrkTrainees;
 	protected JButton btnDeleteSelectedPlan_TrkTrainees;
-	
+	protected ArrayList<User> userList;
 	/*
 	 * Components used by AnalyzeMeUI
 	 */
@@ -321,30 +322,50 @@ public class GymTrack extends JApplet implements ActionListener
         	createPlan.setVisible(true);
         }
         else if (arg0.getSource() == okButton_CreatePlan) {
+        	Factory factory = new Factory();
         	int numRows = table_CreatePlan.getModel().getRowCount();
         	String[] exercises = new String[numRows];
         	String[] reps = new String[numRows];
-        	
-        	//populate the exercise array
+
         	for(int i = 0; i<numRows; ++i){
         		exercises[i] = (String)table_CreatePlan.getModel().getValueAt(i, 0);
         	}
-        	
-        	//populate the reps array
+
         	for(int i = 0; i<numRows; ++i){
         		reps[i] = (String)table_CreatePlan.getModel().getValueAt(i, 1);
         	}
         	
-        	String member = (String)this.traineesList_TrkTrainees.getSelectedValue();
-        	String trainer = this.username;
+        	String memberName = (String)this.traineesList_TrkTrainees.getSelectedValue();
+        	User member;
+        	String goal = this.goalTextField_CreatePlan.getText();
         	
-        	/*
-        	 * At this point the two arrays, exercises and reps, contain all the plan elements
-        	 * the exercise at exercises[i] correlates to the reps in reps[i]
-        	 * with these two arrays we need to create a WorkoutPlan() for the member/trainer
-        	 * combination and save it to the database 
-        	 * the refresh TrkTrainees
-        	 */
+        	for(User user : this.userList){
+    			if(user.getUsername().equalsIgnoreCase(memberName)){
+    				member = user;
+    				WorkoutPlan newPlan = new WorkoutPlan(member, new Date(), true, goal, "", 0, true);
+    				ArrayList<WorkoutPlan> Planlist = new ArrayList<>();
+    				Planlist.add(newPlan);
+    				
+    				/*
+    				PlanElement planElement;
+    				ArrayList<WorkoutLog> logList;
+    				ArrayList<PlanElement> elementList = new ArrayList<>();
+    				for(int i=0; i<reps.length; ++i){//make the plan elements
+    					//planElement = new PlanElement(factory.getActivities().get(0), factory.getEquipment().get(0).getType(), newPlan, 1, 0, logList, true);
+    					elementList.add(planElement);
+						factory.updatePlanElements(elementList);
+    				}
+    				*/
+    				
+    				try {
+						factory.updateWorkoutPlans(Planlist);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+    				
+    				break;
+    			}
+    		}
         	
         	this.createPlan.dispose();
         	trkTraineesUI.reloadPage(this);
@@ -359,42 +380,6 @@ public class GymTrack extends JApplet implements ActionListener
         	String member = (String)this.traineesList_TrkTrainees.getSelectedValue();
         	//TODO delete from database 'planNumber' for 'member'
         	trkTraineesUI.reloadPage(this);
-        }
-        else if (arg0.getSource() == btnCreatNewPlan_TrkTrainees){
-        	createPlan = new CreatePlan(this, this.editTraineesUI);
-        	createPlan.setVisible(true);
-        }
-        else if (arg0.getSource() == okButton_CreatePlan) {
-        	int numRows = table_CreatePlan.getModel().getRowCount();
-        	String[] exercises = new String[numRows];
-        	String[] reps = new String[numRows];
-        	
-        	//populate the exercise array
-        	for(int i = 0; i<numRows; ++i){
-        		exercises[i] = (String)table_CreatePlan.getModel().getValueAt(i, 0);
-        	}
-        	
-        	//populate the reps array
-        	for(int i = 0; i<numRows; ++i){
-        		reps[i] = (String)table_CreatePlan.getModel().getValueAt(i, 1);
-        	}
-        	
-        	String member = (String)this.traineesList_TrkTrainees.getSelectedValue();
-        	String trainer = this.username;
-        	
-        	/*
-        	 * At this point the two arrays, exercises and reps, contain all the plan elements
-        	 * the exercise at exercises[i] correlates to the reps in reps[i]
-        	 * with these two arrays we need to create a WorkoutPlan() for the member/trainer
-        	 * combination and save it to the database 
-        	 * the refresh TrkTrainees
-        	 */
-        	
-        	this.createPlan.dispose();
-        	trkTraineesUI.reloadPage(this);
-        }
-        else if (arg0.getSource() == cancelButton_CreatePlan){
-        	this.createPlan.dispose();
         }
         else if (arg0.getSource() == btnDelete_EditTrainees) {
         	User toDelete = ((EditTraineesUI)editTraineesUI).getSelectedTrainee(this);
@@ -750,12 +735,11 @@ public class GymTrack extends JApplet implements ActionListener
 		}
 	}
 	
-	private void btnSubmit(){	
+	private void btnSubmit() {	
 		
 		Factory f = new Factory();
 		try {
 			String username = this.txtUsername.getText();
-			this.username = username;
 			Authentication a = Factory.createAuthentication();
 			ArrayList<User> u = f.getUsers();
 			System.out.println(username);
@@ -800,10 +784,7 @@ public class GymTrack extends JApplet implements ActionListener
 			connectionError = new ConnectionErrorDialog(this);
 			connectionError.setVisible(true);
 		}
-		
-		
 
-		
 /*		switch (this.txtUsername.getText()) {
 		case "user":
 			privilege = 0;
@@ -818,6 +799,8 @@ public class GymTrack extends JApplet implements ActionListener
 			break;
 		}*/
 	}
+	
+
 }
 
 

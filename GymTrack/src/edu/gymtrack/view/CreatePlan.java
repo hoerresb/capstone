@@ -37,10 +37,14 @@ public class CreatePlan extends JDialog{
 		setBounds(100, 100, 450, 300);
 		setContentPane(new JPanel());
 		getContentPane().setLayout(new BorderLayout());
+		setTitle("Create Plan");
 	
 		String[] columnNames = {"Exercise", "reps"};
 		Object[][] tableData = getTableData();
+
 		
+		setBounds(100, 100, 450, 300);
+		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
@@ -73,7 +77,6 @@ public class CreatePlan extends JDialog{
 		
 		btnAdd_CreatePlanDialog = new JButton("Add");
 		btnAdd_CreatePlanDialog.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				reps = gym.textField_CreatePlan.getText();
@@ -82,42 +85,55 @@ public class CreatePlan extends JDialog{
 			}
 		});
 		
+		JLabel lblGoal = new JLabel("Goal");
 		
-		
+		gym.goalTextField_CreatePlan = new JTextField();
+		gym.goalTextField_CreatePlan.setColumns(10);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(gym.comboBox_CreatePlan, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblExerciseType))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDuration)
 						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(gym.comboBox_CreatePlan, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
 							.addComponent(gym.textField_CreatePlan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(39)
-							.addComponent(btnAdd_CreatePlanDialog)))
-					.addContainerGap(75, Short.MAX_VALUE))
+							.addGap(40)
+							.addComponent(btnAdd_CreatePlanDialog))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblExerciseType)
+							.addGap(77)
+							.addComponent(lblDuration))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblGoal)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(gym.goalTextField_CreatePlan, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(29)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblExerciseType)
 						.addComponent(lblDuration))
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(6)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(gym.comboBox_CreatePlan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(gym.textField_CreatePlan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAdd_CreatePlanDialog))
-					.addContainerGap(35, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+							.addComponent(lblGoal)
+							.addGap(20))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(gym.goalTextField_CreatePlan, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+							.addContainerGap())))
 		);
 		panel.setLayout(gl_panel);
 		
-		gym.model = new DefaultTableModel(tableData,columnNames);
+		gym.model = new DefaultTableModel(tableData, columnNames);
 		gym.table_CreatePlan = new JTable(gym.model);
 		scrollPane.setViewportView(gym.table_CreatePlan);
 		gym.table_CreatePlan.setFillsViewportHeight(true);
