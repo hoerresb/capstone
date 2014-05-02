@@ -116,7 +116,7 @@ public class AnalyzeTraineesUI extends GTUI {
         
 	}
 	
-	private static String[] getMemberNames(Factory factory){
+	private String[] getMemberNames(Factory factory){
         users = new ArrayList<User>();
 		try 
 		{
@@ -124,7 +124,15 @@ public class AnalyzeTraineesUI extends GTUI {
 		} catch (SQLException e) {
 			// TODO handle this
 			e.printStackTrace();
-		}  
+		}
+		
+		if(gym.loggedIn.getUserType() != User.UserType.OWNER){
+			for(int i = 0; i < users.size(); ++i)
+				if(users.get(i).getTrainerID() != gym.loggedIn.getID()){
+					users.remove(i--);
+				}
+		}
+		
 		String[] result = new String[users.size()];
 		for (int i = 0; i < users.size(); i++) {
 			result[i] = users.get(i).getUsername();
