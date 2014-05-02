@@ -26,7 +26,7 @@ public class TrkTraineesUI extends GTUI {
 	final static Factory factory = new Factory();
 	GymTrack gym;
 	
-	static ArrayList<User> users;
+	//static ArrayList<User> users;
 	static ArrayList<WorkoutPlan> plans;
 	ArrayList<PlanElement> elements;
 	static ArrayList<WorkoutLog> logs;
@@ -73,8 +73,8 @@ public class TrkTraineesUI extends GTUI {
 		
 		if (gym.traineesList_TrkTrainees.getModel().getSize() != 0)
 		{
-			getPlanTableData(users.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
-			worklogTable_TableData = getWorklogTableData(users.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
+			getPlanTableData(gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
+			worklogTable_TableData = getWorklogTableData(gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
 		}
 		else
 		{
@@ -207,18 +207,18 @@ public class TrkTraineesUI extends GTUI {
 		}
 		
 	}
-	private static String[] getMemberNames(Factory factory){
-        users = new ArrayList<User>();
+	private  String[] getMemberNames(Factory factory){
+		gym.userList = new ArrayList<User>();
 		try 
 		{
-			users = factory.getUsers();
+			gym.userList = factory.getUsers();
 		} catch (SQLException e) {
 			// TODO handle this
 			e.printStackTrace();
 		}  
-		String[] result = new String[users.size()];
-		for (int i = 0; i < users.size(); i++) {
-			result[i] = users.get(i).getUsername();
+		String[] result = new String[gym.userList.size()];
+		for (int i = 0; i < gym.userList.size(); i++) {
+			result[i] = gym.userList.get(i).getUsername();
 		}
 		return result;
 	}
@@ -260,9 +260,9 @@ public class TrkTraineesUI extends GTUI {
 	}
 	
 	public void refreshUserList() {
-		getPlanTableData(users.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
+		getPlanTableData(gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
 		updatePlanTable();
-		worklogTable_TableData = getWorklogTableData(users.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
+		worklogTable_TableData = getWorklogTableData(gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
 		updateLogsTable();
 	}
 
