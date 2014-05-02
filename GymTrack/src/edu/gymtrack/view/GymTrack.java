@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
-import edu.gymtrack.model.User;
 import edu.gymtrack.model.User.UserType;
 import edu.gymtrack.model.*;
 import edu.gymtrack.controller.Authentication;
@@ -32,6 +32,17 @@ public class GymTrack extends JApplet implements ActionListener
 	protected AddEditUserDialog addEditUserDialog;
 	protected DeleteUserDialog deleteUserDialog;
 	protected InvalidSelectionDialog invalidSelectionDialog;
+	protected CreatePlan createPlan;
+	
+	/*
+	 * components used by CreatePlan
+	 */
+	protected JTextField textField_CreatePlan;
+	protected JComboBox comboBox_CreatePlan;
+	protected JTable table_CreatePlan;
+	protected DefaultTableModel model;
+	protected JButton okButton_CreatePlan;
+	protected JButton cancelButton_CreatePlan;
 	
 	/*
 	 * components used by ConnectionErrorDialog
@@ -289,6 +300,39 @@ public class GymTrack extends JApplet implements ActionListener
         else if (arg0.getSource() == btnEdit_EditTrainees) {
         	addEditUserDialog = new AddEditUserDialog(this, this.editTraineesUI, true);
         	addEditUserDialog.setVisible(true);
+        }
+        else if (arg0.getSource() == btnCreatNewPlan_TrkTrainees){
+        	createPlan = new CreatePlan(this, this.editTraineesUI);
+        	createPlan.setVisible(true);
+        }
+        else if (arg0.getSource() == okButton_CreatePlan) {
+        	int numRows = table_CreatePlan.getModel().getRowCount();
+        	String[] exercises = new String[numRows];
+        	String[] reps = new String[numRows];
+        	
+        	//populate the exercise array
+        	for(int i = 0; i<numRows; ++i){
+        		exercises[i] = (String)table_CreatePlan.getModel().getValueAt(i, 0);
+        	}
+        	
+        	//populate the reps array
+        	for(int i = 0; i<numRows; ++i){
+        		reps[i] = (String)table_CreatePlan.getModel().getValueAt(i, 1);
+        	}
+        	
+        	/*
+        	 * At this point the two arrays, exerciese and reps, contain all the plan elements
+        	 * the exercise at exercises[i] correlates to the reps in reps[i]
+        	 * with these two arrays we need to create a WorkoutPlan() and save it to the DB
+        	 * use the user that is selected in the track trainees left scroll pane
+        	 * and the trainer that is currently logged in
+        	 */
+        	
+        	this.createPlan.dispose();
+        	trkTraineesUI.reloadPage(this);
+        }
+        else if (arg0.getSource() == cancelButton_CreatePlan){
+        	this.createPlan.dispose();
         }
         else if (arg0.getSource() == btnDelete_EditTrainees) {
         	User toDelete = ((EditTraineesUI)editTraineesUI).getSelectedTrainee(this);
