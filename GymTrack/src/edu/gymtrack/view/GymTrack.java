@@ -523,6 +523,7 @@ public class GymTrack extends JApplet implements ActionListener
 				connectionError = new ConnectionErrorDialog(this);
 				connectionError.setVisible(true);
 			}
+			trkTraineesUI.reloadPage(this);
 		}
 		else if (arg0.getSource() == btnUpdate_Feedback){
 			ArrayList<WorkoutPlan> updatedPlans = feedbackDialog.getUpdatedPlans();
