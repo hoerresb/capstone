@@ -23,6 +23,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected int row = 0;
 	protected int col = 0;
 	GTUI previous;
+	protected String username;
 	
 	/*
 	 * Universal Components
@@ -301,6 +302,14 @@ public class GymTrack extends JApplet implements ActionListener
         	addEditUserDialog = new AddEditUserDialog(this, this.editTraineesUI, true);
         	addEditUserDialog.setVisible(true);
         }
+        else if (arg0.getSource() == btnDeleteSelectedPlan_TrkTrainees){
+        	//TODO delete the plan selected in planTable_TrkTrainees
+        	int row = this.planTable_TrkTrainees.getSelectedRow();
+        	String planNumber = (String)this.planTable_TrkTrainees.getModel().getValueAt(row, 1);
+        	String member = (String)this.traineesList_TrkTrainees.getSelectedValue();
+        	//TODO delete from database 'planNumber' for 'member'
+        	trkTraineesUI.reloadPage(this);
+        }
         else if (arg0.getSource() == btnCreatNewPlan_TrkTrainees){
         	createPlan = new CreatePlan(this, this.editTraineesUI);
         	createPlan.setVisible(true);
@@ -320,12 +329,15 @@ public class GymTrack extends JApplet implements ActionListener
         		reps[i] = (String)table_CreatePlan.getModel().getValueAt(i, 1);
         	}
         	
+        	String member = (String)this.traineesList_TrkTrainees.getSelectedValue();
+        	String trainer = this.username;
+        	
         	/*
-        	 * At this point the two arrays, exerciese and reps, contain all the plan elements
+        	 * At this point the two arrays, exercises and reps, contain all the plan elements
         	 * the exercise at exercises[i] correlates to the reps in reps[i]
-        	 * with these two arrays we need to create a WorkoutPlan() and save it to the DB
-        	 * use the user that is selected in the track trainees left scroll pane
-        	 * and the trainer that is currently logged in
+        	 * with these two arrays we need to create a WorkoutPlan() for the member/trainer
+        	 * combination and save it to the database 
+        	 * the refresh TrkTrainees
         	 */
         	
         	this.createPlan.dispose();
@@ -697,6 +709,7 @@ public class GymTrack extends JApplet implements ActionListener
 		Factory f = new Factory();
 		try {
 			String username = this.txtUsername.getText();
+			this.username = username;
 			Authentication a = Factory.createAuthentication();
 			ArrayList<User> u = f.getUsers();
 			System.out.println(username);
