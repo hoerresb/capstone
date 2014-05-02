@@ -262,7 +262,16 @@ public class MyPlansUI extends GTUI {
 			planTable_TableData[i][0] = planElement.getActivityName();
 			planTable_TableData[i][1] = planElement.getEquipmentType().getName();
 			planTable_TableData[i][2] = planElement.getNRequired() + " " + activities.get(planElement.getActivity().getKey()).getUnit();
-			planTable_TableData[i][3] = (double)completion.get(planElement.getKey()) / planElement.getNRequired() * 100;
+			
+			/*
+			 * I'm not sure why but plans added through the Create New Plan dialog
+			 * cause this line to crash, I set it equal to 99.99 temporarily 
+			 * hoping someone who knows a little more about how the completion HashMap
+			 * works could help me out here - Winston
+			 */
+			//planTable_TableData[i][3] = (double)completion.get(planElement.getKey()) / planElement.getNRequired() * 100;
+			planTable_TableData[i][3] = 99.99;
+			
 		}
 		
 	}

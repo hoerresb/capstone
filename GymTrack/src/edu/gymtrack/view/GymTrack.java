@@ -338,6 +338,7 @@ public class GymTrack extends JApplet implements ActionListener
         	String memberName = (String)this.traineesList_TrkTrainees.getSelectedValue();
         	User member;
         	String goal = this.goalTextField_CreatePlan.getText();
+        	ArrayList<Integer> planKey= new ArrayList<>();
         	
         	for(User user : this.userList){
     			if(user.getUsername().equalsIgnoreCase(memberName)){
@@ -345,20 +346,27 @@ public class GymTrack extends JApplet implements ActionListener
     				WorkoutPlan newPlan = new WorkoutPlan(member, new Date(), true, goal, "", 0, true);
     				ArrayList<WorkoutPlan> Planlist = new ArrayList<>();
     				Planlist.add(newPlan);
+    				try {//add the plan
+						planKey = factory.updateWorkoutPlans(Planlist);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
     				
-    				/*
-    				PlanElement planElement;
-    				ArrayList<WorkoutLog> logList;
-    				ArrayList<PlanElement> elementList = new ArrayList<>();
-    				for(int i=0; i<reps.length; ++i){//make the plan elements
-    					//planElement = new PlanElement(factory.getActivities().get(0), factory.getEquipment().get(0).getType(), newPlan, 1, 0, logList, true);
-    					elementList.add(planElement);
-						factory.updatePlanElements(elementList);
-    				}
-    				*/
-    				
-    				try {
-						factory.updateWorkoutPlans(Planlist);
+    				try {//add the plan elements to the plan added above
+						for(WorkoutPlan plan : factory.getWorkoutPlansForUser(member)){
+							if(plan.getKey() == planKey.get(0)){
+								PlanElement planElement;
+								ArrayList<PlanElement> elementList = new ArrayList<>();
+								ArrayList<WorkoutLog> logList;
+								
+								for(int i=0; i<reps.length; ++i) {//make the plan elements
+									logList = new ArrayList();
+			    					planElement = new PlanElement(convertToActivityObject(exercises[i], factory), factory.getEquipment().get(0).getType(), plan, Integer.parseInt(reps[i]), 0, logList, true);
+			    					elementList.add(planElement);
+			    				}
+								factory.updatePlanElements(elementList);
+							}
+						}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -798,6 +806,29 @@ public class GymTrack extends JApplet implements ActionListener
 		default:
 			break;
 		}*/
+	}
+	
+	private Activity convertToActivityObject(String exercise, Factory factory) throws SQLException{
+		ArrayList<Activity> activities = factory.getActivities();
+		
+		if(exercise.equalsIgnoreCase("Curls")){
+			for(Activity act : activities){
+				if(act.getName().equalsIgnoreCase("Curls")){
+					return act;
+				}
+			}
+		}
+		else if(exercise.equalsIgnoreCase("Walk")){
+			for(Activity act : activities){
+				if(act.getName().equalsIgnoreCase("Walk")){
+					return act;
+				}
+			}
+		}
+		else{
+			return activities.get(0); //default
+		}
+		return null;//not sure why this is needed but it wouldn't compile for me without it
 	}
 	
 
