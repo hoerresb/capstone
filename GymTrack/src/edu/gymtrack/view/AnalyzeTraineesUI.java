@@ -30,35 +30,24 @@ public class AnalyzeTraineesUI extends GTUI {
 	private static final long serialVersionUID = 1L;
 
 	static ArrayList<User> users;
+	XYDataset dataset; 
+	JFreeChart chart;
+	GymTrack gym;
+	ChartPanel chartPanel;
+	JPanel contentPane;
 	
 	JList<String> traineesList_TrkTrainees;
 	
 	final Factory factory = new Factory();
 	
-	public void createAnalyzeTraineesUI(GymTrack gym){
+	private void createAnalyzeTraineesUI(GymTrack gym){
+		this.gym = gym;
 		
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
 		gym.setSize(800,400);
 		gym.getContentPane().setLayout(new FlowLayout());
-		
-		
-		final XYDataset dataset = createDataset(factory, gym); 
-		final JFreeChart chart = ChartFactory.createTimeSeriesChart(
-				gym.loggedIn.getUsername() + "'s Workout History", 
-				"Date",
-				"Work",
-				dataset);
-		
-		final ChartPanel chartPanel = new ChartPanel(chart);
-		chartPanel.setPreferredSize(new Dimension(600,350));
-		chartPanel.setMinimumSize(new Dimension(600,350));
-		JPanel contentPane = new JPanel();
-		contentPane.setPreferredSize(new Dimension(800,350));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		gym.getContentPane().add(contentPane);
 
 		// list of trainees
 		
@@ -69,10 +58,21 @@ public class AnalyzeTraineesUI extends GTUI {
 		gym.traineesList_TrkTrainees.addListSelectionListener(new ListSelectionListener(){
         	public void valueChanged(ListSelectionEvent arg0) { // when new index is selected, pulls corresponding user data and displays
         		if (!arg0.getValueIsAdjusting()) {
-        			refreshUserList();
+        			refreshChart();
         		}
         	}
         });
+		
+		chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new Dimension(600,350));
+		chartPanel.setMinimumSize(new Dimension(600,350));
+		contentPane = new JPanel();
+		contentPane.setPreferredSize(new Dimension(800,350));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		gym.getContentPane().add(contentPane);
+		
+		refreshChart();
 		
         JScrollPane leftScrollablePane = new JScrollPane(gym.traineesList_TrkTrainees);
         JPanel rightPanel = new JPanel();
@@ -133,11 +133,11 @@ public class AnalyzeTraineesUI extends GTUI {
 		return result;
 	}
 	
-	private XYDataset createDataset(Factory factory, GymTrack gym){
+	private XYDataset createDataset(Factory factory, GymTrack gym, User user){
 		final TimeSeriesCollection dataset = new TimeSeriesCollection();
 		
 		try {
-			ArrayList<WorkoutPlan> plans = factory.getWorkoutPlansForUser(gym.loggedIn);
+			ArrayList<WorkoutPlan> plans = factory.getWorkoutPlansForUser(user);
 			
 		for (WorkoutPlan currentPlan: plans)
 		{
@@ -164,8 +164,18 @@ public class AnalyzeTraineesUI extends GTUI {
 	}
 	
 	// methods to refresh UI elements
-	public void refreshUserList() {
-				
+	public void refreshChart() {
+		User user = users.get(gym.traineesList_TrkTrainees.getSelectedIndex());
+		dataset = createDataset(factory, gym, user); 
+		chart = ChartFactory.createTimeSeriesChart(
+				user.getUsername() + "'s Workout History", 
+				"Date",
+				"Work",
+				dataset);
+		chart.fireChartChanged();
+		chartPanel.validate();
+		contentPane.validate();
+		gym.revalidate();
 	}
 
 	@Override

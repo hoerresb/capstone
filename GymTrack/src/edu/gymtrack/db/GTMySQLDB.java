@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.mysql.jdbc.PreparedStatement;
 
 import edu.gymtrack.controller.Authentication;
 import edu.gymtrack.model.Activity;
@@ -43,6 +46,20 @@ public class GTMySQLDB implements GTDB {
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 	    return stmt.executeUpdate(query);
+	}
+	
+	private int runUpdateQueryGetKey(String query) throws SQLException{
+		Connection con = getConnection();
+		java.sql.PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+		pstmt.executeUpdate();
+		ResultSet rs = pstmt.getGeneratedKeys();
+		
+		int result = -1;
+		if(rs.next()){
+			result = rs.getInt(1);
+		}
+		
+		return result;
 	}
 	
 	private void deleteFromDB(String query) throws SQLException{
@@ -255,11 +272,11 @@ public class GTMySQLDB implements GTDB {
 	}
 
 	@Override
-	public void updateWorkoutPlan(WorkoutPlan w) throws SQLException {
+	public int updateWorkoutPlan(WorkoutPlan w) throws SQLException {
 		String query = new String(
 				"INSERT INTO `workout_plans` (`key`,`user`,`created`,`is_user`,`goals`,`feedback`) "
 				+ "VALUES (" + w.getKey() + "," + w.getClient().getID() + ",'" + new java.sql.Timestamp(w.getDateCreated().getTime()) + "'," + w.isUserPlan() + ",'" + w.getGoals() + "','" + w.getFeedback() + "') "
 				+ "ON DUPLICATE KEY UPDATE user=" + w.getClient().getID() + ", created='" + new java.sql.Timestamp(w.getDateCreated().getTime()) + "', is_user=" + w.isUserPlan() + ", goals='" + w.getGoals() + "', feedback='" + w.getFeedback() + "'" );
-		runUpdateQuery(query);
+		return runUpdateQueryGetKey(query);
 	}
 }

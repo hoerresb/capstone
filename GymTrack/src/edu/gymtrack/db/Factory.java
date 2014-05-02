@@ -338,17 +338,21 @@ public class Factory {
 		}
 	}
 	
-	public void updateWorkoutPlans(ArrayList<WorkoutPlan> newdata) throws SQLException
+	public ArrayList<Integer> updateWorkoutPlans(ArrayList<WorkoutPlan> newdata) throws SQLException
 	{
+		ArrayList<Integer> results = new ArrayList<Integer>();
+		
 		GTDB db = new GTMySQLDB();
 		for(WorkoutPlan w : newdata){
 			if (w.toBeDeleted() && !w.isNew()){
 				db.deleteWorkoutPlan(w);
 			}
 			else if(w.isEdited() || w.isNew()){
-				db.updateWorkoutPlan(w);
+				results.add(db.updateWorkoutPlan(w));
 			}
 		}
+		
+		return results;
 	}
 	
 }

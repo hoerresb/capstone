@@ -65,5 +65,5 @@ public interface GTDB {
 
 	public void deleteWorkoutPlan(WorkoutPlan w) throws SQLException;
 
-	public void updateWorkoutPlan(WorkoutPlan w) throws SQLException;
+	public int updateWorkoutPlan(WorkoutPlan w) throws SQLException;
 }
