@@ -434,44 +434,25 @@ public class GymTrack extends JApplet implements ActionListener
         	}
         }
         else if (arg0.getSource() == updateButton_EditUser){
-//        	String editUser = "";
-//        	int editId = 0;
-//        	UserType editType = null;
-//        	int id = this.largetId;
-//        	UserType type = UserType.CLIENT;
-/*        	if(this.rdbtnTrainer_addUser.isSelected()){
-        		type = UserType.TRAINER;
-        	}
-        	else if(this.rdbtnTrainer_addUser.isSelected()){
-        		type = UserType.CLIENT;
-        	}*/
-        	
-//        	editType = type;
-//        	editId = id;
-        	
-        	
-//        	System.out.println(editType);
-//        	if(this.row != -1){
-//        		
-//        		for(int i = 0 ; i < 1; i++){
-//        		 editUser =	(String) usersTable_users.getModel().getValueAt(this.row, 0);
-//        		 id = (int) usersTable_users.getModel().getValueAt(this.row, 2);
-//        		}
-        	
-        		
-        		
-            User toEdit = addEditUserDialog.getUserToEdit();
+            User toEdit = addEditUserDialog.getUserToEdit(); // null if new
             String username = this.username_AddEditUser.getText();
             int trainerID = addEditUserDialog.getSelectedTrainer(this).getID();
-            boolean editing = toEdit != null;
+            User.UserType type;
+            if(rdbtnOwner_addUser.isSelected())
+            	type = User.UserType.OWNER;
+            else if(rdbtnTrainer_addUser.isSelected())
+            	type = User.UserType.TRAINER;
+            else
+            	type = User.UserType.CLIENT;
             
+            boolean editing = toEdit != null;
             User edited;
             if(editing){
-            	edited = new User(username, toEdit.getUserType(), toEdit.getID(), trainerID, false);
+            	edited = new User(username, type, toEdit.getID(), trainerID, false);
             	edited.setEdited(true);
             }
             else{
-            	edited = new User(username, User.UserType.CLIENT, 0, trainerID, true); //FIXME radio button
+            	edited = new User(username, type, 0, trainerID, true);
             }
             
         	ArrayList<User> newData = new ArrayList<>();

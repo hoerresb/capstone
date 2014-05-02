@@ -63,7 +63,23 @@ public class AddEditUserDialog extends JDialog{
 		addUser_buttonGroup.add(gym.rdbtnMember_addUser);
 		addUser_buttonGroup.add(gym.rdbtnTrainer_addUser);
 		addUser_buttonGroup.add(gym.rdbtnOwner_addUser);
-		gym.rdbtnMember_addUser.setSelected(true);
+		
+		if(toEdit != null){
+			switch(toEdit.getUserType()){
+			case OWNER:
+				gym.rdbtnOwner_addUser.setSelected(true);
+				break;
+			case TRAINER:
+				gym.rdbtnTrainer_addUser.setSelected(true);
+				break;
+			case CLIENT:
+				gym.rdbtnMember_addUser.setSelected(true);
+				break;
+			}
+		}
+		else
+			gym.rdbtnMember_addUser.setSelected(true);
+		
 		contentPanel.add(gym.rdbtnMember_addUser);
 		contentPanel.add(gym.rdbtnTrainer_addUser);
 		contentPanel.add(gym.rdbtnOwner_addUser);
