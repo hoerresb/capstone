@@ -79,8 +79,8 @@ public class ProvideFeedbackDialog extends JDialog{
 		controlPanel.setPreferredSize(new Dimension(150,30));
 		
 		gym.btnUpdate_PFeedback = new JButton(new ImageIcon("images/dialog_update.png", "Update"));
-		gym.btnUpdate_Feedback.setPreferredSize(new Dimension(70,25));
-		gym.btnUpdate_Feedback.setRolloverIcon(new ImageIcon("images/dialog_update_over.png", "Update"));
+		gym.btnUpdate_PFeedback.setPreferredSize(new Dimension(70,25));
+		gym.btnUpdate_PFeedback.setRolloverIcon(new ImageIcon("images/dialog_update_over.png", "Update"));
 		gym.btnUpdate_PFeedback.addActionListener(gym);
 		controlPanel.add(gym.btnUpdate_PFeedback, null);
 		
