@@ -1,11 +1,14 @@
 package edu.gymtrack.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -139,24 +142,23 @@ public class CreatePlan extends JDialog{
 		gym.table_CreatePlan.setFillsViewportHeight(true);
 		
 		contentPanel.setLayout(gl_contentPanel);
-		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				gym.okButton_CreatePlan = new JButton("OK");
-				gym.okButton_CreatePlan.addActionListener(gym);
-				gym.okButton_CreatePlan.setActionCommand("OK");
-				buttonPane.add(gym.okButton_CreatePlan);
-				getRootPane().setDefaultButton(gym.okButton_CreatePlan);
-			}
-			{
-				gym.cancelButton_CreatePlan = new JButton("Cancel");
-				gym.cancelButton_CreatePlan.addActionListener(gym);
-				gym.cancelButton_CreatePlan.setActionCommand("Cancel");
-				buttonPane.add(gym.cancelButton_CreatePlan);
-			}
-		}
+			
+			gym.okButton_CreatePlan = new JButton(new ImageIcon("images/dialog_ok.png", "Ok"));
+			gym.okButton_CreatePlan.setPreferredSize(new Dimension(70,25));
+			gym.okButton_CreatePlan.setRolloverIcon(new ImageIcon("images/dialog_ok_over.png", "Ok"));
+			gym.okButton_CreatePlan.addActionListener(gym);
+			buttonPane.add(gym.okButton_CreatePlan);
+			getRootPane().setDefaultButton(gym.okButton_CreatePlan);
+
+			gym.cancelButton_CreatePlan = new JButton(new ImageIcon("images/dialog_cancel.png", "Cancel"));
+			gym.cancelButton_CreatePlan.setPreferredSize(new Dimension(70,25));
+			gym.cancelButton_CreatePlan.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
+			gym.cancelButton_CreatePlan.addActionListener(gym);
+			buttonPane.add(gym.cancelButton_CreatePlan);
+
 	}
 	
 	private Object[][] getTableData(){

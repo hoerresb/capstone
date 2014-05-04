@@ -3,11 +3,14 @@ package edu.gymtrack.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -33,6 +36,7 @@ public class ProvideFeedbackDialog extends JDialog{
 		setTitle("Provide Feedback on Plans");
 		setBounds(100, 100, 450, 300);
 		setContentPane(contentPanel);
+		setResizable(false);
 		
 		Factory f = new Factory();
 		try {
@@ -71,17 +75,23 @@ public class ProvideFeedbackDialog extends JDialog{
 			add(new JLabel()); // spacer
 		}
 		
-		JPanel controlPanel = new JPanel(new GridLayout());
+		JPanel controlPanel = new JPanel(new FlowLayout());
+		controlPanel.setPreferredSize(new Dimension(150,30));
 		
-		gym.btnUpdate_PFeedback = new JButton("Update");
+		gym.btnUpdate_PFeedback = new JButton(new ImageIcon("images/dialog_update.png", "Update"));
+		gym.btnUpdate_Feedback.setPreferredSize(new Dimension(70,25));
+		gym.btnUpdate_Feedback.setRolloverIcon(new ImageIcon("images/dialog_update_over.png", "Update"));
 		gym.btnUpdate_PFeedback.addActionListener(gym);
 		controlPanel.add(gym.btnUpdate_PFeedback, null);
 		
-		gym.btnCancel_PFeedback = new JButton("Cancel");
+		gym.btnCancel_PFeedback = new JButton(new ImageIcon("images/dialog_cancel.png", "Cancel"));
+		gym.btnCancel_PFeedback.setPreferredSize(new Dimension(70,25));
+		gym.btnCancel_PFeedback.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
 		gym.btnCancel_PFeedback.addActionListener(gym);
 		controlPanel.add(gym.btnCancel_PFeedback, null);
 		
 		add(controlPanel);
+		
 	}
 	
 	public ArrayList<WorkoutPlan> getUpdatedPlans(){

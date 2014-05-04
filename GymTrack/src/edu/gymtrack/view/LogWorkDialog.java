@@ -1,6 +1,7 @@
 package edu.gymtrack.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -44,6 +46,7 @@ public class LogWorkDialog extends JDialog implements ActionListener{
 		setModal(true);
 		setTitle("Log Work");
 		setBounds(100, 100, 450, 300);
+		setResizable(false);
 		setContentPane(contentPanel);
 		
 		String[] columnNames = {"Date", "Exercise", "Amount", "% of plan complete"};
@@ -162,24 +165,24 @@ public class LogWorkDialog extends JDialog implements ActionListener{
 		);
 		tableTitleContainer.setLayout(gl_tableTitleContainer);
 		topContainer.setLayout(gl_topContainer);
-		{
-			JPanel buttonContainer = new JPanel();
-			buttonContainer.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonContainer, BorderLayout.SOUTH);
-			{
-				gym.okButton_LogWork = new JButton("OK");
-				gym.okButton_LogWork.addActionListener(gym);
-				gym.okButton_LogWork.setActionCommand("OK");//find out what this does
-				buttonContainer.add(gym.okButton_LogWork);
-				getRootPane().setDefaultButton(gym.okButton_LogWork);
-			}
-			{
-				gym.cancelButton_LogWork = new JButton("Cancel");
-				gym.cancelButton_LogWork.addActionListener(gym);
-				gym.cancelButton_LogWork.setActionCommand("Cancel");//find out what this does
-				buttonContainer.add(gym.cancelButton_LogWork);
-			}
-		}
+		
+		JPanel buttonContainer = new JPanel();
+		buttonContainer.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonContainer, BorderLayout.SOUTH);
+
+		gym.okButton_LogWork = new JButton(new ImageIcon("images/dialog_ok.png", "Ok"));
+		gym.okButton_LogWork.setPreferredSize(new Dimension(70,25));
+		gym.okButton_LogWork.setRolloverIcon(new ImageIcon("images/dialog_ok_over.png", "Ok"));
+		gym.okButton_LogWork.addActionListener(gym);
+		buttonContainer.add(gym.okButton_LogWork);
+		getRootPane().setDefaultButton(gym.okButton_LogWork);
+
+		gym.cancelButton_LogWork = new JButton(new ImageIcon("images/dialog_cancel.png", "Cancel"));
+		gym.cancelButton_LogWork.setPreferredSize(new Dimension(70,25));
+		gym.cancelButton_LogWork.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
+		gym.cancelButton_LogWork.addActionListener(gym);
+		buttonContainer.add(gym.cancelButton_LogWork);
+
 	}
 	
 	private Object[][] getWorklogTableData(MyPlansUI plans){

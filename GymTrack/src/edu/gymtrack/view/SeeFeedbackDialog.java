@@ -1,20 +1,23 @@
 package edu.gymtrack.view;
 
 
-import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JViewport;
+import javax.swing.border.EtchedBorder;
 
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.User;
@@ -33,6 +36,7 @@ public class SeeFeedbackDialog extends JDialog{
 		setTitle("Recent Feedback");
 		setBounds(100, 100, 450, 300);
 		setContentPane(contentPanel);
+		setResizable(false);
 		
 		Factory f = new Factory();
 		try {
@@ -43,40 +47,52 @@ public class SeeFeedbackDialog extends JDialog{
 			dispose();
 		}
 		
-		setLayout(new GridLayout(0, 1));
+		setLayout(new FlowLayout());
 		
+		JPanel plansPane = new JPanel(new GridLayout(0,1));
+		final JScrollPane scroll = new JScrollPane(plansPane);
+		scroll.setPreferredSize(new Dimension(435,228));
 		for(WorkoutPlan plan : plans){
 			JLabel planLabel = new JLabel("Plan Created: " + plan.getDateCreated());
-			add(planLabel);
+			plansPane.add(planLabel);
 			
 			JLabel goalLabel = new JLabel("Goal:");
-			add(goalLabel);
+			plansPane.add(goalLabel);
 			
 			JTextArea jGoalTxt = new JTextArea();
+			jGoalTxt.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 			jGoalTxt.setText(plan.getGoals());
 			jGoalTexts.add(jGoalTxt);
-			add(jGoalTxt);
+			plansPane.add(jGoalTxt);
 			
 			JLabel fbLabel = new JLabel("Feedback:");
-			add(fbLabel);
+			plansPane.add(fbLabel);
 			
 			JTextArea jFBTxt = new JTextArea();
+			jFBTxt.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 			jFBTxt.setText(plan.getFeedback());
 			if(editorType == User.UserType.CLIENT);
 				jFBTxt.setEditable(false);
 			jFBTexts.add(jFBTxt);
-			add(jFBTxt);
+			plansPane.add(jFBTxt);
 			
-			add(new JLabel()); // spacer
-		}
+			plansPane.add(new JLabel()); // spacer
+		} 
+		add(scroll);
+		//scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMinimum());
 		
-		JPanel controlPanel = new JPanel(new GridLayout());
+		JPanel controlPanel = new JPanel(new FlowLayout((FlowLayout.RIGHT)));
+		controlPanel.setPreferredSize(new Dimension(443,30));
 		
-		gym.btnUpdate_Feedback = new JButton("Update");
+		gym.btnUpdate_Feedback = new JButton(new ImageIcon("images/dialog_update.png", "Update"));
+		gym.btnUpdate_Feedback.setPreferredSize(new Dimension(70,25));
+		gym.btnUpdate_Feedback.setRolloverIcon(new ImageIcon("images/dialog_update_over.png", "Update"));
 		gym.btnUpdate_Feedback.addActionListener(gym);
 		controlPanel.add(gym.btnUpdate_Feedback, null);
 		
-		gym.btnCancel_Feedback = new JButton("Cancel");
+		gym.btnCancel_Feedback = new JButton(new ImageIcon("images/dialog_cancel.png", "Cancel"));
+		gym.btnCancel_Feedback.setPreferredSize(new Dimension(70,25));
+		gym.btnCancel_Feedback.setRolloverIcon(new ImageIcon("images/dialog_cancel_over.png", "Cancel"));
 		gym.btnCancel_Feedback.addActionListener(gym);
 		controlPanel.add(gym.btnCancel_Feedback, null);
 		
