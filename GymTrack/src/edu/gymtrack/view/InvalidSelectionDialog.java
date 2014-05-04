@@ -25,7 +25,7 @@ public class InvalidSelectionDialog extends JDialog {
 		contentPane.setPreferredSize(new Dimension(400,40));
 		this.getContentPane().add(contentPane);
 
-		JLabel dialogText1 = new JLabel("You must select a row to use delete.");
+		JLabel dialogText1 = new JLabel("You must select a row to use this function.");
 		contentPane.add(dialogText1);
 
 		/*JLabel separator = new JLabel();

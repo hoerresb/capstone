@@ -754,10 +754,13 @@ public class GymTrack extends JApplet implements ActionListener
 			deleteUserDialog.dispose();
 		}
 		else if(arg0.getSource() == btnAddExercises_TrkTrainees){
-			if(((TrkTraineesUI)trkTraineesUI).getSelectedWorkoutPlan() != null){
-				createPlan = new CreatePlan(this, ((TrkTraineesUI)trkTraineesUI).getSelectedWorkoutPlan());
-	        	createPlan.setVisible(true);
+			if(((TrkTraineesUI)trkTraineesUI).getSelectedWorkoutPlan() == null){
+				invalidSelectionDialog = new InvalidSelectionDialog(this);
+    			invalidSelectionDialog.setVisible(true);
+    			return;
 			}
+			createPlan = new CreatePlan(this, ((TrkTraineesUI)trkTraineesUI).getSelectedWorkoutPlan());
+        	createPlan.setVisible(true);
 		}
 		else {
 			System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
