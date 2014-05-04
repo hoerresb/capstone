@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -22,6 +25,12 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import edu.gymtrack.db.Factory;
+import edu.gymtrack.model.Activity;
+import edu.gymtrack.model.PlanElement;
+import edu.gymtrack.model.User;
+import edu.gymtrack.model.WorkoutPlan;
+
 public class CreatePlan extends JDialog{
 	private final JPanel contentPanel = new JPanel();
 	private static final long serialVersionUID = 1L;
@@ -30,19 +39,23 @@ public class CreatePlan extends JDialog{
 	private JButton btnAdd_CreatePlanDialog;
 	private String exercise;
 	private String reps;
+	private WorkoutPlan toEdit;
+	private final String[] columnNames = {"Exercise", "reps"};
+	private ArrayList<Activity> activities;
+	private ArrayList<Activity> addedActivities = new ArrayList<Activity>();
 	
-	public CreatePlan(final GymTrack gym, GTUI callingUI) {
+	public CreatePlan(final GymTrack gym, GTUI callingUI, WorkoutPlan toEdit) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.gym = gym;
 		this.gtui = callingUI;
+		this.toEdit = toEdit;
 		setModal(true);
-		setTitle("Create Plan");
+		setTitle((toEdit == null ? "Create" : "Edit") + " Plan");
 		setBounds(100, 100, 450, 300);
 		setContentPane(new JPanel());
 		getContentPane().setLayout(new BorderLayout());
 		setTitle("Create Plan");
 	
-		String[] columnNames = {"Exercise", "reps"};
 		Object[][] tableData = getTableData();
 
 		
@@ -85,6 +98,9 @@ public class CreatePlan extends JDialog{
 				reps = gym.textField_CreatePlan.getText();
 				exercise = gym.comboBox_CreatePlan.getSelectedItem().toString();
 				gym.model.insertRow(0,new Object[]{exercise,reps});
+				
+				Activity selected = activities.get(gym.comboBox_CreatePlan.getSelectedIndex());
+				addedActivities.add(selected);
 			}
 		});
 		
@@ -162,13 +178,55 @@ public class CreatePlan extends JDialog{
 	}
 	
 	private Object[][] getTableData(){
-		Object[][] data = {};//Table is empty to start with
+		ArrayList<PlanElement> elements = new ArrayList<PlanElement>();
+		if(toEdit != null){
+			Factory f = new Factory();
+			try {
+				elements = f.getPlanElements(toEdit);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		Object[][] data = new Object[elements.size()][columnNames.length];
+		for(int i = 0; i < elements.size(); ++i){
+			data[i][0] = elements.get(i).getActivityName();
+			data[i][1] = elements.get(i).getNRequired();
+		}
 		return data;
 	}
 	
-	//not sure if this should be dynamic or static
+	
 	private String[] getExercises(){
-		String[] list = new String[] {"Curls", "Walk"};
+		Factory f = new Factory();
+		activities = new ArrayList<Activity>();
+		try {
+			activities = f.getActivities();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String[] list = new String[activities.size()];
+		for(int i = 0; i < activities.size(); ++i){
+			list[i] = activities.get(i).getName();
+		}
+		
 		return list;
+	}
+	
+	public WorkoutPlan getNewPlan(User client){
+		return new WorkoutPlan(client,
+				new Date(),
+				client.getID() == gym.loggedIn.getID(),
+				gym.goalTextField_CreatePlan.getText(),
+				"",
+				0,
+				toEdit == null);
+	}
+	
+	public ArrayList<Activity> getAddedActivities(){
+		return addedActivities;
 	}
 }

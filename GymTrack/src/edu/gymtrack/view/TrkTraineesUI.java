@@ -36,6 +36,8 @@ public class TrkTraineesUI extends GTUI {
 	Map<Integer, Activity> activities = new HashMap<Integer, Activity>();
 	Map<Integer, Integer> elementRequirements = new HashMap<Integer, Integer>();
 	Map<Integer, Integer> completion = new HashMap<Integer, Integer>();
+	User selectedUser;
+	ArrayList<User> userList = new ArrayList<User>();
 	
 	JList<String> traineesList_TrkTrainees;
 	
@@ -45,8 +47,13 @@ public class TrkTraineesUI extends GTUI {
 	Object[][] worklogTable_TableData = null;
 
 	public void createTrkTraineesUI(GymTrack gym){
-		
 		this.gym = gym;
+		try {
+			userList = factory.getUsers();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
@@ -79,10 +86,10 @@ public class TrkTraineesUI extends GTUI {
 		
 		if (gym.traineesList_TrkTrainees.getModel().getSize() != 0)
 		{
-			User user = gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex());
-			getDatabaseData(user);
-			getPlanTableData(user);
-			worklogTable_TableData = getWorklogTableData(user);
+			selectedUser = userList.get(gym.traineesList_TrkTrainees.getSelectedIndex());
+			getDatabaseData(selectedUser);
+			getPlanTableData(selectedUser);
+			worklogTable_TableData = getWorklogTableData(selectedUser);
 		}
 		else
 		{
@@ -269,17 +276,17 @@ public class TrkTraineesUI extends GTUI {
 	
 	
 	private  String[] getMemberNames(Factory factory){
-		gym.userList = new ArrayList<User>();
+		userList = new ArrayList<User>();
 		try 
 		{
-			gym.userList = factory.getUsers();
+			userList = factory.getUsers();
 		} catch (SQLException e) {
 			// TODO handle this
 			e.printStackTrace();
 		}  
-		String[] result = new String[gym.userList.size()];
-		for (int i = 0; i < gym.userList.size(); i++) {
-			result[i] = gym.userList.get(i).getUsername();
+		String[] result = new String[userList.size()];
+		for (int i = 0; i < userList.size(); i++) {
+			result[i] = userList.get(i).getUsername();
 		}
 		return result;
 	}
@@ -321,12 +328,16 @@ public class TrkTraineesUI extends GTUI {
 	}
 	
 	public void refreshUserList() {
-		User user = gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex());
-		getDatabaseData(user);
-		getPlanTableData(user);
+		selectedUser = userList.get(gym.traineesList_TrkTrainees.getSelectedIndex());
+		getDatabaseData(selectedUser);
+		getPlanTableData(selectedUser);
 		updatePlanTable();
-		worklogTable_TableData = getWorklogTableData(user);
+		worklogTable_TableData = getWorklogTableData(selectedUser);
 		updateLogsTable();
+	}
+	
+	public User getSelectedUser(){
+		return selectedUser;
 	}
 
 	@Override

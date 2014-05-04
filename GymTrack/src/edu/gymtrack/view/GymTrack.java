@@ -187,7 +187,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnProvideFeedback_TrkTrainees;
 	protected JButton btnCreatNewPlan_TrkTrainees;
 	protected JButton btnDeleteSelectedPlan_TrkTrainees;
-	protected ArrayList<User> userList;
+//	protected ArrayList<User> userList;
 	/*
 	 * Components used by AnalyzeMeUI
 	 */
@@ -318,7 +318,7 @@ public class GymTrack extends JApplet implements ActionListener
         	trkTraineesUI.reloadPage(this);
         }
         else if (arg0.getSource() == btnCreatNewPlan_TrkTrainees){
-        	createPlan = new CreatePlan(this, this.editTraineesUI);
+        	createPlan = new CreatePlan(this, this.editTraineesUI, null);
         	createPlan.setVisible(true);
         }
         else if (arg0.getSource() == okButton_CreatePlan) {
@@ -335,45 +335,40 @@ public class GymTrack extends JApplet implements ActionListener
         		reps[i] = (String)table_CreatePlan.getModel().getValueAt(i, 1);
         	}
         	
-        	String memberName = (String)this.traineesList_TrkTrainees.getSelectedValue();
-        	User member;
-        	String goal = this.goalTextField_CreatePlan.getText();
+        	User member = ((TrkTraineesUI)trkTraineesUI).getSelectedUser();
         	ArrayList<Integer> planKey= new ArrayList<>();
         	
-        	for(User user : this.userList){
-    			if(user.getUsername().equalsIgnoreCase(memberName)){
-    				member = user;
-    				WorkoutPlan newPlan = new WorkoutPlan(member, new Date(), true, goal, "", 0, true);
-    				ArrayList<WorkoutPlan> Planlist = new ArrayList<>();
-    				Planlist.add(newPlan);
-    				try {//add the plan
-						planKey = factory.updateWorkoutPlans(Planlist);
-					} catch (SQLException e) {
-						e.printStackTrace();
+        	
+        	WorkoutPlan newPlan = createPlan.getNewPlan(member);
+			ArrayList<WorkoutPlan> Planlist = new ArrayList<>();
+			Planlist.add(newPlan);
+			try {//add the plan
+				planKey = factory.updateWorkoutPlans(Planlist);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			try {//add the plan elements to the plan added above
+				for(WorkoutPlan plan : factory.getWorkoutPlansForUser(member)){
+					if(plan.getKey() == planKey.get(0)){
+						newPlan = plan;
 					}
-    				
-    				try {//add the plan elements to the plan added above
-						for(WorkoutPlan plan : factory.getWorkoutPlansForUser(member)){
-							if(plan.getKey() == planKey.get(0)){
-								PlanElement planElement;
-								ArrayList<PlanElement> elementList = new ArrayList<>();
-								ArrayList<WorkoutLog> logList;
-								
-								for(int i=0; i<reps.length; ++i) {//make the plan elements
-									logList = new ArrayList();
-			    					planElement = new PlanElement(convertToActivityObject(exercises[i], factory), factory.getEquipment().get(0).getType(), plan, Integer.parseInt(reps[i]), 0, logList, true);
-			    					elementList.add(planElement);
-			    				}
-								factory.updatePlanElements(elementList);
-							}
-						}
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-    				
-    				break;
-    			}
-    		}
+				}
+				
+				PlanElement planElement;
+				ArrayList<PlanElement> elementList = new ArrayList<>();
+				ArrayList<WorkoutLog> logList;
+				
+				ArrayList<Activity> addedActivities = createPlan.getAddedActivities();
+				for(int i=0; i<reps.length; ++i) {//make the plan elements
+					logList = new ArrayList<WorkoutLog>();
+					planElement = new PlanElement(addedActivities.get(i), factory.getEquipment().get(0).getType(), newPlan, Integer.parseInt(reps[i]), 0, logList, true);
+					elementList.add(planElement);
+				}
+				factory.updatePlanElements(elementList);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
         	
         	this.createPlan.dispose();
         	trkTraineesUI.reloadPage(this);
@@ -808,28 +803,28 @@ public class GymTrack extends JApplet implements ActionListener
 		}*/
 	}
 	
-	private Activity convertToActivityObject(String exercise, Factory factory) throws SQLException{
-		ArrayList<Activity> activities = factory.getActivities();
-		
-		if(exercise.equalsIgnoreCase("Curls")){
-			for(Activity act : activities){
-				if(act.getName().equalsIgnoreCase("Curls")){
-					return act;
-				}
-			}
-		}
-		else if(exercise.equalsIgnoreCase("Walk")){
-			for(Activity act : activities){
-				if(act.getName().equalsIgnoreCase("Walk")){
-					return act;
-				}
-			}
-		}
-		else{
-			return activities.get(0); //default
-		}
-		return null;//not sure why this is needed but it wouldn't compile for me without it
-	}
+//	private Activity convertToActivityObject(String exercise, Factory factory) throws SQLException{
+//		ArrayList<Activity> activities = factory.getActivities();
+//		
+//		if(exercise.equalsIgnoreCase("Curls")){
+//			for(Activity act : activities){
+//				if(act.getName().equalsIgnoreCase("Curls")){
+//					return act;
+//				}
+//			}
+//		}
+//		else if(exercise.equalsIgnoreCase("Walk")){
+//			for(Activity act : activities){
+//				if(act.getName().equalsIgnoreCase("Walk")){
+//					return act;
+//				}
+//			}
+//		}
+//		else{
+//			return activities.get(0); //default
+//		}
+//		return null;//not sure why this is needed but it wouldn't compile for me without it
+//	}
 	
 
 }
