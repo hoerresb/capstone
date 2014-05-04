@@ -290,7 +290,7 @@ public class GTMySQLDB implements GTDB {
 
 	@Override
 	public void deleteWorkoutPlan(WorkoutPlan w) throws SQLException {
-		String query = new String("DELETE FROM workout_plans WHERE 'key' = " + w.getKey());
+		String query = new String("DELETE FROM `workout_plans` WHERE `workout_plans`.`key` = " + w.getKey());
 		deleteFromDB(query);
 	}
 
