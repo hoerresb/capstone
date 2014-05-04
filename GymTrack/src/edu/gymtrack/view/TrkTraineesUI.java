@@ -4,6 +4,8 @@ import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -15,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import edu.gymtrack.db.Factory;
+import edu.gymtrack.model.Activity;
 import edu.gymtrack.model.PlanElement;
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.WorkoutLog;
@@ -28,8 +31,11 @@ public class TrkTraineesUI extends GTUI {
 	
 	//static ArrayList<User> users;
 	static ArrayList<WorkoutPlan> plans;
-	ArrayList<PlanElement> elements;
+	Map<Integer, PlanElement> elements = new HashMap<Integer, PlanElement>();  
 	static ArrayList<WorkoutLog> logs;
+	Map<Integer, Activity> activities = new HashMap<Integer, Activity>();
+	Map<Integer, Integer> elementRequirements = new HashMap<Integer, Integer>();
+	Map<Integer, Integer> completion = new HashMap<Integer, Integer>();
 	
 	JList<String> traineesList_TrkTrainees;
 	
@@ -73,8 +79,10 @@ public class TrkTraineesUI extends GTUI {
 		
 		if (gym.traineesList_TrkTrainees.getModel().getSize() != 0)
 		{
-			getPlanTableData(gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
-			worklogTable_TableData = getWorklogTableData(gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
+			User user = gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex());
+			getDatabaseData(user);
+			getPlanTableData(user);
+			worklogTable_TableData = getWorklogTableData(user);
 		}
 		else
 		{
@@ -170,43 +178,96 @@ public class TrkTraineesUI extends GTUI {
         
 	}
 	
-	//TODO calculate percentage completed
-	private static Object[][] getWorklogTableData(User user){
-		try {
-			logs = factory.getWorkoutLogs(user);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private Object[][] getWorklogTableData(User user){
+//		try {
+//			logs = factory.getWorkoutLogs(user);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		Object[][] data = new Object[logs.size()][4];
 		for (int i = 0; i < logs.size(); i++)
 		{
-			data[i][0] = logs.get(i).getDate();
-			data[i][1] = logs.get(i).getExerciseName();
-			data[i][2] = logs.get(i).getNCompleted();
-			data[i][3] = logs.get(i).getNCompleted(); // percentage
+			WorkoutLog workoutLog = logs.get(i);
+			data[i][0] = workoutLog.getDate();
+			data[i][1] = workoutLog.getExerciseName();
+			data[i][2] = workoutLog.getNCompleted();
+			data[i][3] = (double)workoutLog.getNCompleted() / elementRequirements.get(workoutLog.getElementKey()) * 100;
 		}
 		return data;
 	}
 
 	// TODO calculate completion rate on plans
-	private static void getPlanTableData(User user){
-		try {
-			plans = factory.getWorkoutPlansForUser(user);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	private void getPlanTableData(User user){
+//		try {
+//			plans = factory.getWorkoutPlansForUser(user);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+		
 		planTable_TableData = new Object[plans.size()][5];
 		for (int i = 0; i < plans.size(); i++)
 		{
-			planTable_TableData[i][0] = plans.get(i).getKey();
-			planTable_TableData[i][1] = plans.get(i).getDateCreated();
-			planTable_TableData[i][2] = plans.get(i).getGoals();
-			planTable_TableData[i][3] = plans.get(i).getFeedback();
-			planTable_TableData[i][4] = "Hi there.";
+			WorkoutPlan workoutPlan = plans.get(i);
+			planTable_TableData[i][0] = workoutPlan.getKey();
+			planTable_TableData[i][1] = workoutPlan.getDateCreated();
+			planTable_TableData[i][2] = workoutPlan.getGoals();
+			planTable_TableData[i][3] = workoutPlan.getFeedback();
+			
+			int nAssociatedElements = 0;
+			double percentageAccum = 0;
+			for(PlanElement e : elements.values()){
+				if(e.getPlan().getKey() == workoutPlan.getKey() && completion.containsKey(e.getKey())){
+					++nAssociatedElements;
+					double pctComplete = (double)completion.get(e.getKey()) / e.getNRequired() * 100;
+					if(pctComplete > 100)
+						pctComplete = 100;
+					percentageAccum += pctComplete;
+				}
+			}
+			if(nAssociatedElements == 0)
+				nAssociatedElements = 1;
+			planTable_TableData[i][4] = percentageAccum / nAssociatedElements;
 		}
 		
 	}
+	
+	private void getDatabaseData(User user){
+		try
+		{
+			ArrayList<Activity> actList = factory.getActivities();
+			for(Activity activity : actList){
+				activities.put(activity.getKey(), activity);
+			}
+			
+			plans = factory.getWorkoutPlansForUser(user);
+			for(WorkoutPlan plan : plans){
+				ArrayList<PlanElement> planElements = factory.getPlanElements(plan);
+				if(planElements == null)
+					continue;
+				
+				for(PlanElement element : planElements)
+					elements.put(element.getKey(), element);
+				
+				for(PlanElement element : elements.values()){
+					elementRequirements.put(element.getKey(), element.getNRequired());
+				}
+			}
+			
+			logs = factory.getWorkoutLogs(user);
+			for(WorkoutLog log : logs){
+				int elementKey = log.getElementKey();
+				Integer nLogged = completion.get(elementKey);
+				completion.put(elementKey, 
+						nLogged == null ? log.getNCompleted() : nLogged + log.getNCompleted());
+			}
+		} catch (SQLException e) {
+			// TODO handle this
+			e.printStackTrace();
+		}
+	}
+	
+	
 	private  String[] getMemberNames(Factory factory){
 		gym.userList = new ArrayList<User>();
 		try 
@@ -260,9 +321,11 @@ public class TrkTraineesUI extends GTUI {
 	}
 	
 	public void refreshUserList() {
-		getPlanTableData(gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
+		User user = gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex());
+		getDatabaseData(user);
+		getPlanTableData(user);
 		updatePlanTable();
-		worklogTable_TableData = getWorklogTableData(gym.userList.get(gym.traineesList_TrkTrainees.getSelectedIndex()));
+		worklogTable_TableData = getWorklogTableData(user);
 		updateLogsTable();
 	}
 

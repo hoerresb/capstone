@@ -283,17 +283,10 @@ public class MyPlansUI extends GTUI {
 			planTable_TableData[i][1] = planElement.getEquipmentType().getName();
 			planTable_TableData[i][2] = planElement.getNRequired() + " " + activities.get(planElement.getActivity().getKey()).getUnit();
 			
-			// Still getting NullPointerException here.  Not 100% sure why...
-			// I think it might have to do with the number of workout log items to calculate the % complete
-			//
-			// 		Eric
-			
-			try {
+			if(completion.containsKey(planElement.getKey()))
 				planTable_TableData[i][3] = (double)completion.get(planElement.getKey()) / planElement.getNRequired() * 100;
-			}
-			catch(NullPointerException e) {
-				e.printStackTrace();
-			}
+			else
+				planTable_TableData[i][3] = 0;
 		}
 		
 	}
