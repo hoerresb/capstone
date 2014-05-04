@@ -3,7 +3,6 @@ package edu.gymtrack.view;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +23,6 @@ import edu.gymtrack.model.WorkoutLog;
 import edu.gymtrack.model.WorkoutPlan;
 
 public class TrkTraineesUI extends GTUI {
-	private static final long serialVersionUID = 1L;
 	
 	final static Factory factory = new Factory();
 	GymTrack gym;
@@ -46,6 +44,7 @@ public class TrkTraineesUI extends GTUI {
 	String[] worklogTable_ColumnNames = {"Logged on","exercise","reps/duration/distance", "% of plan complete"};
 	Object[][] worklogTable_TableData = null;
 
+	@SuppressWarnings("serial")
 	public void createTrkTraineesUI(GymTrack gym){
 		this.gym = gym;
 		try {
@@ -62,7 +61,7 @@ public class TrkTraineesUI extends GTUI {
 		gym.getContentPane().setLayout(new FlowLayout());
 		
 		JPanel contentPane = new JPanel();
-		contentPane.setPreferredSize(new Dimension(800,350));
+		contentPane.setPreferredSize(new Dimension(800,310));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		gym.getContentPane().add(contentPane);
@@ -119,9 +118,9 @@ public class TrkTraineesUI extends GTUI {
         gl_topContainer.setVerticalGroup(
         	gl_topContainer.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_topContainer.createSequentialGroup()
-        			.addComponent(topScrollablePane, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+        			.addComponent(topScrollablePane, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
         			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(bottomScrollablePane, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
+        			.addComponent(bottomScrollablePane, GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE))
         );
         
         gym.loggedProgressTable_TrkTrainees = new JTable(worklogTable_TableData, worklogTable_ColumnNames) {
@@ -147,44 +146,50 @@ public class TrkTraineesUI extends GTUI {
         splitPane.setDividerLocation(150);
         Dimension minimumSize = new Dimension(100, 50);
         leftScrollablePane.setMinimumSize(minimumSize);
-        splitPane.setPreferredSize(new Dimension(400, 200));
+        splitPane.setPreferredSize(new Dimension(400, 150));
 		
         contentPane.add(splitPane);	
         
-        gym.btnProvideFeedback_TrkTrainees = new JButton("Provide Feedback");
+/*        gym.btnProvideFeedback_TrkTrainees = new JButton("Provide Feedback");
         gym.btnCreatNewPlan_TrkTrainees = new JButton("Create New Plan");
-        gym.btnDeleteSelectedPlan_TrkTrainees = new JButton("Delete Selected Plan");
+        gym.btnDeleteSelectedPlan_TrkTrainees = new JButton("Delete Selected Plan");*/
         
-        JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(new FlowLayout());
-		gym.getContentPane().add(bottomPanel);
+        JPanel topPanel = new JPanel();
+		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		topPanel.setPreferredSize(new Dimension(790,35));
+		gym.getContentPane().add(topPanel);
 		
 		gym.btnProvideFeedback_TrkTrainees = new JButton(new ImageIcon("images/providefeedback.png", "Provide Feedback"));
 		gym.btnProvideFeedback_TrkTrainees.setPreferredSize(new Dimension(190, 30));
 		gym.btnProvideFeedback_TrkTrainees.setRolloverIcon(new ImageIcon("images/providefeedback_over.png", "Provide Feedback"));
 		gym.btnProvideFeedback_TrkTrainees.addActionListener(gym);
-        bottomPanel.add(gym.btnProvideFeedback_TrkTrainees);
+		topPanel.add(gym.btnProvideFeedback_TrkTrainees);
         
         gym.btnCreatNewPlan_TrkTrainees = new JButton(new ImageIcon("images/createnewplan.png", "Create New Plan"));
         gym.btnCreatNewPlan_TrkTrainees.setPreferredSize(new Dimension(180, 30));
         gym.btnCreatNewPlan_TrkTrainees.setRolloverIcon(new ImageIcon("images/createnewplan_over.png", "Create New Plan"));
         gym.btnCreatNewPlan_TrkTrainees.addActionListener(gym);
-        bottomPanel.add(gym.btnCreatNewPlan_TrkTrainees);
+        topPanel.add(gym.btnCreatNewPlan_TrkTrainees);
         
-        gym.btnAddExercises_TrkTrainees = new JButton("Add Exercises");
+        gym.btnAddExercises_TrkTrainees = new JButton(new ImageIcon("images/addexercises.png", "Add Exercises"));
         gym.btnAddExercises_TrkTrainees.setPreferredSize(new Dimension(180, 30));
+        gym.btnAddExercises_TrkTrainees.setRolloverIcon(new ImageIcon("images/addexercises_over.png", "Add Exercises"));
         gym.btnAddExercises_TrkTrainees.addActionListener(gym);
-        bottomPanel.add(gym.btnAddExercises_TrkTrainees);
+        topPanel.add(gym.btnAddExercises_TrkTrainees);
         
         gym.btnDeleteSelectedPlan_TrkTrainees = new JButton(new ImageIcon("images/deleteselected.png", "Delete Selected"));
         gym.btnDeleteSelectedPlan_TrkTrainees.setPreferredSize(new Dimension(180, 30));
         gym.btnDeleteSelectedPlan_TrkTrainees.setRolloverIcon(new ImageIcon("images/deleteselected_over.png", "Delete Selected"));
         gym.btnDeleteSelectedPlan_TrkTrainees.addActionListener(gym);
-        bottomPanel.add(gym.btnDeleteSelectedPlan_TrkTrainees);
+        topPanel.add(gym.btnDeleteSelectedPlan_TrkTrainees);
         
-        /*JSeparator separator = new JSeparator();
-		separator.setPreferredSize(new Dimension(180, 0));
-		bottomPanel.add(separator);*/
+        JPanel bottomPanel = new JPanel();
+		bottomPanel.setLayout(new FlowLayout());
+		gym.getContentPane().add(bottomPanel);
+        
+        JSeparator separator = new JSeparator();
+		separator.setPreferredSize(new Dimension(560, 0));
+		bottomPanel.add(separator);
 		
 		gym.btnBack_TrkTrainees = new JButton(new ImageIcon("images/back.png", "Back"));
 		gym.btnBack_TrkTrainees.setPreferredSize(new Dimension(90, 30));

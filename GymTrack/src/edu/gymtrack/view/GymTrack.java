@@ -312,10 +312,28 @@ public class GymTrack extends JApplet implements ActionListener
         	addEditUserDialog.setVisible(true);
         }
         else if (arg0.getSource() == btnDeleteSelectedPlan_TrkTrainees){
+        	WorkoutPlan toDelete = ((TrkTraineesUI)trkTraineesUI).getSelectedWorkoutPlan();
+        	System.out.println(toDelete);
+        	if(toDelete == null) {
+        		invalidSelectionDialog = new InvalidSelectionDialog(this);
+        		invalidSelectionDialog.setVisible(true);
+        		return;
+        	}
+        	toDelete.setDelete(true);
+        	ArrayList<WorkoutPlan> plans = new ArrayList<WorkoutPlan>();
+        	plans.add(toDelete);
+        	
+        	Factory f = new Factory();
+        	try {
+				f.updateWorkoutPlans(plans);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	//TODO delete the plan selected in planTable_TrkTrainees
-        	int row = this.planTable_TrkTrainees.getSelectedRow();
+        	/*int row = this.planTable_TrkTrainees.getSelectedRow();
         	String planNumber = (String)this.planTable_TrkTrainees.getModel().getValueAt(row, 1);
-        	String member = (String)this.traineesList_TrkTrainees.getSelectedValue();
+        	String member = (String)this.traineesList_TrkTrainees.getSelectedValue();*/
         	//TODO delete from database 'planNumber' for 'member'
         	trkTraineesUI.reloadPage(this);
         }
@@ -384,19 +402,13 @@ public class GymTrack extends JApplet implements ActionListener
         else if (arg0.getSource() == cancelButton_CreatePlan){
         	this.createPlan.dispose();
         }
-        else if (arg0.getSource() == btnDeleteSelectedPlan_TrkTrainees){
-        	//TODO delete the plan selected in planTable_TrkTrainees
-        	int row = this.planTable_TrkTrainees.getSelectedRow();
-        	String planNumber = (String)this.planTable_TrkTrainees.getModel().getValueAt(row, 1);
-        	String member = (String)this.traineesList_TrkTrainees.getSelectedValue();
-        	//TODO delete from database 'planNumber' for 'member'
-        	trkTraineesUI.reloadPage(this);
-        }
         else if (arg0.getSource() == btnDelete_EditTrainees) {
         	User toDelete = ((EditTraineesUI)editTraineesUI).getSelectedTrainee(this);
-        	if(toDelete == null)
+        	if(toDelete == null) {
+        		invalidSelectionDialog = new InvalidSelectionDialog(this);
+        		invalidSelectionDialog.setVisible(true);
         		return;
-        	
+        	}
         	toDelete.setDelete(true);
         	ArrayList<User> users = new ArrayList<User>();
         	users.add(toDelete);
