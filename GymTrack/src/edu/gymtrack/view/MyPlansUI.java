@@ -33,6 +33,7 @@ public class MyPlansUI extends GTUI {
 	GymTrack gym;
 	JList<String> planList_MyPlans;
 	
+	boolean noPlans;
 	ArrayList<WorkoutPlan> plans;
 	Map<Integer, PlanElement> elements = new HashMap<Integer, PlanElement>();  
 	ArrayList<WorkoutLog> logs;
@@ -47,7 +48,7 @@ public class MyPlansUI extends GTUI {
 	
 	public void createMyPlansUI(GymTrack gym){
 		this.gym = gym;
-		
+		noPlans = false;
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
 		gym.getContentPane().repaint();
@@ -76,13 +77,13 @@ public class MyPlansUI extends GTUI {
         	}
         });
         
-        if (planList_MyPlans.getModel().getSize() != 0) // if user has no plans, info is not retrieved
+        if (noPlans) // if user has no plans, info is not retrieved
         {
-        	getPlanTableData(plans.get(planList_MyPlans.getMinSelectionIndex()));
+        	planTable_TableData = new Object[0][4];
         }
         else
         {
-        	planTable_TableData = new Object[0][4];
+        	getPlanTableData(plans.get(planList_MyPlans.getMinSelectionIndex()));
         }
         
         // List of workout logs at bottom
@@ -185,33 +186,52 @@ public class MyPlansUI extends GTUI {
 		bottomPanel.setLayout(new FlowLayout());
 		gym.getContentPane().add(bottomPanel);
 		
-		gym.btnLogWork_MyPlans = new JButton(new ImageIcon("images/logwork.png", "Log Work"));
-        gym.btnLogWork_MyPlans.setPreferredSize(new Dimension(130, 30));
-        gym.btnLogWork_MyPlans.setRolloverIcon(new ImageIcon("images/logwork_over.png", "Log Work"));
-        gym.btnLogWork_MyPlans.addActionListener(gym);
-        bottomPanel.add(gym.btnLogWork_MyPlans);
-        
-        gym.btnSeeFeedback_MyPlans = new JButton(new ImageIcon("images/goalsandfeedback.png", "Goals and Feedback"));
-        gym.btnSeeFeedback_MyPlans.setPreferredSize(new Dimension(220, 30));
-        gym.btnSeeFeedback_MyPlans.setRolloverIcon(new ImageIcon("images/goalsandfeedback_over.png", "Goals and Feedback"));
-        gym.btnSeeFeedback_MyPlans.addActionListener(gym);
-        bottomPanel.add(gym.btnSeeFeedback_MyPlans);
-        
-        JSeparator separator = new JSeparator();
-		separator.setPreferredSize(new Dimension(180, 0));
-		bottomPanel.add(separator);
-		
-        gym.btnBack_MyPlans = new JButton(new ImageIcon("images/back.png", "Back"));
-        gym.btnBack_MyPlans.setPreferredSize(new Dimension(90, 30));
-        gym.btnBack_MyPlans.setRolloverIcon(new ImageIcon("images/back_over.png", "Logout"));
-        gym.btnBack_MyPlans.addActionListener(gym);
-        bottomPanel.add(gym.btnBack_MyPlans);
-        
-        gym.btnLogout = new JButton(new ImageIcon("images/logout.png", "Logout"));
-		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
-		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", "Logout"));
-		gym.btnLogout.addActionListener(gym);
-		bottomPanel.add(gym.btnLogout);
+		if(this.noPlans) {
+			JSeparator separator = new JSeparator();
+			separator.setPreferredSize(new Dimension(560, 0));
+			bottomPanel.add(separator);
+			
+	        gym.btnBack_MyPlans = new JButton(new ImageIcon("images/back.png", "Back"));
+	        gym.btnBack_MyPlans.setPreferredSize(new Dimension(90, 30));
+	        gym.btnBack_MyPlans.setRolloverIcon(new ImageIcon("images/back_over.png", "Logout"));
+	        gym.btnBack_MyPlans.addActionListener(gym);
+	        bottomPanel.add(gym.btnBack_MyPlans);
+	        
+	        gym.btnLogout = new JButton(new ImageIcon("images/logout.png", "Logout"));
+			gym.btnLogout.setPreferredSize(new Dimension(120, 30));
+			gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", "Logout"));
+			gym.btnLogout.addActionListener(gym);
+			bottomPanel.add(gym.btnLogout);
+		}
+		else {
+			gym.btnLogWork_MyPlans = new JButton(new ImageIcon("images/logwork.png", "Log Work"));
+	        gym.btnLogWork_MyPlans.setPreferredSize(new Dimension(130, 30));
+	        gym.btnLogWork_MyPlans.setRolloverIcon(new ImageIcon("images/logwork_over.png", "Log Work"));
+	        gym.btnLogWork_MyPlans.addActionListener(gym);
+	        bottomPanel.add(gym.btnLogWork_MyPlans);
+	        
+	        gym.btnSeeFeedback_MyPlans = new JButton(new ImageIcon("images/goalsandfeedback.png", "Goals and Feedback"));
+	        gym.btnSeeFeedback_MyPlans.setPreferredSize(new Dimension(220, 30));
+	        gym.btnSeeFeedback_MyPlans.setRolloverIcon(new ImageIcon("images/goalsandfeedback_over.png", "Goals and Feedback"));
+	        gym.btnSeeFeedback_MyPlans.addActionListener(gym);
+	        bottomPanel.add(gym.btnSeeFeedback_MyPlans);
+	        
+	        JSeparator separator = new JSeparator();
+			separator.setPreferredSize(new Dimension(200, 0));
+			bottomPanel.add(separator);
+			
+	        gym.btnBack_MyPlans = new JButton(new ImageIcon("images/back.png", "Back"));
+	        gym.btnBack_MyPlans.setPreferredSize(new Dimension(90, 30));
+	        gym.btnBack_MyPlans.setRolloverIcon(new ImageIcon("images/back_over.png", "Logout"));
+	        gym.btnBack_MyPlans.addActionListener(gym);
+	        bottomPanel.add(gym.btnBack_MyPlans);
+	        
+	        gym.btnLogout = new JButton(new ImageIcon("images/logout.png", "Logout"));
+			gym.btnLogout.setPreferredSize(new Dimension(120, 30));
+			gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", "Logout"));
+			gym.btnLogout.addActionListener(gym);
+			bottomPanel.add(gym.btnLogout);
+		}
 	}
 	
 	private void getDatabaseData(){
@@ -263,15 +283,17 @@ public class MyPlansUI extends GTUI {
 			planTable_TableData[i][1] = planElement.getEquipmentType().getName();
 			planTable_TableData[i][2] = planElement.getNRequired() + " " + activities.get(planElement.getActivity().getKey()).getUnit();
 			
-			/*
-			 * I'm not sure why but plans added through the Create New Plan dialog
-			 * cause this line to crash, I set it equal to 99.99 temporarily 
-			 * hoping someone who knows a little more about how the completion HashMap
-			 * works could help me out here - Winston
-			 */
-			//planTable_TableData[i][3] = (double)completion.get(planElement.getKey()) / planElement.getNRequired() * 100;
-			planTable_TableData[i][3] = 99.99;
+			// Still getting NullPointerException here.  Not 100% sure why...
+			// I think it might have to do with the number of workout log items to calculate the % complete
+			//
+			// 		Eric
 			
+			try {
+				planTable_TableData[i][3] = (double)completion.get(planElement.getKey()) / planElement.getNRequired() * 100;
+			}
+			catch(NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -313,6 +335,12 @@ public class MyPlansUI extends GTUI {
 		
 		for (int i = 0; i < plans.size(); i++)
 		{
+			if(plans.get(i).getDateCreated() == null){
+				if (i == 0) {
+					noPlans = true;
+				}
+				break;
+			}
 			myPlans[i] = plans.get(i).getDateCreated().toString();
 		}
 		
