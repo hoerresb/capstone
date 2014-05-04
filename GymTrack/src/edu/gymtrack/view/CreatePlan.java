@@ -56,7 +56,6 @@ public class CreatePlan extends JDialog{
 		setBounds(100, 100, 450, 300);
 		setContentPane(new JPanel());
 		getContentPane().setLayout(new BorderLayout());
-		setTitle("Create Plan");
 	
 		Object[][] tableData = getTableData();
 
@@ -114,6 +113,9 @@ public class CreatePlan extends JDialog{
 		
 		gym.goalTextField_CreatePlan = new JTextField();
 		gym.goalTextField_CreatePlan.setColumns(10);
+		if(toEdit != null)
+			gym.goalTextField_CreatePlan.setText(toEdit.getGoals());
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -247,7 +249,7 @@ public class CreatePlan extends JDialog{
 	}
 	
 	public WorkoutPlan getNewPlan(User client){
-		if(toEdit == null)
+		if(toEdit == null){
 			return new WorkoutPlan(client,
 					new Date(),
 					client.getID() == gym.loggedIn.getID(),
@@ -255,8 +257,12 @@ public class CreatePlan extends JDialog{
 					"",
 					0,
 					true);
-		else
+		}
+		else{
+			toEdit.setGoals(gym.goalTextField_CreatePlan.getText());
+			toEdit.setEdited(true);
 			return toEdit;
+		}
 	}
 	
 	public EquipmentType getSelectedEquipmentType(){

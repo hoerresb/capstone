@@ -342,7 +342,7 @@ public class GymTrack extends JApplet implements ActionListener
         	
         	
         	WorkoutPlan newPlan = createPlan.getNewPlan(member);
-        	if(newPlan.isNew()){
+//        	if(newPlan.isNew()){
 				ArrayList<WorkoutPlan> Planlist = new ArrayList<>();
 				Planlist.add(newPlan);
 				try {//add the plan
@@ -350,11 +350,11 @@ public class GymTrack extends JApplet implements ActionListener
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-        	}
-        	else{
-        		planKey.clear();
-        		planKey.add(newPlan.getKey());
-        	}
+//        	}
+//        	else{
+//        		planKey.clear();
+//        		planKey.add(newPlan.getKey());
+//        	}
 			
 			try {//add the plan elements to the plan added above
 				for(WorkoutPlan plan : factory.getWorkoutPlansForUser(member)){
