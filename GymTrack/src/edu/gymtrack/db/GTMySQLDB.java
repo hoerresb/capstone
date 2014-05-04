@@ -192,7 +192,7 @@ public class GTMySQLDB implements GTDB {
 		String query = new String(
 				"SELECT workout_logs.key, workout_logs.element, workout_logs.date, workout_logs.completed, workout_logs.equipment " +
 						"FROM plan_elements INNER JOIN workout_logs ON workout_logs.element = plan_elements.key " +
-						"WHERE plan_elements.equipment = '" + equipment.getKey() + "'");
+						"WHERE plan_elements.equipment_type = '" + equipment.getKey() + "'");
 		
 		return getResultSetForQuery(query);
 	}
