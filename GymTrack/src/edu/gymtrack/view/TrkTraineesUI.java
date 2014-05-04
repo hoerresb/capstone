@@ -124,12 +124,22 @@ public class TrkTraineesUI extends GTUI {
         			.addComponent(bottomScrollablePane, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
         );
         
-        gym.loggedProgressTable_TrkTrainees = new JTable(worklogTable_TableData, worklogTable_ColumnNames);
+        gym.loggedProgressTable_TrkTrainees = new JTable(worklogTable_TableData, worklogTable_ColumnNames) {
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return false;
+			}
+		};
         bottomScrollablePane.setViewportView(gym.loggedProgressTable_TrkTrainees);
+        gym.loggedProgressTable_TrkTrainees.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         gym.loggedProgressTable_TrkTrainees.setFillsViewportHeight(true);
         
-        gym.planTable_TrkTrainees = new JTable(planTable_TableData, planTable_ColumnNames);
+        gym.planTable_TrkTrainees = new JTable(planTable_TableData, planTable_ColumnNames) {
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return false;
+			}
+		};
         topScrollablePane.setViewportView(gym.planTable_TrkTrainees);
+        gym.planTable_TrkTrainees.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         gym.planTable_TrkTrainees.setFillsViewportHeight(true);
         topContainer.setLayout(gl_topContainer);
         

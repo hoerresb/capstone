@@ -142,8 +142,13 @@ public class MyPlansUI extends GTUI {
         JScrollPane bottomScrollablePane = new JScrollPane();
         loggedWorkContainer.add(bottomScrollablePane, BorderLayout.CENTER);
         
-        gym.loggedWorkTable_MyPlans = new JTable(worklogTable_TableData, worklogTable_ColumnNames);
+        gym.loggedWorkTable_MyPlans = new JTable(worklogTable_TableData, worklogTable_ColumnNames) {
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return false;
+			}
+		};
         bottomScrollablePane.setViewportView(gym.loggedWorkTable_MyPlans);
+        gym.loggedWorkTable_MyPlans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         gym.loggedWorkTable_MyPlans.setFillsViewportHeight(true);
         planDetailsContainer.setLayout(new BorderLayout(0, 0));
         
@@ -170,8 +175,13 @@ public class MyPlansUI extends GTUI {
         JScrollPane topScrollablePane = new JScrollPane();
         planDetailsContainer.add(topScrollablePane, BorderLayout.CENTER);
         
-        gym.planDetailsTable_MyPlans = new JTable(planTable_TableData,planTable_ColumnNames);
+        gym.planDetailsTable_MyPlans = new JTable(planTable_TableData,planTable_ColumnNames) {
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return false;
+			}
+		};
         topScrollablePane.setViewportView(gym.planDetailsTable_MyPlans);
+        gym.planDetailsTable_MyPlans.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         gym.planDetailsTable_MyPlans.setFillsViewportHeight(true);
         topContainer.setLayout(gl_topContainer);
 

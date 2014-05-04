@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.border.EtchedBorder;
 
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.User;
@@ -48,35 +50,41 @@ public class ProvideFeedbackDialog extends JDialog{
 			dispose();
 		}
 		
-		setLayout(new GridLayout(0, 1));
+		setLayout(new FlowLayout());
 		
+		JPanel plansPane = new JPanel(new GridLayout(0,1));
+		JScrollPane scroll = new JScrollPane(plansPane);
+		scroll.setPreferredSize(new Dimension(435,228));
 		for(WorkoutPlan plan : plans){
 			JLabel planLabel = new JLabel("Plan Created: " + plan.getDateCreated());
-			add(planLabel);
+			plansPane.add(planLabel);
 			
 			JLabel goalLabel = new JLabel("Goal:");
-			add(goalLabel);
+			plansPane.add(goalLabel);
 			
 			JTextArea jGoalTxt = new JTextArea();
+			jGoalTxt.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 			jGoalTxt.setText(plan.getGoals());
 			jGoalTexts.add(jGoalTxt);
 			jGoalTxt.setEditable(false);
-			add(jGoalTxt);
+			plansPane.add(jGoalTxt);
 			
 			JLabel fbLabel = new JLabel("Feedback:");
-			add(fbLabel);
+			plansPane.add(fbLabel);
 			
 			JTextArea jFBTxt = new JTextArea();
+			jFBTxt.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 			jFBTxt.setText(plan.getFeedback());
 			if(editorType == User.UserType.CLIENT);
 			jFBTexts.add(jFBTxt);
-			add(jFBTxt);
+			plansPane.add(jFBTxt);
 			
-			add(new JLabel()); // spacer
+			plansPane.add(new JLabel()); // spacer
 		}
+		add(scroll);
 		
-		JPanel controlPanel = new JPanel(new FlowLayout());
-		controlPanel.setPreferredSize(new Dimension(150,30));
+		JPanel controlPanel = new JPanel(new FlowLayout((FlowLayout.RIGHT)));
+		controlPanel.setPreferredSize(new Dimension(443,30));
 		
 		gym.btnUpdate_PFeedback = new JButton(new ImageIcon("images/dialog_update.png", "Update"));
 		gym.btnUpdate_PFeedback.setPreferredSize(new Dimension(70,25));

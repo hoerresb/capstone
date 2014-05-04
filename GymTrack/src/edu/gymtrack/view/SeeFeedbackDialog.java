@@ -50,7 +50,7 @@ public class SeeFeedbackDialog extends JDialog{
 		setLayout(new FlowLayout());
 		
 		JPanel plansPane = new JPanel(new GridLayout(0,1));
-		final JScrollPane scroll = new JScrollPane(plansPane);
+		JScrollPane scroll = new JScrollPane(plansPane);
 		scroll.setPreferredSize(new Dimension(435,228));
 		for(WorkoutPlan plan : plans){
 			JLabel planLabel = new JLabel("Plan Created: " + plan.getDateCreated());
