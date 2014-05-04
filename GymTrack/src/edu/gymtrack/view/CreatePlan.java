@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.gymtrack.db.Factory;
 import edu.gymtrack.model.Activity;
+import edu.gymtrack.model.EquipmentType;
 import edu.gymtrack.model.PlanElement;
 import edu.gymtrack.model.User;
 import edu.gymtrack.model.WorkoutPlan;
@@ -35,7 +36,7 @@ public class CreatePlan extends JDialog{
 	private final JPanel contentPanel = new JPanel();
 	private static final long serialVersionUID = 1L;
 	private GymTrack gym;
-	private GTUI gtui;
+//	private GTUI gtui;
 	private JButton btnAdd_CreatePlanDialog;
 	private String exercise;
 	private String reps;
@@ -43,11 +44,12 @@ public class CreatePlan extends JDialog{
 	private final String[] columnNames = {"Exercise", "reps"};
 	private ArrayList<Activity> activities;
 	private ArrayList<Activity> addedActivities = new ArrayList<Activity>();
+	private ArrayList<EquipmentType> equipmentTypes;
 	
-	public CreatePlan(final GymTrack gym, GTUI callingUI, WorkoutPlan toEdit) {
+	public CreatePlan(final GymTrack gym, WorkoutPlan toEdit) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.gym = gym;
-		this.gtui = callingUI;
+//		this.gtui = callingUI;
 		this.toEdit = toEdit;
 		setModal(true);
 		setTitle((toEdit == null ? "Create" : "Edit") + " Plan");
@@ -59,7 +61,7 @@ public class CreatePlan extends JDialog{
 		Object[][] tableData = getTableData();
 
 		
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 550, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -80,6 +82,9 @@ public class CreatePlan extends JDialog{
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
 		);
+		
+		gym.equipmentComboBox_CreatePlan = new JComboBox<String>();
+		gym.equipmentComboBox_CreatePlan.setModel(new DefaultComboBoxModel<String>(getEquipmentTypes()));
 		
 		gym.comboBox_CreatePlan = new JComboBox();
 		gym.comboBox_CreatePlan.setModel(new DefaultComboBoxModel(getExercises()));
@@ -105,6 +110,7 @@ public class CreatePlan extends JDialog{
 		});
 		
 		JLabel lblGoal = new JLabel("Goal");
+		JLabel lblEquipment = new JLabel("Equipment");
 		
 		gym.goalTextField_CreatePlan = new JTextField();
 		gym.goalTextField_CreatePlan.setColumns(10);
@@ -117,11 +123,15 @@ public class CreatePlan extends JDialog{
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(gym.comboBox_CreatePlan, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
+							.addComponent(gym.equipmentComboBox_CreatePlan, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
 							.addComponent(gym.textField_CreatePlan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(40)
 							.addComponent(btnAdd_CreatePlanDialog))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(lblExerciseType)
+							.addGap(77)
+							.addComponent(lblEquipment)
 							.addGap(77)
 							.addComponent(lblDuration))
 						.addGroup(gl_panel.createSequentialGroup()
@@ -135,10 +145,12 @@ public class CreatePlan extends JDialog{
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblExerciseType)
+						.addComponent(lblEquipment)
 						.addComponent(lblDuration))
 					.addGap(6)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(gym.comboBox_CreatePlan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(gym.equipmentComboBox_CreatePlan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(gym.textField_CreatePlan, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAdd_CreatePlanDialog))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -216,14 +228,39 @@ public class CreatePlan extends JDialog{
 		return list;
 	}
 	
+	private String[] getEquipmentTypes(){
+		Factory f = new Factory();
+		equipmentTypes = new ArrayList<EquipmentType>();
+		try {
+			equipmentTypes = f.getEquipmentTypes();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String[] list = new String[equipmentTypes.size()];
+		for(int i = 0; i < equipmentTypes.size(); ++i){
+			list[i] = equipmentTypes.get(i).getName();
+		}
+		
+		return list;
+	}
+	
 	public WorkoutPlan getNewPlan(User client){
-		return new WorkoutPlan(client,
-				new Date(),
-				client.getID() == gym.loggedIn.getID(),
-				gym.goalTextField_CreatePlan.getText(),
-				"",
-				0,
-				toEdit == null);
+		if(toEdit == null)
+			return new WorkoutPlan(client,
+					new Date(),
+					client.getID() == gym.loggedIn.getID(),
+					gym.goalTextField_CreatePlan.getText(),
+					"",
+					0,
+					true);
+		else
+			return toEdit;
+	}
+	
+	public EquipmentType getSelectedEquipmentType(){
+		return equipmentTypes.get(gym.equipmentComboBox_CreatePlan.getSelectedIndex());
 	}
 	
 	public ArrayList<Activity> getAddedActivities(){

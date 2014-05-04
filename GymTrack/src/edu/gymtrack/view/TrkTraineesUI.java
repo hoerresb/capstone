@@ -161,6 +161,11 @@ public class TrkTraineesUI extends GTUI {
         gym.btnCreatNewPlan_TrkTrainees.addActionListener(gym);
         bottomPanel.add(gym.btnCreatNewPlan_TrkTrainees);
         
+        gym.btnAddExercises_TrkTrainees = new JButton("Add Exercises");
+        gym.btnAddExercises_TrkTrainees.setPreferredSize(new Dimension(180, 30));
+        gym.btnAddExercises_TrkTrainees.addActionListener(gym);
+        bottomPanel.add(gym.btnAddExercises_TrkTrainees);
+        
         gym.btnDeleteSelectedPlan_TrkTrainees = new JButton(new ImageIcon("images/deleteselected.png", "Delete Selected"));
         gym.btnDeleteSelectedPlan_TrkTrainees.setPreferredSize(new Dimension(180, 30));
         gym.btnDeleteSelectedPlan_TrkTrainees.setRolloverIcon(new ImageIcon("images/deleteselected_over.png", "Delete Selected"));
@@ -338,6 +343,17 @@ public class TrkTraineesUI extends GTUI {
 	
 	public User getSelectedUser(){
 		return selectedUser;
+	}
+	
+	public WorkoutPlan getSelectedWorkoutPlan(){
+		if(plans.isEmpty())
+			return null;
+		
+		int selectedRow = gym.planTable_TrkTrainees.getSelectedRow();
+		if(selectedRow < 0)
+			return null;
+		
+		return plans.get(selectedRow);
 	}
 
 	@Override

@@ -46,6 +46,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected DefaultTableModel model;
 	protected JButton okButton_CreatePlan;
 	protected JButton cancelButton_CreatePlan;
+	protected JComboBox<String> equipmentComboBox_CreatePlan;
 	
 	/*
 	 * components used by ConnectionErrorDialog
@@ -187,6 +188,7 @@ public class GymTrack extends JApplet implements ActionListener
 	protected JButton btnProvideFeedback_TrkTrainees;
 	protected JButton btnCreatNewPlan_TrkTrainees;
 	protected JButton btnDeleteSelectedPlan_TrkTrainees;
+	protected JButton btnAddExercises_TrkTrainees;
 //	protected ArrayList<User> userList;
 	/*
 	 * Components used by AnalyzeMeUI
@@ -318,7 +320,7 @@ public class GymTrack extends JApplet implements ActionListener
         	trkTraineesUI.reloadPage(this);
         }
         else if (arg0.getSource() == btnCreatNewPlan_TrkTrainees){
-        	createPlan = new CreatePlan(this, this.editTraineesUI, null);
+        	createPlan = new CreatePlan(this, null);
         	createPlan.setVisible(true);
         }
         else if (arg0.getSource() == okButton_CreatePlan) {
@@ -332,7 +334,7 @@ public class GymTrack extends JApplet implements ActionListener
         	}
 
         	for(int i = 0; i<numRows; ++i){
-        		reps[i] = (String)table_CreatePlan.getModel().getValueAt(i, 1);
+        		reps[i] = (String)table_CreatePlan.getModel().getValueAt(i, 1).toString();
         	}
         	
         	User member = ((TrkTraineesUI)trkTraineesUI).getSelectedUser();
@@ -340,13 +342,19 @@ public class GymTrack extends JApplet implements ActionListener
         	
         	
         	WorkoutPlan newPlan = createPlan.getNewPlan(member);
-			ArrayList<WorkoutPlan> Planlist = new ArrayList<>();
-			Planlist.add(newPlan);
-			try {//add the plan
-				planKey = factory.updateWorkoutPlans(Planlist);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+        	if(newPlan.isNew()){
+				ArrayList<WorkoutPlan> Planlist = new ArrayList<>();
+				Planlist.add(newPlan);
+				try {//add the plan
+					planKey = factory.updateWorkoutPlans(Planlist);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+        	}
+        	else{
+        		planKey.clear();
+        		planKey.add(newPlan.getKey());
+        	}
 			
 			try {//add the plan elements to the plan added above
 				for(WorkoutPlan plan : factory.getWorkoutPlansForUser(member)){
@@ -360,9 +368,9 @@ public class GymTrack extends JApplet implements ActionListener
 				ArrayList<WorkoutLog> logList;
 				
 				ArrayList<Activity> addedActivities = createPlan.getAddedActivities();
-				for(int i=0; i<reps.length; ++i) {//make the plan elements
+				for(int i=0; i<addedActivities.size(); ++i) {//make the plan elements
 					logList = new ArrayList<WorkoutLog>();
-					planElement = new PlanElement(addedActivities.get(i), factory.getEquipment().get(0).getType(), newPlan, Integer.parseInt(reps[i]), 0, logList, true);
+					planElement = new PlanElement(addedActivities.get(i), createPlan.getSelectedEquipmentType(), newPlan, Integer.parseInt(reps[i]), 0, logList, true);
 					elementList.add(planElement);
 				}
 				factory.updatePlanElements(elementList);
@@ -732,6 +740,12 @@ public class GymTrack extends JApplet implements ActionListener
 		}
 		else if(arg0.getSource() == cancelButton_DeleteUser) {
 			deleteUserDialog.dispose();
+		}
+		else if(arg0.getSource() == btnAddExercises_TrkTrainees){
+			if(((TrkTraineesUI)trkTraineesUI).getSelectedWorkoutPlan() != null){
+				createPlan = new CreatePlan(this, ((TrkTraineesUI)trkTraineesUI).getSelectedWorkoutPlan());
+	        	createPlan.setVisible(true);
+			}
 		}
 		else {
 			System.out.println("no action performed implemented for this button" + arg0.getSource().toString());
