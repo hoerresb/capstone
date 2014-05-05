@@ -1,5 +1,6 @@
 package edu.gymtrack.view;
 
+import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -39,7 +41,7 @@ public class ReportsDialog extends JDialog implements ActionListener{
 	public ReportsDialog(){
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModal(true);
-		setTitle("Recent Feedback");
+		setTitle("Reports");
 		setBounds(100, 100, 450, 300);
 		setContentPane(contentPanel);
 		setResizable(true);
@@ -53,11 +55,15 @@ public class ReportsDialog extends JDialog implements ActionListener{
 		JPanel ctlPanel = new JPanel();
 		ctlPanel.setLayout(new FlowLayout());
 		
-		btnPrint = new JButton("Print");
+		btnPrint = new JButton(new ImageIcon("images/dialog_print.png", "Print"));
+		btnPrint.setPreferredSize(new Dimension(70,25));
+		btnPrint.setRolloverIcon(new ImageIcon("images/dialog_print_over.png", "Print"));
 		btnPrint.addActionListener(this);
 		ctlPanel.add(btnPrint);
 		
-		btnSave = new JButton("Save");
+		btnSave = new JButton(new ImageIcon("images/dialog_save.png", "Save"));
+		btnSave.setPreferredSize(new Dimension(70,25));
+		btnSave.setRolloverIcon(new ImageIcon("images/dialog_save_over.png", "Save"));
 		btnSave.addActionListener(this);
 		ctlPanel.add(btnSave);
 		

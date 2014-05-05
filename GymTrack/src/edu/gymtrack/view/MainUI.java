@@ -43,9 +43,9 @@ public class MainUI extends GTUI {
 		gym.btnMyPlans.setRolloverIcon(new ImageIcon("images/myplans_over.png", "My Plans"));
 		GridBagConstraints gbc_btnMyPlans = new GridBagConstraints();
 		gym.btnMyPlans.addActionListener(gym);
-		gbc_btnMyPlans.insets = new Insets(40, 40, 0, 40);
+		gbc_btnMyPlans.insets = new Insets(0, 40, 0, 40);
 		gbc_btnMyPlans.gridx = 0;
-		gbc_btnMyPlans.gridy = 1;
+		gbc_btnMyPlans.gridy = 0;
 		gym.getContentPane().add(gym.btnMyPlans, gbc_btnMyPlans);
 		
 		gym.btnAnalyzeMe = new JButton(new ImageIcon("images/analyzeme.png", "Analyze Me"));
@@ -53,9 +53,9 @@ public class MainUI extends GTUI {
 		gym.btnAnalyzeMe.setRolloverIcon(new ImageIcon("images/analyzeme_over.png", "Analyze Me"));
 		GridBagConstraints gbc_btnAnalyze = new GridBagConstraints();
 		gym.btnAnalyzeMe.addActionListener(gym);
-		gbc_btnAnalyze.insets = new Insets(40, 0, 0, 40);
+		gbc_btnAnalyze.insets = new Insets(0, 0, 0, 40);
 		gbc_btnAnalyze.gridx = 1;
-		gbc_btnAnalyze.gridy = 1;
+		gbc_btnAnalyze.gridy = 0;
 		gym.getContentPane().add(gym.btnAnalyzeMe, gbc_btnAnalyze);
 		
 		gym.btnLogout = new JButton(new ImageIcon("images/logout.png", "Logout"));
@@ -63,9 +63,9 @@ public class MainUI extends GTUI {
 		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
 		GridBagConstraints gbc_btnLogout = new GridBagConstraints();
 		gym.btnLogout.addActionListener(gym);
-		gbc_btnLogout.insets = new Insets(10, 10, 10, 10);
+		gbc_btnLogout.insets = new Insets(110, 30, 0, 0);
 		gbc_btnLogout.gridx = 3;
-		gbc_btnLogout.gridy = 0;
+		gbc_btnLogout.gridy = 2;
 		gym.getContentPane().add(gym.btnLogout, gbc_btnLogout);
 	}
 
@@ -75,9 +75,9 @@ public class MainUI extends GTUI {
 		gym.btnEditTrainees.setRolloverIcon(new ImageIcon("images/edittrainees_over.png", "Edit Trainees"));
 		GridBagConstraints gbc_btnEditTrainees = new GridBagConstraints();
 		gym.btnEditTrainees.addActionListener(gym);
-		gbc_btnEditTrainees.insets = new Insets(40, 0, 0, 40);
+		gbc_btnEditTrainees.insets = new Insets(0, 0, 0, 40);
 		gbc_btnEditTrainees.gridx = 2;
-		gbc_btnEditTrainees.gridy = 1;
+		gbc_btnEditTrainees.gridy = 0;
 		gym.getContentPane().add(gym.btnEditTrainees, gbc_btnEditTrainees);
 		
 		gym.btnTrkTrainees = new JButton(new ImageIcon("images/tracktrainees.png", "Track Trainees"));
@@ -85,9 +85,9 @@ public class MainUI extends GTUI {
 		gym.btnTrkTrainees.setRolloverIcon(new ImageIcon("images/tracktrainees_over.png", "Track Trainees"));
 		GridBagConstraints gbc_btnTrkTrainees = new GridBagConstraints();
 		gym.btnTrkTrainees.addActionListener(gym);
-		gbc_btnTrkTrainees.insets = new Insets(40, 0, 0, 40);
+		gbc_btnTrkTrainees.insets = new Insets(0, 0, 0, 40);
 		gbc_btnTrkTrainees.gridx = 3;
-		gbc_btnTrkTrainees.gridy = 1;
+		gbc_btnTrkTrainees.gridy = 0;
 		gym.getContentPane().add(gym.btnTrkTrainees, gbc_btnTrkTrainees);
 		
 		gym.btnAnalyzeTrainees = new JButton(new ImageIcon("images/analyzetrainees.png", "Analyze Trainees"));
@@ -97,7 +97,7 @@ public class MainUI extends GTUI {
 		gym.btnAnalyzeTrainees.addActionListener(gym);
 		gbc_btnAnalyzeTrainees.insets = new Insets(40, 40, 0, 40);
 		gbc_btnAnalyzeTrainees.gridx = 0;
-		gbc_btnAnalyzeTrainees.gridy = 2;
+		gbc_btnAnalyzeTrainees.gridy = 1;
 		gym.getContentPane().add(gym.btnAnalyzeTrainees, gbc_btnAnalyzeTrainees);
 	}
 	
@@ -109,7 +109,7 @@ public class MainUI extends GTUI {
 		gym.btnEquipment.addActionListener(gym);
 		gbc_btnEquipment.insets = new Insets(40, 0, 0, 40);
 		gbc_btnEquipment.gridx = 1;
-		gbc_btnEquipment.gridy = 2;
+		gbc_btnEquipment.gridy = 1;
 		gym.getContentPane().add(gym.btnEquipment, gbc_btnEquipment);
 		
 		gym.btnUsers = new JButton(new ImageIcon("images/users.png", "Users"));
@@ -119,7 +119,7 @@ public class MainUI extends GTUI {
 		gym.btnUsers.addActionListener(gym);
 		gbc_btnUsers.insets = new Insets(40, 0, 0, 40);
 		gbc_btnUsers.gridx = 2;
-		gbc_btnUsers.gridy = 2;
+		gbc_btnUsers.gridy = 1;
 		gym.getContentPane().add(gym.btnUsers, gbc_btnUsers);
 		
 		gym.btnAnalyzeGym = new JButton(new ImageIcon("images/analyzegym.png", "Analyze Gym"));
@@ -129,16 +129,17 @@ public class MainUI extends GTUI {
 		gym.btnAnalyzeGym.addActionListener(gym);
 		gbc_btnAnalyzeGym.insets = new Insets(40, 0, 0, 40);
 		gbc_btnAnalyzeGym.gridx = 3;
-		gbc_btnAnalyzeGym.gridy = 2;
+		gbc_btnAnalyzeGym.gridy = 1;
 		gym.getContentPane().add(gym.btnAnalyzeGym, gbc_btnAnalyzeGym);
 		
-		gym.btnReports = new JButton("Reports");
-		gym.btnReports.setPreferredSize(new Dimension(120, 30));
+		gym.btnReports = new JButton(new ImageIcon("images/generatereports.png", "Reports"));
+		gym.btnReports.setPreferredSize(new Dimension(150, 100));
+		gym.btnReports.setRolloverIcon(new ImageIcon("images/generatereports_over.png", "Reports"));
 		GridBagConstraints gbc_btnReports = new GridBagConstraints();
 		gym.btnReports.addActionListener(gym);
-		gbc_btnReports.insets = new Insets(10, 10, 10, 10);
-		gbc_btnReports.gridx = 2;
-		gbc_btnReports.gridy = 0;
+		gbc_btnReports.insets = new Insets(40, 40, 0, 40);
+		gbc_btnReports.gridx = 0;
+		gbc_btnReports.gridy = 2;
 		gym.getContentPane().add(gym.btnReports, gbc_btnReports);
 	}
 	
