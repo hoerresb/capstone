@@ -131,6 +131,15 @@ public class MainUI extends GTUI {
 		gbc_btnAnalyzeGym.gridx = 3;
 		gbc_btnAnalyzeGym.gridy = 2;
 		gym.getContentPane().add(gym.btnAnalyzeGym, gbc_btnAnalyzeGym);
+		
+		gym.btnReports = new JButton("Reports");
+		gym.btnReports.setPreferredSize(new Dimension(120, 30));
+		GridBagConstraints gbc_btnReports = new GridBagConstraints();
+		gym.btnReports.addActionListener(gym);
+		gbc_btnReports.insets = new Insets(10, 10, 10, 10);
+		gbc_btnReports.gridx = 2;
+		gbc_btnReports.gridy = 0;
+		gym.getContentPane().add(gym.btnReports, gbc_btnReports);
 	}
 	
 	@Override
