@@ -6,6 +6,11 @@ import javax.swing.*;
 public class MainUI extends GTUI {
 	private static final long serialVersionUID = 1L;
 	
+	static JLabel buttonSpacer1;
+	static JLabel buttonSpacer2;
+	static JLabel buttonSpacer3;
+	static JLabel buttonSpacer4;
+	
 	public void createMainUI(GymTrack gym){
 		gym.getContentPane().removeAll();
 		gym.getContentPane().revalidate();
@@ -58,6 +63,38 @@ public class MainUI extends GTUI {
 		gbc_btnAnalyze.gridy = 0;
 		gym.getContentPane().add(gym.btnAnalyzeMe, gbc_btnAnalyze);
 		
+		buttonSpacer1 = new JLabel();
+		buttonSpacer1.setPreferredSize(new Dimension(150, 100));
+		GridBagConstraints gbc_spacer = new GridBagConstraints();
+		gbc_spacer.insets = new Insets(0, 0, 0, 40);
+		gbc_spacer.gridx = 2;
+		gbc_spacer.gridy = 0;
+		gym.getContentPane().add(buttonSpacer1, gbc_spacer);
+		
+		buttonSpacer2 = new JLabel();
+		buttonSpacer2.setPreferredSize(new Dimension(150, 100));
+		gbc_spacer = new GridBagConstraints();
+		gbc_spacer.insets = new Insets(0, 0, 0, 40);
+		gbc_spacer.gridx = 3;
+		gbc_spacer.gridy = 0;
+		gym.getContentPane().add(buttonSpacer2, gbc_spacer);
+		
+		buttonSpacer3 = new JLabel();
+		buttonSpacer3.setPreferredSize(new Dimension(150, 100));
+		gbc_spacer = new GridBagConstraints();
+		gbc_spacer.insets = new Insets(40, 0, 0, 40);
+		gbc_spacer.gridx = 0;
+		gbc_spacer.gridy = 1;
+		gym.getContentPane().add(buttonSpacer3, gbc_spacer);
+		
+		buttonSpacer4 = new JLabel();
+		buttonSpacer4.setPreferredSize(new Dimension(150, 100));
+		gbc_spacer = new GridBagConstraints();
+		gbc_spacer.insets = new Insets(40, 0, 0, 40);
+		gbc_spacer.gridx = 0;
+		gbc_spacer.gridy = 2;
+		gym.getContentPane().add(buttonSpacer4, gbc_spacer);
+		
 		gym.btnLogout = new JButton(new ImageIcon("images/logout.png", "Logout"));
 		gym.btnLogout.setRolloverIcon(new ImageIcon("images/logout_over.png", ""));
 		gym.btnLogout.setPreferredSize(new Dimension(120, 30));
@@ -70,6 +107,10 @@ public class MainUI extends GTUI {
 	}
 
 	private static void setTrainer(GymTrack gym) {
+		buttonSpacer1.setVisible(false);
+		buttonSpacer2.setVisible(false);
+		buttonSpacer3.setVisible(false);
+		
 		gym.btnEditTrainees = new JButton(new ImageIcon("images/edittrainees.png", "Edit Trainees"));
 		gym.btnEditTrainees.setPreferredSize(new Dimension(150, 100));
 		gym.btnEditTrainees.setRolloverIcon(new ImageIcon("images/edittrainees_over.png", "Edit Trainees"));
@@ -102,6 +143,8 @@ public class MainUI extends GTUI {
 	}
 	
 	private static void setOwner(GymTrack gym) {
+		buttonSpacer4.setVisible(false);
+		
 		gym.btnEquipment = new JButton(new ImageIcon("images/equipment.png", "Equipment"));
 		gym.btnEquipment.setPreferredSize(new Dimension(150, 100));
 		gym.btnEquipment.setRolloverIcon(new ImageIcon("images/equipment_over.png", "Equipment"));

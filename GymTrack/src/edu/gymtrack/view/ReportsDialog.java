@@ -17,6 +17,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -54,6 +55,10 @@ public class ReportsDialog extends JDialog implements ActionListener{
 		
 		JPanel ctlPanel = new JPanel();
 		ctlPanel.setLayout(new FlowLayout());
+		
+		JPanel separator = new JPanel();
+		separator.setPreferredSize(new Dimension(this.getWidth(), 5));
+		add(separator);
 		
 		btnPrint = new JButton(new ImageIcon("images/dialog_print.png", "Print"));
 		btnPrint.setPreferredSize(new Dimension(70,25));
